@@ -1,6 +1,4 @@
 <?
-
-print_r($GLOBALS);
 /*
 
   Route for the index page.
