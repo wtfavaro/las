@@ -5,7 +5,7 @@
       database declaration.
     
 */
-    $db = new PDO("mysql:host=localhost;dbname=recruit",'root','mindmap123');
+    $db = new PDO("mysql:host=localhost;dbname=grouper",'root','mindmap123');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 
