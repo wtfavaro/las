@@ -1,0 +1,16 @@
+<?php
+
+function require_all($path)
+  {
+    // Get an array of the files
+    // within the folder path.
+    $files = glob($path)
+
+    if(is_array($files))
+      {
+        foreach($files as $file)
+          {
+            require $file;
+          }
+      }
+  }
