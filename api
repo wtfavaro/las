@@ -9,7 +9,14 @@ future of PLC data storage and analysis.
 
 _To acquire a Software Key:_
 
-  [   www.getfreepoint.com/cloud/on=software&get=key   ]
+  [
+
+        www.getfreepoint.com/cloud/
+        on={ software }
+        &
+        get={ key }
+
+  ]
 
 =======================V0.2======================
 

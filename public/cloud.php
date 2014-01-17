@@ -12,9 +12,10 @@ if (isset($_GET["machine"]))
   ));
 }
 
-// MAIN
+
 // If not a valid api call, die
 // Else run the api controller
+
 if( !$cloud->api->validHttpRequest() ){
   die();
 } else {

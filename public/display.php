@@ -25,8 +25,11 @@
         document.getElementById('btnLogin').addEventListener(
           'click',
           function(){
-            document.getElementById('section-login').style.display='none';
-            document.getElementById('section-liveData').style.display='block';
+            httprequest('Software', 'keyMatch', function(resp){ console.log(resp)});
+            if (login){
+              document.getElementById('section-login').style.display='none';
+              document.getElementById('section-liveData').style.display='block';
+            }
           },
           false
         );

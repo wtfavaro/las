@@ -14,7 +14,7 @@ Cloud Monitor Features ->
 Private API ->
 [x] Map the full Cell Monitor<->Cloud Monitor API.
 [x] Plan the API architecture.
-[/] Do the V0.1 methods (software key).
+[x] Do the V0.1 methods (software key).
 [] Do the V0.2 methods (add cell to identify machine list)
 [] Do the V0.3 methods (add machine to server).
 [] Do the V0.4 methods (add input to server).
