@@ -1,0 +1,37 @@
++---------------------+
+| db:freepoint        |
++---------------------+
+| distribution        |
+| inputs              |
+| machines            |
++---------------------+
+
+freepoint.distribution
++-------------+-----------+------+-----+---------+----------------+
+| Field       | Type      | Null | Key | Default | Extra          |
++-------------+-----------+------+-----+---------+----------------+
+| id          | int(5)    | NO   | PRI | NULL    | auto_increment |
+| product_key | char(255) | YES  |     | NULL    |                |
++-------------+-----------+------+-----+---------+----------------+
+
+freepoint.machines
++------------------+----------+------+-----+---------+----------------+
+| Field            | Type     | Null | Key | Default | Extra          |
++------------------+----------+------+-----+---------+----------------+
+| id               | int(7)   | NO   | PRI | NULL    | auto_increment |
+| machine_name     | char(64) | YES  |     | NULL    |                |
+| distribution_id  | int(5)   | YES  |     | NULL    |                |
+| machine_added    | date     | YES  |     | NULL    |                |
+| machine_modified | date     | YES  |     | NULL    |                |
++------------------+----------+------+-----+---------+----------------+
+
+freepoint.inputs
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| id          | int(8)   | NO   | PRI | NULL    | auto_increment |
+| input_name  | char(64) | YES  |     | NULL    |                |
+| machine_id  | int(7)   | YES  |     | NULL    |                |
+| input_added | date     | YES  |     | NULL    |                |
++-------------+----------+------+-----+---------+----------------+
+

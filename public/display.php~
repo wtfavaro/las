@@ -1,5 +1,5 @@
 <?php require "header.php"; ?>
-
+<?php require "navigation.php"; ?>
   <div class="row">
     <div class="container">
       <div id="title" class="col-md-12 text-center"><h2><span class="glyphicon glyphicon-upload"></span> Cell Monitor</h2></div>
@@ -9,16 +9,11 @@
       <div id="section-login" class="col-md-offset-4 col-md-4">
         <form class="form-horizontal" role="form" style="padding: 25px 0px;">
           <div class="form-group">
-            <label class="col-sm-4 control-label">Email</label>
+            <label for="inputProductkey" class="col-sm-4 control-label text-left">Product Key:</label>
             <div class="col-sm-8">
-              <p class="form-control-static">email@example.com</p>
+              <input type="text" class="form-control" id="inputProductkey" placeholder="********">
             </div>
-          </div>
-          <div class="form-group">
-            <label for="inputPassword" class="col-sm-4 control-label">Password</label>
-            <div class="col-sm-8">
-              <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-            </div>
+            <p class="help-block text-center" style="padding-top: 50px;">Your <strong>product key</strong> is located on your local machine.</p>
           </div>
         </form>
         <div class="text-center">
@@ -135,7 +130,7 @@
       <!-- Data Logger -->
       <div id="section-logger">
         <div class="col-md-12" style="padding-top: 50px;">
-          <table id="table-csv" class="col-md-12">
+          <table id="table-csv" style="width: 100%;">
             <!-- table content -->
           </table>
         </div>

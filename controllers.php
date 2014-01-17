@@ -26,6 +26,7 @@ Router::path("monitor", function()
 */
 Router::path("cloud", function()
   {
+    $cloud = new Cloud();
     require PUBLIC_DIR."cloud.php";
   });
 
