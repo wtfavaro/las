@@ -25,8 +25,13 @@ class Software {
   }
 
   // Check if this key exists.
-  public static function keyMatch($key){
-    $query="SELECT id FROM distribution WHERE product_key = '" . $key . "'";
+  public static function keyMatch($args){
+
+    if (!isset($args['key'])){
+      return false;
+    }
+
+    $query="SELECT id FROM distribution WHERE product_key = '" . $args['key'] . "'";
     return Database::match($query);
   }
 

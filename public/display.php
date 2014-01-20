@@ -25,10 +25,23 @@
         document.getElementById('btnLogin').addEventListener(
           'click',
           function(){
-            httprequest('Software', 'keyMatch', function(resp){ console.log(resp)});
-            if (login){
-              document.getElementById('section-login').style.display='none';
-              document.getElementById('section-liveData').style.display='block';
+            var data = { 'key': document.getElementById('inputProductkey').value };
+            httprequest('Software', 'keyMatch', data, function(resp){ 
+              if(resp != 0){
+                page.login();
+              } else {
+                page.keyError();
+              }
+            });
+            
+            var page = {
+              login: function(){
+                document.getElementById('section-login').style.display='none';
+                document.getElementById('section-liveData').style.display='block';
+              },
+              keyError: function(){
+                console.error("The key is invalid.");
+              }
             }
           },
           false
