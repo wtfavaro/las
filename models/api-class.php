@@ -10,7 +10,32 @@ class Cloud {
 
 }
 
-class API {
+class Schema {
+  public $database;
+
+  public function __construct(){
+    $this->database = new StdClass;
+    $this->database->cells = array(
+      "name",
+      "software_key",
+      "date_added"
+    );
+    $this->database->machines = array(
+      "name",
+      "software_key",
+      "cell_id",
+      "date_added"
+    );
+    $this->database->inputs = array(
+      "name",
+      "software_key",
+      "machine_id",
+      "date_added"
+    );
+  }
+}
+
+class API extends Schema {
 
   public function validHttpRequest(){
     if(isset($_GET['on'])){
@@ -28,15 +53,15 @@ class API {
         break;
 
       case "machine":
-        echo "This is a machine.";
+        $this->machine();
         break;
 
       case "cell":
-        echo "This is a cell.";
+        $this->cell();
         break;
 
       case "input":
-        echo "This is an input.";
+        $this->input();
         break;
 
       case "alert":
@@ -66,6 +91,167 @@ class API {
     }
   }
 
+  // Actions being taken on a cell
+  // go here.
+  public function cell(){
+    global $db;
+    $action = "";
+    $table = "";
+    $query = "";
+
+    // If no key, safely die.
+    if(!isset($_GET['key'])){
+      die();
+    }
+
+    // Determine action taken.
+    $action = $this->getAction();
+
+    // Define target table.
+    $table = "cells";
+
+    // Build the query.
+    $query = $this->buildQuery($action, $table);
+
+    // Add data.
+    $data = $this->addData($action);
+
+    // Execute query.
+    $db->prepare($query)->execute($data);
+  }
+
+  public function machine(){
+    global $db;
+    $action = "";
+    $table = "";
+    $query = "";
+
+    // If no key, safely die.
+    if(!isset($_GET['key'])){
+      die();
+    }
+
+    // Determine action taken.
+    $action = $this->getAction();
+
+    // Define target table.
+    $table = "machines";
+
+    // Build the query.
+    $query = $this->buildQuery($action, $table);
+
+    // Add data.
+    switch($action){
+      case "put":
+        $data = array($_GET['put'], $_GET['key'], "1", date("Y-m-d H:i:s"));
+        break;
+      default:
+        $data = $this->addData($action);
+        break;
+    }
+
+    // Execute query.
+    $db->prepare($query)->execute($data);
+  }
+
+  // Action to be taken on an input
+  public function input(){
+    global $db;
+    $action = "";
+    $table = "";
+    $query = "";
+
+    // If no key, safely die.
+    if(!isset($_GET['key'])){
+      die();
+    }
+
+    // Determine action taken.
+    $action = $this->getAction();
+
+    // Define target table.
+    $table = "inputs";
+
+    // Build the query.
+    $query = $this->buildQuery($action, $table);
+
+    // Add data.
+    switch($action){
+      case "put":
+        $data = array($_GET['put'], $_GET['key'], "1", date("Y-m-d H:i:s"));
+        break;
+      default:
+        $data = $this->addData($action);
+        break;
+    }
+
+    // Execute query.
+    $db->prepare($query)->execute($data);
+  }
+
+  // Figure out which action is being
+  // worked on, based on the _GET variable.
+  private function getAction(){
+    if(isset($_GET['rename'])){
+      return "rename";
+    } else if(isset($_GET['put'])){
+      return "put";
+    } else if(isset($_GET['remove'])){
+      return "remove";
+    } else {
+      return false;
+    } 
+  }
+
+  private function buildQuery($action, $table){
+    switch($action){
+      case "rename":
+        return "UPDATE $table SET name=? WHERE name=? AND software_key=?";  
+        break;
+      case "remove":
+        return "DELETE FROM $table WHERE name=? AND software_key=?";
+        break;
+      case "put":
+        return "INSERT INTO $table " . $this->buildInsert($table);
+        break;
+      default:
+        return false;
+    }
+  }
+
+  private function addData($action){
+    switch($action){
+      case "rename":
+        return array($_GET['rename-to'], $_GET['rename'], $_GET['key']);
+        break;
+      case "remove":
+        return array($_GET['remove'], $_GET['key']);
+        break;
+      case "put":
+        return array($_GET['put'], $_GET['key'], date("Y-m-d H:i:s"));
+        break;
+    }
+  } 
+
+  private function buildInsert($table){
+    $quemrk = array();
+    $query = "";
+
+    // Create a array of quemrks
+    for($i=0; $i<count($this->database->$table); $i++){
+      $quemrk[] = "?";
+    }
+
+    // Build the query. Can be optimized
+    // as sprintf later.
+    $query .= "(";
+    $query .= implode($this->database->$table, ", ");
+    $query .= ") VALUES (";
+    $query .= implode($quemrk, ", ");
+    $query .= ")";
+
+    return $query;
+  }
 }
 
 ?>

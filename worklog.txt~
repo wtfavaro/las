@@ -1,6 +1,5 @@
-01/17/14:
-[x] 09:00-12:00PM - Focus on API architecture.
-[x] 12:30-03:00PM - Do the V0.1 methods.
-[/] 03:00-05:00PM - Login via software key.
-[] 07:00-09:00PM - Setup a Git Gui client on my Windows Laptop.
-[] 09:00-10:00PM - Write a tutorial for Dan on how to set it up, so we can improve our Cell Monitor collaboration.
+01/20/14:
+
+[x] 09:00-10:00PM - Contact 1 plant by email/phone, asking for an opportunity to demo.
+[/] 10:00-5:00PM - Work on V0.3.
+[ ] 7:00-10:00PM - Start implimenting the new Cell Monitor setup userflow (using the provided Gateway/Remote).

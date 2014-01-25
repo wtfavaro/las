@@ -40,7 +40,7 @@
                 document.getElementById('section-liveData').style.display='block';
               },
               keyError: function(){
-                console.error("The key is invalid.");
+                alert("The key you entered is invalid.");
               }
             }
           },

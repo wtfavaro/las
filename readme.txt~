@@ -50,6 +50,8 @@ Misc ->
     [ ] Test with others.
     [ ] Merge code into Cell Monitor.
 
+[/] Windows Service (option)
+
 Questions:
 
 Q: Which protocol is used for Xbee serial comm port?

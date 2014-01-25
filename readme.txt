@@ -15,7 +15,7 @@ Private API ->
 [x] Map the full Cell Monitor<->Cloud Monitor API.
 [x] Plan the API architecture.
 [x] Do the V0.1 methods (software key).
-[] Do the V0.2 methods (add cell to identify machine list)
+[/] Do the V0.2 methods (add cell to identify machine list)
 [] Do the V0.3 methods (add machine to server).
 [] Do the V0.4 methods (add input to server).
 [] Do the V0.5 methods (add email/txt to server).
@@ -49,6 +49,8 @@ Misc ->
     [ ] Get access to a Gateway and Remote. Create a working setup.
     [ ] Test with others.
     [ ] Merge code into Cell Monitor.
+
+[/] Windows Service (option)
 
 Questions:
 

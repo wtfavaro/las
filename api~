@@ -9,9 +9,57 @@ future of PLC data storage and analysis.
 
 _To acquire a Software Key:_
 
-  [   www.getfreepoint.com/cloud/on=software&get=key   ]
+  [
 
-=======================V0.2======================
+        www.getfreepoint.com/cloud?
+        on=software
+        &
+        get=key
+
+  ]
+
+=======================V0.2a======================
+
+_To acquire a Cell Key:_
+
+  [
+
+        www.getfreepoint.com/cloud?
+        on=cell
+        &
+        put={ cell name }
+        &
+        key={ software key }
+
+  ]
+
+_To rename a Cell:_
+
+  [
+
+        www.getfreepoint.com/cloud?
+        on=cell
+        &
+        rename={ cell id }
+        &
+        rename-to={ new cell name }
+        &
+        key={ software key } 
+
+  ]
+
+__To remove a Cell__
+
+  [
+        www.getfreepoint.com/cloud/cm?
+        on=cell
+        &
+        remove={ cell id }
+        &
+        key={ software key }    
+  ]
+
+=======================V0.2b======================
 
 _To acquire a Machine Key_
 
