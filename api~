@@ -119,7 +119,7 @@ __To rename an input__
         www.getfreepoint.com/cloud/cm?
         on=input
         &
-        rename-from={ old input name }
+        rename={ old input name }
         &
         rename-to={ new input name }
         &
