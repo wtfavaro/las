@@ -26,8 +26,21 @@ Router::path("monitor", function()
 */
 Router::path("cloud", function()
   {
-    //$cloud = new Cloud();
+    $cloud = new Cloud();
     require PUBLIC_DIR."cloud.php";
+  });
+
+/*
+
+  /stream
+    - The page on which data packets are sent from 
+      Cell Monitor to the cloud.
+
+*/
+Router::path("stream", function()
+  {
+    $cloud = new Cloud();
+    require PUBLIC_DIR."stream.php";
   });
 
 /*

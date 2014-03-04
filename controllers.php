@@ -32,6 +32,19 @@ Router::path("cloud", function()
 
 /*
 
+  /stream
+    - The page on which data packets are sent from 
+      Cell Monitor to the cloud.
+
+*/
+Router::path("stream", function()
+  {
+    $steam = new Stream();
+    require PUBLIC_DIR."stream.php";
+  });
+
+/*
+
   A sample to show how database matching can quickly be used to
   allow custom URLs.
 

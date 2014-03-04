@@ -35,3 +35,6 @@ freepoint.inputs
 | input_added | date     | YES  |     | NULL    |                |
 +-------------+----------+------+-----+---------+----------------+
 
+CREATE TABLE remotes ( id INT(8) NOT NULL AUTO_INCREMENT PRIMARY KEY, addr64 CHAR(64), name CHAR(32), date_added DATE );
+
+

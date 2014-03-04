@@ -254,7 +254,7 @@ class API extends Schema {
   private function buildQuery($action, $table){
     switch($action){
       case "rename":
-        return "UPDATE $table SET name=? WHERE name=? AND software_key=?";  
+        return "UPDATE $table SET name=? WHERE name=? AND addr64=?";  
         break;
       case "remove":
         return "DELETE FROM $table WHERE name=? AND software_key=?";
@@ -270,10 +270,10 @@ class API extends Schema {
   private function addData($action){
     switch($action){
       case "rename":
-        return array($_GET['rename-to'], $_GET['rename'], $_GET['key']);
+        return array($_GET['rename-to'], $_GET['rename'], $_GET['addr']);
         break;
       case "remove":
-        return array($_GET['remove'], $_GET['key']);
+        return array($_GET['remove'], $_GET['addr']);
         break;
       case "put":
         return array($_GET['put'], $_GET['key'], date("Y-m-d H:i:s"));
