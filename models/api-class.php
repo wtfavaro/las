@@ -144,6 +144,16 @@ class API extends Schema {
     $table = "";
     $query = "";
 
+    // If there is already a remote at this address, then we're going
+    // to switch the action.
+    $matchQuery = sprintf("SELECT id FROM remotes WHERE addr64='%s'", $_GET['addr']);
+
+    // There is a match, so we change it to a rename request.
+    if(Database::match($matchQuery)){
+      $_GET['rename'] = $_GET['put'];
+      unset($_GET['put']);
+    }
+
     // Determine action taken.
     $action = $this->getAction();   
 
@@ -254,7 +264,7 @@ class API extends Schema {
   private function buildQuery($action, $table){
     switch($action){
       case "rename":
-        return "UPDATE $table SET name=? WHERE name=? AND addr64=?";  
+        return "UPDATE $table SET name=? WHERE addr64=?";  
         break;
       case "remove":
         return "DELETE FROM $table WHERE name=? AND addr64=?";
@@ -270,7 +280,7 @@ class API extends Schema {
   private function addData($action){
     switch($action){
       case "rename":
-        return array($_GET['rename-to'], $_GET['rename'], $_GET['addr']);
+        return array($_GET['rename'], $_GET['addr']);
         break;
       case "remove":
         return array($_GET['remove'], $_GET['addr']);

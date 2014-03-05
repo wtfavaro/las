@@ -7,7 +7,7 @@ class Stream {
     // We're checking to see if the GET request is authentic.
     // If it is then we run it.
     if(isset($_GET['addr']) && isset($_GET['data'])){
-      return true;
+      return true
     } else {
       return false;
     }

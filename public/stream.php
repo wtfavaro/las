@@ -5,7 +5,7 @@
 
 if($stream->authentic()){
   $stream->capture();
-} elseif {
+} else {
   echo json_encode(array(
     "result"=>"0",
     "errormsg"=>"The request could not be authenticated."

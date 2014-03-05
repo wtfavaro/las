@@ -39,7 +39,7 @@ Router::path("cloud", function()
 */
 Router::path("stream", function()
   {
-    $steam = new Stream();
+    $stream = new Stream();
     require PUBLIC_DIR."stream.php";
   });
 
