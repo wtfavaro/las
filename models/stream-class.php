@@ -14,6 +14,16 @@ class Stream {
 
   }
 
+  private function udate($format, $utimestamp = null) {
+    if (is_null($utimestamp))
+      $utimestamp = microtime(true);
+
+    $timestamp = floor($utimestamp);
+    $milliseconds = round(($utimestamp - $timestamp) * 1000000);
+
+    return gmdate(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
+  }
+
   public function capture(){
 
     // Now we're going to capture the data sent by the remote.
@@ -25,7 +35,7 @@ class Stream {
     $query = sprintf("INSERT INTO packets (addr64, data, date_added) VALUES (?, ?, ?)");
 
     // Gather the data together.
-    $data = array($_GET["addr"], $_GET["data"], gmdate("Y-m-d H:i:s"));
+    $data = array($_GET["addr"], $_GET["data"], $this->udate("Y-m-d H:i:s:u"));
 
     // Execute the query.
     $db->prepare($query)->execute($data);

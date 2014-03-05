@@ -7,11 +7,21 @@ class Stream {
     // We're checking to see if the GET request is authentic.
     // If it is then we run it.
     if(isset($_GET['addr']) && isset($_GET['data'])){
-      return true
+      return true;
     } else {
       return false;
     }
 
+  }
+
+  private function udate($format, $utimestamp = null) {
+    if (is_null($utimestamp))
+      $utimestamp = microtime(true);
+
+    $timestamp = floor($utimestamp);
+    $milliseconds = round(($utimestamp - $timestamp) * 1000000);
+
+    return gmdate(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
   }
 
   public function capture(){
@@ -25,7 +35,7 @@ class Stream {
     $query = sprintf("INSERT INTO packets (addr64, data, date_added) VALUES (?, ?, ?)");
 
     // Gather the data together.
-    $data = array($_GET["addr"], $_GET["data"], gmdate("Y-m-d H:i:s"));
+    $data = array($_GET["addr"], $_GET["data"], udate("Y-m-d H:i:s:u"));
 
     // Execute the query.
     $db->prepare($query)->execute($data);
