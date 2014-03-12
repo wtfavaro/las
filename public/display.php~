@@ -25,14 +25,14 @@
         document.getElementById('btnLogin').addEventListener(
           'click',
           function(){
-            var data = { 'key': document.getElementById('inputProductkey').value };
+            /*var data = { 'key': document.getElementById('inputProductkey').value };
             httprequest('Software', 'keyMatch', data, function(resp){ 
               if(resp != 0){
                 page.login();
               } else {
                 page.keyError();
               }
-            });
+            });*/
             
             var page = {
               login: function(){
@@ -43,6 +43,8 @@
                 alert("The key you entered is invalid.");
               }
             }
+
+            page.login();
           },
           false
         );
@@ -51,8 +53,23 @@
 
       <!-- Live Data Display -->
       <div id="section-liveData" style="display: none;">
-        <div id="liveData" class="col-md-12 text-center" style="padding: 25px 0px;">
+        <div id="liveData" class="col-md-offset-2 col-md-8 text-center" style="padding: 25px 0px;">
           <!-- output table -->
+          <table style="width: 100%; text-align: left; padding: 20px;">
+            <tr>
+              <th style="width: 50%; max-width: 25%;">Input</th>
+              <th style="width: 10%; max-width: 10%;">State</th>
+              <th style="width: 20%; max-width: 20%;">Timer</th>
+              <th style="width: 20%; max-width: 20%;">Counter</th>
+            </tr>
+            <tr>
+              <td>INPUT1</td>
+            </tr>
+
+            <canvas style="width: 100%;">
+              
+            </canvas>
+          </table>
         </div>
         <div class="col-md-12 text-center">
           <div id="btnSync" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-cloud"></span> Sync</div>
@@ -63,6 +80,7 @@
 
       <script type="text/javascript">
         // Gateway Class
+        /*
 
         function Gateway(admin, password)
         {
@@ -138,7 +156,7 @@
           },
           false
         );
-
+      */
       </script>
       <!-- End Live Data Display -->
 

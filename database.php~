@@ -5,8 +5,8 @@
       database declaration.
     
 */
-    //$db = new PDO("mysql:host=localhost;dbname=grouper",'root','mindmap123');
-    //$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $db = new PDO("mysql:host=localhost;dbname=freepoint",'root','mindmap123');
+    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 
 /*
@@ -34,6 +34,24 @@ class Database {
     // return true, it isn't
     // going to.
     return false;
+  }
+
+  public static function FetchAll($query)
+  {
+    
+    // Declare the global database class.
+    global $db;
+
+    // Create an array.
+    $resultArray = array();
+
+    // Get all of the results.
+    foreach($db->query($query) as $result){
+      $resultArray[] = $result;
+    }
+
+    return $resultArray;
+
   }
 
 }

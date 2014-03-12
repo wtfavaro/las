@@ -36,6 +36,25 @@ class Database {
     return false;
   }
 
+  public static function FetchAll($query)
+  {
+    
+    // Declare the global database class.
+    global $db;
+
+    // Create an array.
+    $resultArray = array();
+
+    // Get all of the results.
+    foreach($db->query($query) as $result){
+      $resultArray[] = $result;
+    }
+
+    // Return the result array.
+    return $resultArray;
+
+  }
+
 }
 
 ?>
