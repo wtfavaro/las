@@ -56,7 +56,8 @@ class Stream {
     $time_str = $time_arr[0] . ":" . $time_arr[1] . ":" . $time_arr[2] . " " . $time_arr[4];
     
     // Now we set the date.
-    print_r(new DateTime($_GET['date'] . " " . $time_str));
+    $this->date = $_GET['date'] . " " . $time_str;
+    $this->milsec = $time_arr[3]; 
 
   }
 

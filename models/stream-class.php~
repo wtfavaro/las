@@ -41,7 +41,7 @@ class Stream {
     $query = sprintf("INSERT INTO packets (addr64, data, date_added, ms) VALUES (?, ?, ?, ?)");
 
     // Gather the data together.
-    $data = array($_GET["addr"], $_GET["data"], $this->udate("Y-m-d H:i:s:u"));
+    $data = array($_GET["addr"], $_GET["data"], $this->date, $this->milsec);
 
     // Execute the query.
     $db->prepare($query)->execute($data);
@@ -56,7 +56,7 @@ class Stream {
     $time_str = $time_arr[0] . ":" . $time_arr[1] . ":" . $time_arr[2] . " " . $time_arr[4];
     
     // Now we set the date.
-    print_r(new DateTime($_GET['date'] . " " . $time_str));
+    $this->date = $_GET['date'] . " " . $time_str
 
   }
 
