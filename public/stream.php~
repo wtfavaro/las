@@ -5,6 +5,7 @@
 
 if($stream->authentic()){
   $stream->capture();
+  echo "1";
 } else {
   echo json_encode(array(
     "result"=>"0",

@@ -46,6 +46,8 @@ class Stream {
     // Execute the query.
     $db->prepare($query)->execute($data);
 
+    echo "1";
+
   }
 
   private function setDateInfo(){

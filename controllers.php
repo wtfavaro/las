@@ -21,7 +21,8 @@ Router::path("monitor", function()
 
 /*
 
-  Route for the json page.
+  Route for the cloud page, where modifications can be made
+  to your cell, machine list, etc.
 
 */
 Router::path("cloud", function()
@@ -43,6 +44,17 @@ Router::path("stream", function()
     require PUBLIC_DIR."stream.php";
   });
 
+
+/*
+
+  Where a developer can view json results from the
+  cloud.
+
+*/
+Router::path("api", function()
+  {
+    $api = new RestAPI();
+  });
 /*
 
   A sample to show how database matching can quickly be used to
