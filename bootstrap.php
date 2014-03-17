@@ -6,6 +6,9 @@ require("constants.php");
 // Load core.
 require("core.php");
 
+// Load the password class.
+require("password.php");
+
 // Load the database class.
 require("database.php");
 

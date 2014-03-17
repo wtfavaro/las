@@ -47,7 +47,7 @@ class Database {
 
     // Get all of the results.
     if($resultset = $db->query($query)){
-      foreach($db->query($query) as $result){
+      foreach($resultset as $result){
         $resultArray[] = $result;
       }
     }

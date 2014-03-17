@@ -54,8 +54,20 @@ Router::path("stream", function()
 Router::path("api", function()
   {
     $api = new RestAPI();
-    require PUBLIC_DIR."restAPI.php";
   });
+
+/*
+
+  Create or modify your account.
+
+*/
+Router::path("account", function()
+  {
+    require PUBLIC_DIR."header.php";
+    require PUBLIC_DIR."login.php";
+    require PUBLIC_DIR."footerS.php";
+  });
+
 /*
 
   A sample to show how database matching can quickly be used to
