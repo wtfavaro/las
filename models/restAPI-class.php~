@@ -70,6 +70,8 @@ class QueryBuildr {
         case("onFocus"):
           $this->SQL_WHERE[] = "date_added > '" . $value . "'";
           break;
+        case("endFocus"):
+          $this->SQL_WHERE[] = "date_added < '" . $value . "'";
       }
     }
 

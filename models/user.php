@@ -3,14 +3,18 @@
 class User
   {
 
-    public static function make($email, $password)
+    public static function make($params)
       {
+        if (!method_exists("Password", "hash")){
+          include '../password.php';
+        }
+
         global $db;
 
         $db->prepare(
-          "INSERT INTO account (email, password, date_added) VALUES (?, ?, ?)"
+          "INSERT INTO account (email, auth, password, date_added) VALUES (?, ?, ?, ?)"
         )->execute(
-          array( $email, $password, gmdate() )
+          array( $params["email"], Software::key(), Password::hash($params["password"]), date("yyyy-MM-dd") )
         );
       }
 
@@ -22,7 +26,7 @@ class User
           "DELETE FROM account WHERE email = ? AND password = ?"
         )->execute(
           array( $email, $password )
-        )
+        );
 
       }
 
@@ -36,5 +40,15 @@ class User
           return false;
         }
       }
+
+    public static function email_exists($params){
+      $query = sprintf("SELECT id FROM account WHERE email = '%s'", $params['email']);
+
+      if (Database::match($query)){
+        return true;
+      } else {
+        return false;
+      }
+    }
 
   }

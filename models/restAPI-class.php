@@ -30,7 +30,7 @@ class RestAPI extends ManageJSON {
 
   public function query(){
     $query = sprintf("SELECT * FROM packets WHERE %s ORDER BY date_added DESC", implode($this->query_parts->SQL_WHERE, " AND "));
-    print_r($query);
+//  print_r($query);
 
     $results = DATABASE::FetchAll($query);
 
