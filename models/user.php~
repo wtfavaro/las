@@ -5,17 +5,28 @@ class User
 
     public static function make($params)
       {
+        // Incude the Password class.
         if (!method_exists("Password", "hash")){
           include '../password.php';
         }
 
+        // Check if this request is valid.
+        if (!filter_var($params["email"], FILTER_VALIDATE_EMAIL)){
+          echo "Not a valid email.";
+          return false;
+        }
+
+        // Include the global Database class.
         global $db;
 
+        // Insert user into the database.
         $db->prepare(
           "INSERT INTO account (email, auth, password, date_added) VALUES (?, ?, ?, ?)"
         )->execute(
-          array( $params["email"], Software::key(), Password::hash($params["password"]), date("yyyy-MM-dd") )
+          array( md5($params["email"]), Software::key(), md5($params["password"]), date("yyyy-MM-dd") )
         );
+
+        return true;
       }
 
     public static function delete($email, $password)
@@ -32,17 +43,19 @@ class User
 
     public static function match($email, $password)
       {
-        $account = DATABASE::fetchAll("SELECT * FROM account WHERE email = '$email' LIMIT 1");
+        $hashEmail = md5($email);
 
-        if(isset($account['password'])){
-          return Password::hash($password) == $account['password'];
+        $account = DATABASE::fetchAll("SELECT * FROM account WHERE email = '$hashEmail' LIMIT 1");
+
+        if(isset($account['auth'])){
+          return $account['auth'];
         } else {
-          return false;
+          return "0";
         }
       }
 
     public static function email_exists($params){
-      $query = sprintf("SELECT id FROM account WHERE email = '%s'", $params['email']);
+      $query = sprintf("SELECT id FROM account WHERE email = '%s'", md5($params['email']));
 
       if (Database::match($query)){
         return true;

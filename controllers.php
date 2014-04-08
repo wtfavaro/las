@@ -58,6 +58,16 @@ Router::path("api", function()
 
 /*
 
+  API for logging into the service.
+
+*/
+Router::path("login", function()
+  {
+    $login = new LoginAPI();
+  });
+
+/*
+
   Create or modify your account.
 
 */

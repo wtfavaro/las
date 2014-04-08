@@ -16,7 +16,6 @@ if (method_exists($_POST['class'], $_POST['method'])){
   $method = $_POST['method'];
 
   // Call the method.
-  print_r($_POST);
   if(isset($_POST['args'])){
     ajaxResponse($class::$method($_POST['args']));
   } else {

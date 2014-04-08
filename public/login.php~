@@ -3,8 +3,8 @@
     <span id="form-container" class="col-md-offset-3 col-md-6">
       <div class="limit-to-80">
         <div class="form-group">
-            <label for="inp-password">Enter Email</label>
-            <input type="email" class="form-control input-modern" id="inp-email" placeholder="me@example.com">
+            <label for="inp-password">Choose a Username</label>
+            <input type="text" class="form-control input-modern" id="inp-email" placeholder="username">
         </div>
 
         <div class="form-group">
@@ -169,10 +169,10 @@
     var data = { 'email': document.getElementById('inp-email').value, 'password': document.getElementById('inp-password').value };
 
     httprequest('User', 'make', data, function(resp){
-      if(resp != 0){
+      if(resp = 0){
         alert("Your account couldn't be created.");
       } else {
-        header("Location: /monitor");
+        window.location.href = "monitor";
       }
     });
 

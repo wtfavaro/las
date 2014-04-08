@@ -58,6 +58,16 @@ Router::path("api", function()
 
 /*
 
+  API for logging into the service.
+
+*/
+Router::path("api", function()
+  {
+    $login = new LoginAPI();
+  });
+
+/*
+
   Create or modify your account.
 
 */
@@ -65,7 +75,7 @@ Router::path("account", function()
   {
     require PUBLIC_DIR."header.php";
     require PUBLIC_DIR."login.php";
-    require PUBLIC_DIR."footerS.php";
+    require PUBLIC_DIR."footer.php";
   });
 
 /*
