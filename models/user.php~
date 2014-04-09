@@ -43,9 +43,9 @@ class User
 
     public static function match($email, $password)
       {
-        $hashEmail = md5($email);
+        $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' LIMIT 1");
 
-        $account = DATABASE::fetchAll("SELECT * FROM account WHERE email = '$hashEmail' LIMIT 1");
+        print_r($account);
 
         if(isset($account['auth'])){
           return $account['auth'];

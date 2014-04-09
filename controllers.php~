@@ -61,7 +61,7 @@ Router::path("api", function()
   API for logging into the service.
 
 */
-Router::path("api", function()
+Router::path("login", function()
   {
     $login = new LoginAPI();
   });

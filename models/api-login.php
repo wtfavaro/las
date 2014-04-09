@@ -4,11 +4,17 @@ class LoginAPI {
 
   public function __construct() {
     $this->validRequest();
-    $this->lookupAccount();
+    $matchFound = $this->lookupAccount($_GET['user'], $_GET['password']);
+
+    echo $matchFound;
+
+    if ($matchFound){
+      echo $matchFound;
+    }
   }
 
   private function validRequest() {
-    if (isset($_GET['user']) && isset($_GET['password'])){
+    if (!isset($_GET['user']) || !isset($_GET['password'])){
       die;
     }
   }
