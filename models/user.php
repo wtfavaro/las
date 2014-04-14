@@ -43,7 +43,7 @@ class User
 
     public static function match($email, $password)
       {
-        $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' LIMIT 1");
+        $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' AND password='$password' LIMIT 1");
 
         if(isset($account[0]['auth'])){
           return $account[0]['auth'];

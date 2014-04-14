@@ -6,11 +6,8 @@ class LoginAPI {
     $this->validRequest();
     $matchFound = $this->lookupAccount($_GET['user'], $_GET['password']);
 
+    // Echo the return value.
     echo $matchFound;
-
-    if ($matchFound){
-      echo $matchFound;
-    }
   }
 
   private function validRequest() {
