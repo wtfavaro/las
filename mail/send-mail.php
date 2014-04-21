@@ -37,8 +37,6 @@ class Email {
     // Try to send the email message. If it fails, then we
     // return false.
     if(!$mail->Send())  {
-       echo "Message could not be sent. <p>";
-       echo "Mailer Error: " . $mail->ErrorInfo;
        return false;
        exit;
     }
