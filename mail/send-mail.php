@@ -12,7 +12,7 @@ class Email {
     $mail = new PHPMailer();
     $mail->SMTPDebug  = 1;
     $mail->IsSMTP();
-    $mail->Port = 465;
+    $mail->Port = 25;
     $mail->SMTPSecure = 'tls';                              // set mailer to use SMTP
     $mail->Host = "byqg-cgkn.accessdomain.com";             // specify main and backup server
     $mail->SMTPAuth = true;                                 // turn on SMTP authentication
