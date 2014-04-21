@@ -1,6 +1,6 @@
 <?php 
 
-Email::SendMail("wtfavaro@hotmail.com", "William Favaro", "Hello!", "<b>Does</b> markup work?", "Does markup work?", "FreePoint Support");
+Email::SendMail("wtfavaro@hotmail.com", "William Favaro", "Hello!", "<b>Does</b> markup work?", "Does markup work?");
 
 class Email {
 
