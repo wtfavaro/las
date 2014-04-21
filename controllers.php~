@@ -111,7 +111,6 @@ Router::path("data", function()
 */
 Router::path("email", function()
   {
-
     $_POST["email"] = "wtfavaro@hotmail.com";
     $_POST["name"] = "William T. Favaro";
     $_POST["title"] = "This has been routed through the server";
@@ -119,11 +118,10 @@ Router::path("email", function()
 
     if(isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["title"]) && isset($_POST["body"]))
       {
-        require_once("/mail/send-mail.php");
         Email::Send("wtfavaro@hotmail.com", "William Favaro", $_POST["title"], $_POST["body"], $_POST["body"]);
       }
 
-  }
+  });
 
 /*
 

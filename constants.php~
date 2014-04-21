@@ -5,7 +5,6 @@
       path constants.
     
 */
-    define("ABS_PATH", "/var/www/libs/Litely/");
     define("PRIVATE_VIEW", "views/");
     define("PUBLIC_DIR", "public/");
 
