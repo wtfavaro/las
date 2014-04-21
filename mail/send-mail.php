@@ -10,6 +10,7 @@ class Email {
     require_once("../../PHPMailer/class.smtp.php");
 
     $mail = new PHPMailer();
+    $mail->SMTPDebug  = 1;
     $mail->IsSMTP();
     $mail->Port = 465;
     $mail->SMTPSecure = 'tls';                              // set mailer to use SMTP
