@@ -103,6 +103,28 @@ Router::path("data", function()
     require PRIVATE_VIEW."input-list.php";
     require PUBLIC_DIR."footer.php";
   });
+
+/*
+
+  Send an email to a user quickly.
+
+*/
+Router::path("email", function()
+  {
+
+    $_POST["email"] = "wtfavaro@hotmail.com";
+    $_POST["name"] = "William T. Favaro";
+    $_POST["title"] = "This has been routed through the server";
+    $_POST["body"] = "Hey <b>this has been <u>styled.</u></b>";
+
+    if(isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["title"]) && isset($_POST["body"]))
+      {
+        require_once("/mail/send-mail.php");
+        Email::Send("wtfavaro@hotmail.com", "William Favaro", $_POST["title"], $_POST["body"], $_POST["body"]);
+      }
+
+  }
+
 /*
 
   A sample to show how database matching can quickly be used to

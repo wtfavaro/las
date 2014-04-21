@@ -1,10 +1,10 @@
 <?php 
 
-Email::SendMail("wtfavaro@hotmail.com", "William Favaro", "Hello!", "<b>Does</b> markup work?", "Does markup work?");
+
 
 class Email {
 
-  public static function SendMail($sendToAddress, $sendToName = "", $subject, $body, $altbody, $fromAddress = "willf@getfreepoint.com", $fromName = "FreePoint Alert"){
+  public static function Send($sendToAddress, $sendToName = "", $subject, $body, $altbody, $fromAddress = "willf@getfreepoint.com", $fromName = "FreePoint Alert"){
 
     require_once("../../PHPMailer/class.phpmailer.php");
     require_once("../../PHPMailer/class.smtp.php");
