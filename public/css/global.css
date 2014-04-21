@@ -45,3 +45,84 @@
 .last {
   margin-right: 0px;
 }
+
+/* Machine List Page */
+
+.machine-item {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+  position: relative;
+}
+
+.machine-item:hover {
+  background-color: #eee;
+  border-color: #ccc;
+  cursor: pointer;
+}
+
+.machine-item:active {
+  background: #ddd;
+  border-color: #bbb;
+}
+
+.status {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  color: #fff;
+  font-weight: 900;
+}
+
+.status > .timeout {
+  background: red;
+  padding: 5px;
+}
+
+.status > .ok {
+  background: green;
+  padding: 5px;
+}
+
+/* Mobile Nav */
+
+.mobile-nav {
+  max-width: 100%;
+  background: #222;
+  color: #aaa;
+  padding: 10px;
+}
+
+/* Input list page */
+.input-item {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+  position: relative;
+  overflow: none;
+}
+
+.input-item:hover {
+  background-color: #eee;
+  border-color: #ccc;
+  cursor: pointer;
+}
+
+.input-item:active {
+  background-color: #ddd;
+  border-color: #bbb;
+}
+
+.console {
+  display: block;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  max-width: 50%;
+}
+
+.console > .decal {
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 5px;
+  margin-right: 3px;
+}

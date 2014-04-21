@@ -61,6 +61,17 @@ Router::path("api", function()
   API for logging into the service.
 
 */
+Router::path("machine", function()
+  {
+    $machine = new Machine();
+    //$machine->setSpecs(array("address" => "asdASDASDAds", "name" => "Machine 1"));
+  });
+
+/*
+
+  API for logging into the service.
+
+*/
 Router::path("login", function()
   {
     $login = new LoginAPI();
@@ -78,6 +89,20 @@ Router::path("account", function()
     require PUBLIC_DIR."footer.php";
   });
 
+
+Router::path("machines", function()
+  {
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."mach-list.php";
+    require PUBLIC_DIR."footer.php";
+  });
+
+Router::path("data", function()
+  {
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."input-list.php";
+    require PUBLIC_DIR."footer.php";
+  });
 /*
 
   A sample to show how database matching can quickly be used to
