@@ -112,7 +112,7 @@ Router::path("data", function()
 Router::path("email", function()
   {
 
-    print_r($_POST);
+    print_r($GLOBALS);
 
     if(isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["title"]) && isset($_POST["body"]))
       {
