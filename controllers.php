@@ -110,6 +110,8 @@ Router::path("data", function()
 Router::path("email", function()
   {
 
+    print_r($_POST);
+
     // If a POST array called "data", then we parse it.
     if(isset($_POST["data"]))
       {
