@@ -105,14 +105,15 @@ Router::path("data", function()
   });
 
 /*
-
   Send an email to a user quickly.
-
 */
 Router::path("email", function()
   {
 
-    print_r($_POST);
+    if(isset($_POST["data"]))
+      {
+        print_r(json_decode($_POST["data"]));
+      }
 
     if(isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["title"]) && isset($_POST["body"]))
       {
