@@ -110,15 +110,21 @@ Router::path("data", function()
 Router::path("email", function()
   {
 
+    // If a POST array called "data", then we parse it.
     if(isset($_POST["data"]))
       {
-        print_r(json_decode($_POST["data"]));
+        $data = json_decode($_POST["data"], true);
       }
 
-    if(isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["title"]) && isset($_POST["body"]))
+    // If the parsed array contains the data we need, then
+    // we send the email.
+    if(isset($data["Address"] && isset($data["Name"]) && isset($data["Title"]) & isset($data["Body"]))
       {
-        Email::Send($_POST["email"], $_POST["name"], $_POST["title"], $_POST["body"], $_POST["body"]);
+        Email::Send($data["Address"], $data["Name"], $data["Title"], $data["Body"]);
+        return true;
       }
+
+    return false;
 
   });
 
