@@ -112,12 +112,24 @@ Router::path("data", function()
 Router::path("email", function()
   {
 
-    print_r($GLOBALS);
-
-    if(isset($_POST["email"]) && isset($_POST["name"]) && isset($_POST["title"]) && isset($_POST["body"]))
+    if(isset($_POST["data"]))
       {
-        Email::Send($_POST["email"], $_POST["name"], $_POST["title"], $_POST["body"], $_POST["body"]);
+        $data = json_decode($_POST["data"], true);
       }
+    else 
+      {
+        echo 0;
+        exit;
+      }
+
+    if(isset($data["email"]) && isset($data["name"]) && isset($data["title"]) && isset($data["body"]))
+      {
+        Email::Send($data["email"], $data["name"], $data["title"], $data["body"], $data["body"]);
+        echo 1;
+        exit;
+      }
+
+    exit 0;
 
   });
 

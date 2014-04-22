@@ -105,28 +105,31 @@ Router::path("data", function()
   });
 
 /*
+
   Send an email to a user quickly.
+
 */
 Router::path("email", function()
   {
 
-    print_r($_POST);
-
-    // If a POST array called "data", then we parse it.
     if(isset($_POST["data"]))
       {
         $data = json_decode($_POST["data"], true);
       }
-
-    // If the parsed array contains the data we need, then
-    // we send the email.
-    if(isset($data["Address"] && isset($data["Name"]) && isset($data["Title"]) & isset($data["Body"]))
+    else 
       {
-        Email::Send($data["Address"], $data["Name"], $data["Title"], $data["Body"]);
-        return true;
+        echo 0;
+        exit;
       }
 
-    return false;
+    if(isset($data["email"]) && isset($data["name"]) && isset($data["title"]) && isset($data["body"]))
+      {
+        Email::Send($data["email"], $data["name"], $data["title"], $data["body"], $data["body"]);
+        echo 1;
+        exit;
+      }
+
+    exit 0;
 
   });
 
