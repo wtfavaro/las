@@ -124,6 +124,7 @@ Router::path("email", function()
       }
 
     print_r($jsonArray);
+    exit;
 
     if(isset($data["Email"]) && isset($data]["Name"]) && isset($data["Title"]) && isset($data["Body"]))
       {

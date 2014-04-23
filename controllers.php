@@ -115,7 +115,7 @@ Router::path("email", function()
 
     if(isset($_POST["data"]))
       {
-        $jsonArray = json_decode($_POST["data"], true);
+        $data = json_decode($_POST["data"], true);
       }
     else 
       {
@@ -123,7 +123,10 @@ Router::path("email", function()
         exit;
       }
 
-    print_r($jsonArray);
+    print_r($data);
+ 
+    echo $data[0]["Email"];
+    exit;
 
     if(isset($data["Email"]) && isset($data]["Name"]) && isset($data["Title"]) && isset($data["Body"]))
       {
