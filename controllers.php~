@@ -123,18 +123,9 @@ Router::path("email", function()
         exit;
       }
 
-    if(isset($data["Address"]))
+    if(isset($data[0]["Address"]) && isset($data[0]["Name"]) && isset($data[0]["Title"]) && isset($data[0]["Body"]))
       {
-        echo "Located at data[Address].";
-      }
-    elseif(isset($data[0]["Address"]))
-      {
-        echo "Located at data[0][Address]";
-      }
-
-    if(isset($data["Address"]) && isset($data["Name"]) && isset($data["Title"]) && isset($data["Body"]))
-      {
-        Email::Send($data["Address"], $data["Name"], $data["Title"], $data["Body"], $data["Body"]);
+        Email::Send($data[0]["Address"], $data[0]["Name"], $data[0]["Title"], $data[0]["Body"], $data[0]["Body"]);
         echo "1";
         exit;
       }
