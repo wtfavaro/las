@@ -123,6 +123,8 @@ Router::path("email", function()
         exit;
       }
 
+    print_r($data);
+
     if(isset($data["email"]) && isset($data["name"]) && isset($data["title"]) && isset($data["body"]))
       {
         Email::Send($data["email"], $data["name"], $data["title"], $data["body"], $data["body"]);
