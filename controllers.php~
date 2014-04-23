@@ -112,7 +112,6 @@ Router::path("data", function()
 Router::path("email", function()
   {
     header("HTTP/1.1 200 OK");
-    header(":", true, 200);
 
     if(isset($_POST["data"]))
       {
@@ -123,6 +122,8 @@ Router::path("email", function()
         echo "0";
         exit;
       }
+
+    print_r($data);
 
     if(isset($data["email"]) && isset($data["name"]) && isset($data["title"]) && isset($data["body"]))
       {
