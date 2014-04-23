@@ -113,6 +113,8 @@ Router::path("email", function()
   {
     header("HTTP/1.1 200 OK");
 
+    echo "here";
+
     if(isset($_POST["data"]))
       {
         $data = json_decode($_POST["data"], true);
@@ -124,8 +126,6 @@ Router::path("email", function()
       }
 
     print_r($data);
- 
-    echo $data[0]["Email"];
     exit;
 
     if(isset($data["Email"]) && isset($data]["Name"]) && isset($data["Title"]) && isset($data["Body"]))
