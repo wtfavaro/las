@@ -126,8 +126,6 @@ Router::path("email", function()
       }
 
     print_r($data);
- 
-    echo $data[0]["Email"];
     exit;
 
     if(isset($data["Email"]) && isset($data]["Name"]) && isset($data["Title"]) && isset($data["Body"]))
