@@ -30,8 +30,8 @@ class Machine {
 
   private function __addMachine(){
       global $db;
-			$query = "INSERT INTO remote (name, addr, inputs) VALUES (?,?,?)";
-			$data = array($this->mach["name"], $this->mach["address"], json_encode($this->mach["inputs"]));
+			$query = "INSERT INTO remote (name, addr, inputs, date_added, softkey) VALUES (?,?,?,?,?)";
+			$data = array($this->mach["name"], $this->mach["address"], json_encode($this->mach["inputs"]), gmdate("Y-m-d H:i:s"), $this->mach["softkey"]);
 			$db->prepare($query)->execute($data);
       return true;
   }

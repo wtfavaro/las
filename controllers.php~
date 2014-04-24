@@ -114,13 +114,13 @@ Router::path("reg-mach", function()
     header("HTTP/1.1 200 OK");
     
     // Get the data that can be gotten.
-    /* try 
+    if (isset($data))
       {
         $data = json_decode($_POST["data"], true);
         $data = json_decode($_POST["data"], true);
         $data[0]["inputs"] = json_decode($data[0]["inputs"], true);
       }
-    catch (Exception $e)
+    else
       {
         echo "0";
         exit;
@@ -130,21 +130,7 @@ Router::path("reg-mach", function()
     if(isset($data[0]))
       {
         $mach = $data[0];
-      } */
-
-    $mach = array
-    (
-      "address" => "SDASDSADAS",
-      "name"    => "MACHINE 1",
-      "inputs"  => array
-                   (
-                      "BRAKE",
-                      "CLUTCH",
-                      "CONVEYOR",
-                      "INPUT 4"
-                   ),
-      "softkey" => "123qwQDQW!1wwefd"
-    );  
+      }
 
     // Now add or modify the machine.
     new Machine($mach);

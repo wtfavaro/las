@@ -1,5 +1,22 @@
 <?php
 
+class RestAPI {
+
+  public function __construct(){
+      $data = array(
+        "get" => "machines",
+        "softkey" => "ASD"
+      );
+
+    if (isset($data["get"]) && isset($data["softkey"]) && $data["get"] = "machines")
+      {
+        $result = DATABASE::fetchAll(sprintf("SELECT * FROM remote WHERE softkey = '%s'", $_POST["softkey"]));
+        echo json_encode($result);
+      }
+  }
+
+}
+
 /*
 
 The RESTAPI classes are pretty simple.
@@ -9,7 +26,7 @@ The RESTAPI classes are pretty simple.
 3. The results from the database are cleaned up, made readable, and displayed in json.
 
 */
-
+/*
 class RestAPI extends ManageJSON {
 
   // Validate the query, build the query, send the query.
@@ -30,7 +47,7 @@ class RestAPI extends ManageJSON {
 
   public function query(){
     $query = sprintf("SELECT * FROM packets WHERE %s ORDER BY date_added DESC", implode($this->query_parts->SQL_WHERE, " AND "));
-    print_r($query);
+//  print_r($query);
 
     $results = DATABASE::FetchAll($query);
 
@@ -123,7 +140,7 @@ class ManageJSON {
   }
 
 }
-
+*/
 //
 // [ ] auth=dasdWEgdgWEReweeDDDDGDFbfdf@qwd
 //
