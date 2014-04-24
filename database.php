@@ -26,13 +26,14 @@ class Database {
 
     // Return true if there
     // is a result found.
-    foreach ( $db->query($query) as $result ) {
-      return true;
+    $results = $db->query($query);
+
+    if($results){
+      foreach ( $results as $result ) {
+        return true;
+      }
     }
 
-    // If it hasn't already
-    // return true, it isn't
-    // going to.
     return false;
   }
 

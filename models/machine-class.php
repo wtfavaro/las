@@ -2,69 +2,48 @@
 
 class Machine {
 
-  public function __construct(){
-    if (isset($_POST["inputs"])){
-      print_r($GLOBALS);
+  protected $mach;
+  protected $existing = false;
+
+  public function __construct($mach){
+
+    try {
+      $this->mach = $mach;
+      $this->__setNewMach();
+    } catch(Exception $e) {
+      exit;
     }
+
+    // If this machine address exists, we
+    // create a NEW RECORD. Else, we update
+    // an old record.
+    if (!$this->existing) {
+      $this->__addMachine();
+    } else {
+      $this->__updateMachine();
+    }
+  }
+
+  private function __setNewMach(){
+    $this->existing = Database::match(sprintf("SELECT id FROM remote WHERE addr = '%s'", $this->mach["address"]));
+  }
+
+  private function __addMachine(){
+      global $db;
+			$query = "INSERT INTO remote (name, addr, inputs) VALUES (?,?,?)";
+			$data = array($this->mach["name"], $this->mach["address"], json_encode($this->mach["inputs"]));
+			$db->prepare($query)->execute($data);
+      return true;
+  }
+
+  private function __updateMachine(){
+      global $db;
+			$query = "UPDATE remote SET name = ?, addr = ?, inputs = ? WHERE addr = ?";
+			$data = array($this->mach["name"], $this->mach["address"], json_encode($this->mach["inputs"]), $this->mach["address"]);
+			$db->prepare($query)->execute($data);
+      return true;
   }
 
 }
-
-/*
-class Machine {
-
-	public static function GetSpecs($mach){
-		
-		// Request the information.
-		return Database::fetchAll(sprintf("SELECT * FROM remote WHERE addr = '%s'", $mach['address']));
-		
-	}
-	
-	public function SetSpecs($mach){
-		
-    // Validate
-    if (!isset($mach["name"]) || !isset($mach["address"])){
-      return false;
-    }
-
-		// Global database object
-		global $db;
-
-    // Check if we need to UPDATE or INSERT
-    if (Database::match(sprintf("SELECT id FROM remote WHERE addr = '%s'"), $mach["address"])){
-      SpecUpdate();  
-    } else {
-      SpecNew();
-    }
-  }
-
-  private function SpecUpdate(){
-
-		// We build and commit the query.
-		if (!isset($mach['inputs'])){
-			$query = "UPDATE remote SET name = ? AND addr = ?";
-			$data = array($mach["name"], $mach["address"]);
-			$db->prepare($query)->execute($data);
-      return true;
-		}
-
-    return false;
-
-  }
-
-  private function SpecNew(){
-
-		// We build and commit the query.
-		if (!isset($mach['inputs'])){
-			$query = "INSERT INTO remote (name, addr, inputs) VALUES (?,?,?)";
-			$data = array($mach["name"], $mach["address"], json_encode($mach["inputs"]));
-			$db->prepare($query)->execute($data);
-      return true;
-		}
-
-    return false;
-
-  }
-}*/
 
 ?>

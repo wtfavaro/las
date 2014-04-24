@@ -63,7 +63,7 @@ Router::path("api", function()
 */
 Router::path("machine", function()
   {
-    $machine = new Machine();
+    // $machine = new Machine();
     //$machine->setSpecs(array("address" => "asdASDASDAds", "name" => "Machine 1"));
   });
 
@@ -90,6 +90,20 @@ Router::path("account", function()
   });
 
 
+Router::path("machines", function()
+  {
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."mach-list.php";
+    require PUBLIC_DIR."footer.php";
+  });
+
+Router::path("data", function()
+  {
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."input-list.php";
+    require PUBLIC_DIR."footer.php";
+  });
+
 /*
 
   Register Mach Data
@@ -97,10 +111,44 @@ Router::path("account", function()
 */
 Router::path("reg-mach", function()
   {
-    $data = json_decode($_POST["data"], true);
-    $data["inputs"] = json_decode($data["inputs"], true);
+    header("HTTP/1.1 200 OK");
+    
+    // Get the data that can be gotten.
+    /* try 
+      {
+        $data = json_decode($_POST["data"], true);
+        $data = json_decode($_POST["data"], true);
+        $data[0]["inputs"] = json_decode($data[0]["inputs"], true);
+      }
+    catch (Exception $e)
+      {
+        echo "0";
+        exit;
+      }
 
-    print_r($data);
+    // Now declare the $mach.
+    if(isset($data[0]))
+      {
+        $mach = $data[0];
+      } */
+
+    $mach = array
+    (
+      "address" => "SDASDSADAS",
+      "name"    => "MACHINE 1",
+      "inputs"  => array
+                   (
+                      "BRAKE",
+                      "CLUTCH",
+                      "CONVEYOR",
+                      "INPUT 4"
+                   ),
+      "softkey" => "123qwQDQW!1wwefd"
+    );  
+
+    // Now add or modify the machine.
+    new Machine($mach);
+
   });
 
 /*
