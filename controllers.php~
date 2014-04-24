@@ -90,18 +90,14 @@ Router::path("account", function()
   });
 
 
-Router::path("machines", function()
-  {
-    require PUBLIC_DIR."header.php";
-    require PRIVATE_VIEW."mach-list.php";
-    require PUBLIC_DIR."footer.php";
-  });
+/*
 
-Router::path("data", function()
+  Register Mach Data
+
+*/
+Router::path("reg-mach", function()
   {
-    require PUBLIC_DIR."header.php";
-    require PRIVATE_VIEW."input-list.php";
-    require PUBLIC_DIR."footer.php";
+
   });
 
 /*
