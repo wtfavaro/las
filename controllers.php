@@ -97,7 +97,7 @@ Router::path("account", function()
 */
 Router::path("reg-mach", function()
   {
-    print_r($GLOBALS);
+    print_r(json_decode($_POST["data"], true));
   });
 
 /*
