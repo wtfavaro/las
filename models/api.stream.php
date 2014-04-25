@@ -1,19 +1,112 @@
 <?php
 
-class RestAPI {
+class StreamAPI {
+
+  private $query = "SELECT * FROM packets WHERE 1=1";
+  private $data = array();
 
   public function __construct(){
-      $data = array(
-        "get" => "machines",
-        "softkey" => "ASD"
-      );
 
-    if (isset($data["get"]) && isset($data["softkey"]) && $data["get"] = "machines")
+    $data = array (
+      "get"     => "packets",
+      "time"    => array
+                  (
+                    "start" => date("Y-M-d H:i:s", mktime(0, 0, 0, 1, 1, 2013)),
+                    "end"   => date("Y-M-d H:i:s", mktime(0, 0, 0, 4, 28, 2014))
+                  ),
+      "softkey" => "ASD",
+      "address" => "0013A20040A0F241",
+      "limit"   => "100"
+    );
+
+    // Is this a proper request?
+    if (!isset($data["get"]) && !$data["get"] = "packets")
       {
-        $result = DATABASE::fetchAll(sprintf("SELECT * FROM remote WHERE softkey = '%s'", $data["softkey"]));
-        echo json_encode($result);
+        exit;
+      }
+
+    // Is there any address specified? We can't proceed without
+    // one. Else: we can add the address as a condition to the query.
+    if (!isset($data["address"]))
+      {
+        exit;
+      }
+    else
+      {
+        $this->query .= sprintf(" AND addr64 = '%s'", $data["address"]);
+      }
+
+    // Look if this StreamAPI request has a valid time
+    // component. If time isset and time start isset, then
+    // we can add that clause to the query.
+    if (isset($data["time"]) && isset($data["time"]["start"]))
+      {
+        $this->query .= sprintf(" AND date_added > '%s'", $data['time']['start']);
+      }
+
+    // Look if we also have an end-time to add to the
+    // query.
+    if (isset($data["time"]) && isset($data["time"]["end"]))
+      {
+        $this->query .= sprintf(" AND date_added < '%s'", $data['time']['end']);
+      }
+
+    // Set the limit.
+    if (isset($data["limit"]))
+      {
+        $this->query .= sprintf(" LIMIT %d", $data["limit"]);
+      }
+
+
+    // Now send the query.
+    if ($this->query)
+      {
+        print_r($this->query);
+        $result = DATABASE::fetchAll($this->query);
+        echo json_encode($this->DivideInputs($result));
       }
   }
+
+  private function DivideInputs($results)
+    {
+    for($i = 0; $i < count($results)-1; $i++){
+    
+      // Grab the data from the result row.
+      $data = $results[$i]["data"];
+
+      // Strip data into columns.
+      $dataArr = explode("-", $data);
+
+      // Go to next if this packet doesn't have
+      // valid data.
+      if(!isset($dataArr[1])){
+        continue;
+      }
+
+      // Get the timer values.
+      $timer1 = ($dataArr[4] * 255) + $dataArr[5];
+      $timer2 = ($dataArr[8] * 255) + $dataArr[9];
+      $timer3 = ($dataArr[12] * 255) + $dataArr[13];
+      $timer4 = ($dataArr[16] * 255) + $dataArr[17];
+
+      // Get the counter values.
+      $counter1 = ($dataArr[2] * 255) + $dataArr[3];
+      $counter2 = ($dataArr[6] * 255) + $dataArr[7];
+      $counter3 = ($dataArr[10] * 255) + $dataArr[11];
+      $counter4 = ($dataArr[14] * 255) + $dataArr[15];
+    
+      // Add the inputs to the result set.
+      $results[$i]["data"] = array(
+        "INPUT1" => array("timer" => $timer1, "counter" => $counter1),
+        "INPUT2" => array("timer" => $timer2, "counter" => $counter2),
+        "INPUT3" => array("timer" => $timer3, "counter" => $counter3),
+        "INPUT4" => array("timer" => $timer4, "counter" => $counter4),
+      );
+    }
+
+    // Return the results to be used by the constructor.
+    return $results;
+    }
 
 }
 

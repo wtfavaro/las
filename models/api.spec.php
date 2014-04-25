@@ -1,6 +1,6 @@
 <?php
 
-class RestAPI {
+class SpecAPI {
 
   public function __construct(){
       $data = array(

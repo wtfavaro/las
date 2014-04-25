@@ -51,20 +51,18 @@ Router::path("stream", function()
   cloud.
 
 */
-Router::path("api", function()
+Router::path("spec.api", function()
   {
-    $api = new RestAPI();
+    // RestApi uses a class $data that houses the POST information.
+    //$data = $_POST;
+    new SpecAPI();
   });
 
-/*
-
-  API for logging into the service.
-
-*/
-Router::path("machine", function()
+Router::path("stream.api", function()
   {
-    // $machine = new Machine();
-    //$machine->setSpecs(array("address" => "asdASDASDAds", "name" => "Machine 1"));
+    // RestApi uses a class $data that houses the POST information.
+    //$data = $_POST;
+    new StreamAPI();
   });
 
 /*
