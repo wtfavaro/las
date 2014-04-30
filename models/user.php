@@ -41,11 +41,24 @@ class User
 
       }
 
-    public static function match($email, $password)
+    public static function match($params)
       {
+
+        if (!isset($params["password"]) || !isset($params["email"]))
+        {
+          exit;
+        }
+
+        $email = md5($params["email"]);
+        $password = md5($params["password"]);
+        require "../session.php";
+
+        // Fetch from the database.
         $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' AND password='$password' LIMIT 1");
 
-        if(isset($account[0]['auth'])){
+        if(isset($account[0]['auth']))
+        {    
+          Session::Set($account[0]['auth']);
           return $account[0]['auth'];
         } else {
           return "0";

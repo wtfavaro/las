@@ -46,42 +46,56 @@
   margin-right: 0px;
 }
 
+/* 
+
+Window
+
+For Option Overview, to give visual depth
+for the user in an iPHONE-esque way.
+
+*/
+
+.window {
+  margin: 10px auto;
+  max-width: 95%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #fff;
+  list-style: none;
+  padding: 0;
+}
+
 /* Machine List Page */
 
 .machine-item {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
   padding: 15px;
   position: relative;
 }
 
-.machine-item:hover {
-  background-color: #eee;
-  border-color: #ccc;
-  cursor: pointer;
+.machine-item, .machine-item:first-child {
+  border-bottom: 1px solid #ccc;
+}
+
+.machine-item:first-child:active {
+  border-radius: 5px 5px 0px 0px;
+}
+
+.machine-item:last-child:active {
+  border-radius: 0px 0px 5px 5px;
 }
 
 .machine-item:active {
-  background: #ddd;
+  background: #0066CC;
   border-color: #bbb;
+  color: #fff;
 }
 
 .status {
   position: absolute;
   top: 25px;
   right: 25px;
-  color: #fff;
+  color: #222;
   font-weight: 900;
-}
-
-.status > .timeout {
-  background: red;
-  padding: 5px;
-}
-
-.status > .ok {
-  background: green;
-  padding: 5px;
 }
 
 /* Mobile Nav */

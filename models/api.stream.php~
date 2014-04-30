@@ -4,19 +4,20 @@ class StreamAPI {
 
   private $query = "SELECT * FROM packets WHERE 1=1";
   private $data = array();
+  private $inputs = array();
 
   public function __construct(){
 
     $data = array (
       "get"     => "packets",
       "time"    => array
-                  (
-                    "start" => date("Y-M-d H:i:s", mktime(0, 0, 0, 1, 1, 2013)),
-                    "end"   => date("Y-M-d H:i:s", mktime(0, 0, 0, 4, 28, 2014))
-                  ),
+                    (
+                      "start" => date("Y-M-d H:i:s", mktime(0, 0, 0, 1, 1, 2013)),
+                      "end"   => date("Y-M-d H:i:s", mktime(0, 0, 0, 4, 28, 2014))
+                    ),
       "softkey" => "ASD",
       "address" => "0013A20040A0F241",
-      "limit"   => "100"
+      "limit"   => "20"
     );
 
     // Is this a proper request?
@@ -36,6 +37,19 @@ class StreamAPI {
         $this->query .= sprintf(" AND addr64 = '%s'", $data["address"]);
       }
 
+    // Gather the inputs.
+    $inputs = Database::fetchAll(sprintf("SELECT inputs FROM remote WHERE addr = '%s'", $data["address"]));    
+
+
+    // Kill the API attempt if there is no result.
+    if (!isset($inputs[0]) || !isset($inputs[0]["inputs"]))
+      {
+        die;        
+      }
+
+    // Now we turn the json inputs into an array.
+    $this->inputs = json_decode($inputs[0]["inputs"], true);
+    
     // Look if this StreamAPI request has a valid time
     // component. If time isset and time start isset, then
     // we can add that clause to the query.
@@ -61,7 +75,6 @@ class StreamAPI {
     // Now send the query.
     if ($this->query)
       {
-        print_r($this->query);
         $result = DATABASE::fetchAll($this->query);
         echo json_encode($this->DivideInputs($result));
       }
@@ -69,6 +82,8 @@ class StreamAPI {
 
   private function DivideInputs($results)
     {
+    global $db;
+
     for($i = 0; $i < count($results)-1; $i++){
     
       // Grab the data from the result row.
@@ -97,10 +112,10 @@ class StreamAPI {
     
       // Add the inputs to the result set.
       $results[$i]["data"] = array(
-        "INPUT1" => array("timer" => $timer1, "counter" => $counter1),
-        "INPUT2" => array("timer" => $timer2, "counter" => $counter2),
-        "INPUT3" => array("timer" => $timer3, "counter" => $counter3),
-        "INPUT4" => array("timer" => $timer4, "counter" => $counter4),
+        $this->inputs[0] => array("timer" => $timer1, "counter" => $counter1),
+        $this->inputs[1] => array("timer" => $timer2, "counter" => $counter2),
+        $this->inputs[2] => array("timer" => $timer3, "counter" => $counter3),
+        $this->inputs[3] => array("timer" => $timer4, "counter" => $counter4),
       );
     }
 

@@ -1,19 +1,25 @@
 <div class="container">
   <div class="row">
-    <span id="form-container" class="col-md-offset-3 col-md-6">
+    <span id="form-container" class="col-xs-12" style="padding: 0px;">
       <div class="mobile-nav">
         <span class="glyphicon glyphicon-home"></span>
       </div>
 
-      <div id="option-overview">
-        <!-- Machine List -->
-        <div class="machine-item">
-          <h4>Schleuniger</h4>
-          <span class="status">
-            <span class="ok">OK</span>
-          </span>
-        </div>
+      <ul id="option-overview" class="window">
 
+        <!-- Machine List -->
+        <?php foreach($_SESSION["machines"] as $mach ) : ?>
+        <li class="machine-item">
+          <h4><? echo $mach["name"]; ?></h4>
+          <span class="status">
+            <span class="chevron" style="color: #222;">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </span>
+          </span>
+        </li>
+        <? endforeach; ?>
+
+<!--
         <div class="machine-item">
           <h4>KOMAX 0080</h4>
           <span class="status">
@@ -34,8 +40,8 @@
             <span class="ok">OK</span>
           </span>
         </div>
-      </div>
-
+-->
+      </ul>
 
     </span>
 
@@ -44,7 +50,12 @@
 </div>
 
 <script type="text/javascript">
- $(".machine-item").on('click', function(){
+  $('body').css(
+  {
+    "background": "#eee"
+  });
+  $(".machine-item").on('click', function()
+  {
     window.location.href = "data";
- });
+  });
 </script>

@@ -11,12 +11,14 @@ Router::path("/", function()
 
 /*
 
-  Route for the display page.
+  Route for the login page.
 
 */
-Router::path("monitor", function()
+Router::path("connect", function()
   {
-    require PUBLIC_DIR."display.php";
+    require PUBLIC_DIR."header.php";
+    require PUBLIC_DIR."connect.php";
+    require PUBLIC_DIR."footer.php";
   });
 
 /*
@@ -90,6 +92,14 @@ Router::path("account", function()
 
 Router::path("machines", function()
   {
+    //Session::Load();
+    if (!isset($_SESSION))
+    {
+
+      header("Location: connect");
+
+    }
+
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."mach-list.php";
     require PUBLIC_DIR."footer.php";
@@ -97,6 +107,8 @@ Router::path("machines", function()
 
 Router::path("data", function()
   {
+    //Session::Load();
+
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."input-list.php";
     require PUBLIC_DIR."footer.php";

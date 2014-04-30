@@ -6,6 +6,9 @@ require("constants.php");
 // Load core.
 require("core.php");
 
+// Require the session class.
+require("session.php");
+
 // Load the password class.
 require("password.php");
 
@@ -17,6 +20,9 @@ require("router.php");
 
 // Requie all the model classes.
 require_all("../models/*.php");
+
+// Build the session.
+Session::Load();
 
 // Load the controllers.
 require("controllers.php");
