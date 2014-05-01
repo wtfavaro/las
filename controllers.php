@@ -158,6 +158,13 @@ Router::path("reg-mach", function()
       {
         $mach = $data[0];
       }
+    else
+      {
+
+        echo "0";
+        die;
+
+      }
 
     // Now add or modify the machine.
     new Machine($mach);
