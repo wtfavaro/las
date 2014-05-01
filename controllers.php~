@@ -92,7 +92,6 @@ Router::path("account", function()
 
 Router::path("machines", function()
   {
-    //Session::Load();
     if (!isset($_SESSION))
     {
 
