@@ -121,18 +121,36 @@ Router::path("data", function()
 Router::path("reg-mach", function()
   {
     header("HTTP/1.1 200 OK");
-    
+
+    if (isset($_POST["data"]))
+    {
+
+      $data = $_POST["data"];
+
+    }
+    else
+    {
+
+      echo "0";
+      die;
+
+    } 
+
     // Get the data that can be gotten.
     if (isset($data))
       {
+
         $data = json_decode($_POST["data"], true);
         $data = json_decode($_POST["data"], true);
         $data[0]["inputs"] = json_decode($data[0]["inputs"], true);
+
       }
     else
       {
+
         echo "0";
         exit;
+
       }
 
     // Now declare the $mach.
