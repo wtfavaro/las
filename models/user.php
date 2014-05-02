@@ -64,7 +64,8 @@ class User
         $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' AND password='$password' LIMIT 1");
 
         if(isset($account[0]['auth']))
-        {    
+        { 
+          require_once("../session.php");   
           Session::Set($account[0]['auth']);
           return $account[0]['auth'];
         } else {
