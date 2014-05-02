@@ -7,7 +7,7 @@ require("constants.php");
 require("core.php");
 
 // Require the session class.
-require("session.php");
+require_once("session.php");
 
 // Load the password class.
 require("password.php");

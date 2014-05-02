@@ -51,7 +51,7 @@ class User
 
         $email = md5($params["email"]);
         $password = md5($params["password"]);
-        require "../session.php";
+        require_once "../session.php";
 
         // Fetch from the database.
         $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' AND password='$password' LIMIT 1");
