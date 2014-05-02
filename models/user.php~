@@ -57,8 +57,11 @@ class User
         else
         {
           $email = $params["email"];
-          $password = $params["password"]
+          $password = $params["password"];
         }   
+
+        echo $email;
+        echo $password;
 
         // Fetch from the database.
         $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' AND password='$password' LIMIT 1");

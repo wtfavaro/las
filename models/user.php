@@ -57,7 +57,7 @@ class User
         else
         {
           $email = $params["email"];
-          $password = $params["password"]
+          $password = $params["password"];
         }   
 
         // Fetch from the database.
