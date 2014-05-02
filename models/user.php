@@ -41,7 +41,7 @@ class User
 
       }
 
-    public static function match($params)
+    public static function match($params, $md5 = false)
       {
 
         if (!isset($params["password"]) || !isset($params["email"]))
@@ -49,9 +49,16 @@ class User
           exit;
         }
 
-        $email = md5($params["email"]);
-        $password = md5($params["password"]);
-        require_once "../session.php";
+        if(!$md5)
+        {
+          $email = md5($params["email"]);
+          $password = md5($params["password"]);
+        }
+        else
+        {
+          $email = $params["email"];
+          $password = $params["password"]
+        }   
 
         // Fetch from the database.
         $account = DATABASE::fetchAll("SELECT * FROM account WHERE email='$email' AND password='$password' LIMIT 1");

@@ -17,7 +17,7 @@ class LoginAPI {
   }
 
   private function lookupAccount($email, $password) {
-    return User::match($email, $password);
+    return User::match(array("email" => $email, "password" => $password), true);
   }
 
 }
