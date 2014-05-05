@@ -168,7 +168,7 @@
       if(resp === 0 || resp === "0" || resp === "" ){
         alert("Your email & password don't match.");
       } else {
-        window.location.href = "monitor";
+        window.location.href = "machines";
       }
     });
 

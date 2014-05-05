@@ -172,7 +172,7 @@
       if(resp = 0){
         alert("Your account couldn't be created.");
       } else {
-        window.location.href = "monitor";
+        window.location.href = "machines";
       }
     });
 

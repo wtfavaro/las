@@ -63,8 +63,7 @@ Router::path("spec.api", function()
 Router::path("stream.api", function()
   {
     // RestApi uses a class $data that houses the POST information.
-    //$data = $_POST;
-    new StreamAPI();
+    new StreamAPI($_POST);
   });
 
 /*
@@ -106,12 +105,31 @@ Router::path("machines", function()
 
 Router::path("data", function()
   {
-    //Session::Load();
+    if (!isset($_SESSION))
+    {
+
+      header("Location: connect");
+
+    }
 
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."input-list.php";
     require PUBLIC_DIR."footer.php";
   });
+
+Router::path("dashboard", function()
+{
+    if (!isset($_SESSION))
+    {
+
+      header("Location: connect");
+
+    }
+
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."analyticsView.php";
+    require PUBLIC_DIR."footer.php";
+});
 
 /*
 

@@ -1,14 +1,14 @@
 <?php
 
+
 class StreamAPI {
 
   private $query = "SELECT * FROM packets WHERE 1=1";
-  private $data = array();
   private $inputs = array();
 
-  public function __construct(){
+  public function __construct($data){
 
-    $data = array (
+    /* $data = array (
       "get"     => "packets",
       "time"    => array
                     (
@@ -18,7 +18,7 @@ class StreamAPI {
       "softkey" => "ASD",
       "address" => "0013A20040A0F241",
       "limit"   => "20"
-    );
+    ); */
 
     // Is this a proper request?
     if (!isset($data["get"]) && !$data["get"] = "packets")
@@ -65,6 +65,12 @@ class StreamAPI {
         $this->query .= sprintf(" AND date_added < '%s'", $data['time']['end']);
       }
 
+    // Manage the order of the query.
+    if (isset($data["reverse"]) && $data["reverse"] == "true")
+    {
+        $this->query .= " ORDER BY date_added";
+    }
+
     // Set the limit.
     if (isset($data["limit"]))
       {
@@ -76,11 +82,11 @@ class StreamAPI {
     if ($this->query)
       {
         $result = DATABASE::fetchAll($this->query);
-        echo json_encode($this->DivideInputs($result));
+        echo json_encode($this->DivideInputs($result, $data));
       }
   }
 
-  private function DivideInputs($results)
+  private function DivideInputs($results, $data)
     {
     global $db;
 
