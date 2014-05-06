@@ -144,3 +144,26 @@ for the user in an iPHONE-esque way.
   padding-bottom: 5px;
   margin-right: 3px;
 }
+
+/*
+
+Recipe Page
+
+*/
+.tagsBG {
+  background: #1A2927 !important;
+}
+
+.inputTag {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #0C0F0F;
+  background: #FFF;
+  opacity: 0.2;
+  border-radius: 5px;
+}
+
+.inputTag > span {
+  color: #000;
+}

@@ -1,3 +1,4 @@
+<div id="appViewContainer" style="overflow: hidden;">
 <div class="container">
   <div class="row">
     <span id="form-container" class="col-xs-12" style="padding: 0px;">
@@ -9,7 +10,7 @@
 
         <!-- Machine List -->
         <?php foreach($_SESSION["machines"] as $mach ) : ?>
-        <li class="machine-item">
+        <li class="machine-item" data-content='<? echo json_encode($mach); ?>'>
           <h4><? echo $mach["name"]; ?></h4>
           <span class="status">
             <span class="chevron" style="color: #222;">
@@ -48,6 +49,7 @@
   </div>
 
 </div>
+</div>
 
 <script type="text/javascript">
   $('body').css(
@@ -56,6 +58,6 @@
   });
   $(".machine-item").on('click', function()
   {
-    window.location.href = "data";
+    new View("analytics", { machine: $(this).data("content") });
   });
 </script>

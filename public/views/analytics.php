@@ -1,4 +1,3 @@
-<div id="appViewContainer" style="overflow: hidden;">
 <div class="container" style="overflow-x: hidden; overflow-y: scroll; margin-right: -18px;">
 
   <!--
@@ -8,11 +7,10 @@
   -->
 
   <div style="position: fixed; top: 0; left: 0; background: #eee; padding: 20px; width: 100%; z-index: 100;">
-      <h1>MACHINE 1</h1>
+      <h1><? echo $_POST["machine"]["name"]; ?></h1>
   </div>
 
   <div class="clearfix"></div>
-
 
 <div id="analyticsNav" style="position: relative; top: 100px; z-index: 200;">
 
@@ -26,7 +24,7 @@
     <div class="col-xs-6">
       Last Activity:
     </div>
-    <div class="col-xs-6" style="text-align: right;">
+    <div class="col-xs-6" style="text-align: center;">
       <strong><span id="lblRecentActivity" style="opacity: 0;"></span></strong>
     </div>
   </div>
@@ -35,7 +33,7 @@
 
 
   <!--
-  
+    
   Parts Per Minute
 
   -->
@@ -44,7 +42,7 @@
     <div class="col-xs-6" style="line-height: 34px;">
       Parts Per Minute:
     </div>
-    <div class="col-xs-6" style="text-align: right;">
+    <div class="col-xs-6" style="text-align: center;">
       <div class="btn-group">
         <button type="button" id="btnAddRecipe" class="btn btn-default" style="padding: 6px 25px;">Add Recipe</button>
       </div>
@@ -68,10 +66,6 @@
 </div>
 
 </div>
-
-</div>
-
-
 <script type="text/javascript">
 /*
 
@@ -84,8 +78,8 @@ function updateRecentActivity()
 {
   var data = {
     "get":      "packets",
-    "softkey":  "ASD",
-    "address":  "0013A20040A0F241",
+    "softkey":  "<? echo $_POST['machine']['softkey']; ?>",
+    "address":  "<? echo $_POST['machine']['addr']; ?>",
     "limit":    "1",
     "reverse":  "true"
   },
@@ -97,35 +91,43 @@ function updateRecentActivity()
     data: data,
     success: function(response)
       {
-        var packetDate = new Date(response[0].date_added);
-        var nowDate = new Date();
+        if( !response[0] )
+        {
+          lblRecentActivity.innerHTML = "Never";
+        }
+        else
+        {
 
-        // Calculate the gap between the packet and now.
-        var gap = packetDate.msToTime(nowDate - packetDate);
+          var packetDate = new Date(response[0].date_added);
+          var nowDate = new Date();
 
-        // Display the gap on the Recent Activity label.
-        if (gap.days > 1)
-        {
-          lblRecentActivity.innerHTML = gap.days + " days ago";          
-        }
-        else if (gap.days = 1)
-        {
-          lblRecentActivity.innerHTML = gap.days + " yesterday";
-        }
-        else if (gap.days = 0 && gap.hours > 1)
-        {
-          lblRecentActivity.innerHTML = gap.hours + " hours ago";
-        }
-        else if (gap.days = 0 && gap.hours <= 1 && gap.minutes > 2)
-        {
-          lblRecentActivity.innerHTML = gap.minutes + " minutes ago";
-        }
-        else if (gap.days = 0 && gap.hours <= 1 && gap.minutes <= 1)
-        {
-          lblRecentActivity.innerHTML = gap.seconds + " seconds ago";
+          // Calculate the gap between the packet and now.
+          var gap = packetDate.msToTime(nowDate - packetDate);
+
+          // Display the gap on the Recent Activity label.
+          if (gap.days > 1)
+          {
+            lblRecentActivity.innerHTML = gap.days + " days ago";          
+          }
+          else if (gap.days = 1)
+          {
+            lblRecentActivity.innerHTML = gap.days + " yesterday";
+          }
+          else if (gap.days = 0 && gap.hours > 1)
+          {
+            lblRecentActivity.innerHTML = gap.hours + " hours ago";
+          }
+          else if (gap.days = 0 && gap.hours <= 1 && gap.minutes > 2)
+          {
+            lblRecentActivity.innerHTML = gap.minutes + " minutes ago";
+          }
+          else if (gap.days = 0 && gap.hours <= 1 && gap.minutes <= 1)
+          {
+            lblRecentActivity.innerHTML = gap.seconds + " seconds ago";
+          }
         }
 
-        // Show the label.
+        // The changes have been made. No show the label.
         $('#lblRecentActivity').css({
           "margin-right": 25
         }).animate({
@@ -147,7 +149,7 @@ function updateRecentActivity()
 */
 $("#btnAddRecipe").on("click", function()
 {
-  new View("recipe");
+  new View("recipe", { machine: <? echo json_encode($_POST['machine']) ?> });
 });
 
 </script>

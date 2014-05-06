@@ -76,6 +76,10 @@ for the user in an iPHONE-esque way.
   border-bottom: 1px solid #ccc;
 }
 
+.machine-item:last-child {
+  border-bottom: 0px;
+}
+
 .machine-item:first-child:active {
   border-radius: 5px 5px 0px 0px;
 }
@@ -139,4 +143,27 @@ for the user in an iPHONE-esque way.
   border-bottom: 1px solid #aaa;
   padding-bottom: 5px;
   margin-right: 3px;
+}
+
+/*
+
+Recipe Page
+
+*/
+.tagsBG {
+  background: #1A2927 !important;
+}
+
+.inputTag {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #0C0F0F;
+  background: #FFF;
+  opacity: 0.5;
+  border-radius: 5px;
+}
+
+.inputTag > span {
+  color: #000;
 }
