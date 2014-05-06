@@ -145,6 +145,17 @@ for the user in an iPHONE-esque way.
   margin-right: 3px;
 }
 
+
+/*
+
+appViewContainer
+
+*/
+
+#appViewContainer .container {
+  height: 100%;
+}
+
 /*
 
 Recipe Page

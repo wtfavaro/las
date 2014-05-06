@@ -19,7 +19,15 @@ $( document ).ready(function()
   }
 });
 
+/*
 
+Create a page layout onStartUp callback.
+
+*/
+fpt.onStartUp.pageLayout = function()
+{
+  $("#appViewContainer").height(($(window).height()));
+}
 
 /*
 

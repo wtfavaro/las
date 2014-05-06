@@ -7,7 +7,7 @@
   -->
 
   <div style="position: fixed; top: 0; left: 0; background: #eee; padding: 20px; width: 100%; z-index: 100;">
-      <h1><? echo $_POST["machine"]["name"]; ?></h1>
+      <h1><? echo $_POST["machine"]["name"]; ?> <small>dashboard</small></h1>
   </div>
 
   <div class="clearfix"></div>

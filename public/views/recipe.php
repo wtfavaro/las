@@ -22,9 +22,12 @@
   -->
 
   <div class="row tagsBG" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200; overflow: none; text-align: center;">
-    <? foreach ($_POST["machine"]["inputs"] as $input) : ?>
-      <span class="inputTag"><span><? echo $input; ?></span></span>
+    <? $i = 0; ?>
+    <? foreach ( $_POST["machine"]["inputs"] as $input ) : ?>
+      <? $i++; ?>
+      <span class="inputTag" data-inputid="<? echo $i; ?>"><span><? echo $input; ?></span></span>
     <? endforeach; ?>
+    <? unset($i); ?>
   </div>
 
   <div class="clearfix"></div>
@@ -36,14 +39,9 @@
 
   -->
 
-  <div class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
-    <div class="col-xs-6" style="line-height: 34px;">
-      Parts Per Minute:
-    </div>
-    <div class="col-xs-6" style="text-align: center;">
-      <div class="btn-group">
-        <button type="button" id="btnAddRecipe" class="btn btn-default" style="padding: 6px 25px;">Add Recipe</button>
-      </div>
+  <div class="tagRow row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
+    <div class="tagDefault col-xs-12" style="line-height: 34px; border-top: 1px solid #eee; border-bottom: 1px solid #ccc;">
+      There is no <b>recipe</b> for this machine.
     </div>
   </div>
 
@@ -53,9 +51,9 @@
 
   -->
 
-  <div class="row" style="background: #fff; padding: 20px 0px; margin-top: 25px; border-bottom: 1px solid #ccc; z-index: 200;">
-    <div class="col-xs-12">
-      <div id="placeholder" style="width: 100%; height: 200px; border: 1px solid #ccc;"></div>    
+  <div class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
+    <div class="col-xs-12 text-center">
+      <button class="btn btn-default">Save Recipe</button>  
     </div>
   </div>
 
@@ -66,19 +64,33 @@
 </div>
 
 <script type="text/javascript">
-  $(".inputTag").on("click", function()
-    {
-      $( this ).animate({
-        "opacity": "1.0",
-        'boxShadowX': '10px',
-        'boxShadowY':'10px',
-        'boxShadowBlur': '20px',
-        'boxShadowColor': '#FFFFFF'
-      }, 500, function()
-              {
-                $( this ).animate({
-                  "opacity": "0.1" 
-                }, 500);        
-              });
+  
+// Add the recipe variable.
+fpt.recipe = new Array();
+
+// When an input tag is clicked.
+$(".inputTag").on("click", function()
+  {
+    // Add this input.
+    fpt.recipe.push($(this).data("inputid"));
+    
+    // Display it on the view.
+    var $curRow = $(".tagRow").find(".tagDefault")
+    $curRow.text("Here's the recipe to make a part:");
+    $curRow.clone().appendTo($(".tagRow")).removeClass("tagDefault").addClass("tagDisplay").text($(this).text());
+
+    // Style the click event.
+    $( this ).css({
+      "boxShadow": "0px 0px 10px -1px #FFFFFF"
     });
+
+    $( this ).animate({
+      "opacity": "1.0"
+    }, 500, function()
+            {
+              $( this ).animate({
+                "opacity": "0.2" 
+              }, 500);        
+            });
+  });
 </script>

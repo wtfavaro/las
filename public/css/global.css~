@@ -145,6 +145,17 @@ for the user in an iPHONE-esque way.
   margin-right: 3px;
 }
 
+
+/*
+
+appViewContainer
+
+*/
+
+#appViewContainer > .container {
+  height: 100%;
+}
+
 /*
 
 Recipe Page
@@ -160,7 +171,7 @@ Recipe Page
   padding: 5px;
   border: 1px solid #0C0F0F;
   background: #FFF;
-  opacity: 0.5;
+  opacity: 0.2;
   border-radius: 5px;
 }
 
