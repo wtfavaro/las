@@ -38,26 +38,30 @@
 
   -->
 
-  <div class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
-    <div class="col-xs-6" style="line-height: 34px;">
+  <div id="ppmNavButton" class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
+    <div class="col-xs-6">
       Parts Per Minute:
     </div>
-    <div class="col-xs-6" style="text-align: center;">
-      <div class="btn-group">
-        <button type="button" id="btnAddRecipe" class="btn btn-default" style="padding: 6px 25px;">Add Recipe</button>
-      </div>
+    <div class="col-xs-6 text-center">
+      <span class="glyphicon glyphicon-chevron-right"></span>
     </div>
   </div>
 
   <!--
   
-  Live Trending
+  Uptime
 
   -->
 
   <div class="row" style="background: #fff; padding: 20px 0px; margin-top: 25px; border-bottom: 1px solid #ccc; z-index: 200;">
     <div class="col-xs-12">
-      <div id="placeholder" style="width: 100%; height: 200px; border: 1px solid #ccc;"></div>    
+      <div id="uptimeChartContainer" class="text-center" style="width: 100%;">
+        <select class="btn btn-default" type="chartSelector">
+          <option value="">Activity</option>
+          <option value="">Downtime</option>
+          <option value="">Total Parts</option>
+        </select>
+      </div>    
     </div>
   </div>
 
@@ -144,12 +148,32 @@ function updateRecentActivity()
 
 /*
 
+Load the analytic widgets.
+
+*/
+
+//$("#uptimeChartContainer").load("views/uptime.php");
+//$("#ppmChartContainer").load("views/bar.php");
+
+
+
+</script>
+
+<script type="text/javascript">
+
+/*
+
   View Controller for analyticsView.
 
 */
 $("#btnAddRecipe").on("click", function()
 {
   new View("recipe", { machine: <? echo json_encode($_POST['machine']) ?> });
+});
+
+$("#ppmNavButton").on("click", function()
+{
+  new View("uptime", { machine: <? echo json_encode($_POST['machine']) ?> });
 });
 
 </script>
@@ -171,15 +195,9 @@ $( "#appViewContainer" ).height( $( "window" ).height() ).width( $( "window" ).w
   {
     $(this).animate({
       // Offset the nav row.
-      marginLeft:   "+=25",
-      marginRight:  "-=25"
     }, function(){
-      var containerWidth = $('#analyticsNav').width();
-
       // Put the analytics container back in place.
       $(this).animate({
-        marginLeft:   "-=25",
-        marginRight:  "+=25"
       });
     })
   });

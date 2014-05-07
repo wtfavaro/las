@@ -15,6 +15,7 @@ $( document ).ready(function()
 {
   for(var fn in fpt.onStartUp)
   {
+    console.log(fn);
     fpt.onStartUp[fn]();
   }
 });
