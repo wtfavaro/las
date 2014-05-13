@@ -2,9 +2,6 @@
 <div class="container">
   <div class="row">
     <span id="form-container" class="col-xs-12" style="padding: 0px;">
-      <div class="mobile-nav">
-        <span class="glyphicon glyphicon-home"></span>
-      </div>
 
       <ul id="option-overview" class="window">
 
@@ -49,6 +46,11 @@
   </div>
 
 </div>
+
+<div id="appLiveTrendNavigation" class="appViewNavigation">
+  <div style="width: 20%; height: 100%;"></div>
+</div>
+
 </div>
 
 <script type="text/javascript">

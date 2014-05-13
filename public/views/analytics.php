@@ -20,7 +20,7 @@
 
   -->
 
-  <div class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
+  <div id="btnRecentActivity" class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
     <div class="col-xs-6">
       Last Activity:
     </div>
@@ -69,6 +69,10 @@
 
 </div>
 
+</div>
+
+<div id="appLiveTrendNavigation" class="appViewNavigation">
+  <div style="width: 20%; height: 100%;"></div>
 </div>
 <script type="text/javascript">
 /*
@@ -174,6 +178,11 @@ $("#btnAddRecipe").on("click", function()
 $("#ppmNavButton").on("click", function()
 {
   new View("uptime", { machine: <? echo json_encode($_POST['machine']) ?> });
+});
+
+$("#btnRecentActivity").on("click", function()
+{
+  new View("line", { machine: <? echo json_encode($_POST['machine']) ?> });
 });
 
 </script>

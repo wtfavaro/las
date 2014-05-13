@@ -2,6 +2,10 @@
   <canvas id="canvas" height="600" width="600" style="padding: 10%;"></canvas>
   <span id="tallyReadoutDisplay" style="color: #000; font-size: 4em;">0.41</span>
 
+  <div id="appLiveTrendNavigation" class="appViewNavigation">
+    <div style="width: 20%; height: 100%;"></div>
+  </div>
+
 	<script type="text/javascript">
 
 		var doughnutData = [
@@ -29,7 +33,7 @@
   // Pre-position the canvas.
   $("#canvas").css({
       "position": "absolute",
-      "top": (($(window).height()/2) - ($("#canvas").height()/2)) * 0.80 + "px"
+      "top": ((($(window).height() - 125)/2) - ($("#canvas").height()/2)) * 0.80 + "px"
     });
 
   // Change BG colour.

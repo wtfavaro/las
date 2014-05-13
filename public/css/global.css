@@ -178,3 +178,28 @@ Recipe Page
 .inputTag > span {
   color: #000;
 }
+
+/*
+
+Navigation
+
+*/
+.appViewNavigation {
+  height: 100px;
+  width: 100%;
+  position: absolute;
+  display: block;
+  bottom: 0px;
+  background: url('../img/navbar.png') no-repeat;
+  z-index: 999;
+}
+
+
+/*
+  
+App Live Trend Navigation
+
+*/
+#appLiveTrendNavigation {
+  
+}
