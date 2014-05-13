@@ -111,6 +111,7 @@ function updateRecentActivity()
 
           // Calculate the gap between the packet and now.
           var gap = packetDate.msToTime(nowDate - packetDate);
+          gap.hours -= 9;
 
           // Display the gap on the Recent Activity label.
           if (gap.days > 1)
