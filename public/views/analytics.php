@@ -113,15 +113,15 @@ function updateRecentActivity()
           var gap = packetDate.msToTime(nowDate - packetDate);
 
           // Display the gap on the Recent Activity label.
-          if (gap.days > 2)
+          if (gap.days > 3)
           {
             lblRecentActivity.innerHTML = gap.days + " days ago";          
           }
-          else if (gap.days = 2)
+          else if (gap.days = 3)
           {
             lblRecentActivity.innerHTML = "yesterday";
           }
-          else if (gap.days <= 1 && gap.hours > 1)
+          else if (gap.days <= 2 && gap.hours > 1)
           {
             lblRecentActivity.innerHTML = gap.hours + " hours ago";
           }
