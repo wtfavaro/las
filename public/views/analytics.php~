@@ -119,7 +119,7 @@ function updateRecentActivity()
           }
           else if (gap.days = 3)
           {
-            lblRecentActivity.innerHTML = "yesterday";
+            lblRecentActivity.innerHTML = gap.days + "yesterday";
           }
           else if (gap.days <= 2 && gap.hours > 1)
           {
