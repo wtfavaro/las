@@ -4,6 +4,40 @@
 
 	<script>
 
+    // Get all the data from today.
+    var data = {
+      "get":      "packets",
+      "softkey":  "<? echo $_POST['machine']['softkey']; ?>",
+      "address":  "<? echo $_POST['machine']['addr']; ?>",
+      "time":
+      {
+        "start": new Date(new Date().getTime() - (24 * 60 * 60 * 1000)),
+        "end": new Date(new Date().getTime())
+      }
+    };
+
+    console.log(new Date(new Date().getTime() - (24 * 60 * 60 * 1000)));
+
+    $.ajax({
+      type: "POST",
+      url: "stream.api",
+      data: data,
+      success: function(response)
+        {
+          if( !response[0] )
+          {
+            // No result.
+          }
+          else
+          {
+            // Result found.
+            console.log(response);
+          }
+       },
+      dataType: "json"
+    });    
+
+
     // Add data to the canvas.
 		var lineChartData = {
 			labels : [],

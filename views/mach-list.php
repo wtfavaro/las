@@ -49,7 +49,7 @@
 
 </div>
 
-<div id="appLiveTrendNavigation" class="appViewNavigation">
+<div id="appLiveTrendNavigation" class="appViewNavigation" onClick="window.location.href = 'machines'">
   <div style="width: 20%; height: 100%;"></div>
 </div>
 
@@ -58,6 +58,7 @@
   {
     "background": "#eee"
   });
+
   $(".machine-item").on('click', function()
   {
     new View("analytics", { machine: $(this).data("content") });

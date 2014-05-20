@@ -18,6 +18,7 @@
         <script src="js/vendor/modernizr-2.7.1.min.js"></script>
         <script src="js/ajax.js"></script>
         <script src="js/Chart.min.js"></script>
+	      <script type="text/javascript" src="js/canvasjs.min.js"></script>
         <script src="js/core.intelli.fpt.js"></script>
     </head>
     <body>

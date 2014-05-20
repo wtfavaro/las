@@ -43,6 +43,19 @@
   </div>
 
   <!--
+    Trending
+  -->
+
+  <div id="btnLiveTrending" class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
+    <div class="col-xs-6">
+      Live Trending:
+    </div>
+    <div class="col-xs-6 text-center">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </div>
+  </div>
+
+  <!--
     
   Input Activity
 
@@ -81,7 +94,7 @@
 
 </div>
 
-<div id="appLiveTrendNavigation" class="appViewNavigation">
+<div id="appLiveTrendNavigation" class="appViewNavigation" onClick="window.location.href = 'machines'">
   <div style="width: 20%; height: 100%;"></div>
 </div>
 <script type="text/javascript">
@@ -200,7 +213,6 @@ $("#inputNavButton").on("click", function()
 {
   new View("inputActivity", { machine: <? echo json_encode($_POST['machine']) ?> });
 });
-
 </script>
 
 <script type="text/javascript">
