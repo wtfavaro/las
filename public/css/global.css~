@@ -191,6 +191,7 @@ Navigation
   display: block;
   bottom: 0px;
   background: url('../img/navbar.png') no-repeat;
+  z-index: 999;
 }
 
 

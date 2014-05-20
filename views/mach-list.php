@@ -1,3 +1,7 @@
+<div id="appLiveTrendNavigation" class="appViewNavigation">
+  <div style="width: 20%; height: 100%;"></div>
+</div>
+
 <div id="appViewContainer" style="">
 <div class="container">
   <div class="row">
@@ -45,10 +49,6 @@
 
   </div>
 
-</div>
-
-<div id="appLiveTrendNavigation" class="appViewNavigation">
-  <div style="width: 20%; height: 100%;"></div>
 </div>
 
 </div>

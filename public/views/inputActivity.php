@@ -41,44 +41,48 @@ getRecentTimerAndCounter();
 
 function getRecentTimerAndCounter()
 {
-  var data = {
-    "get":      "packets",
-    "softkey":  "<? echo $_POST['machine']['softkey']; ?>",
-    "address":  "<? echo $_POST['machine']['addr']; ?>",
-    "limit":    "1",
-    "reverse":  "true"
-  };
 
-  $.ajax({
-    type: "POST",
-    url: "stream.api",
-    data: data,
-    success: function(response)
-      {
-        if( !response[0] )
+  var updateData = setInterval(function(){
+    var data = {
+      "get":      "packets",
+      "softkey":  "<? echo $_POST['machine']['softkey']; ?>",
+      "address":  "<? echo $_POST['machine']['addr']; ?>",
+      "limit":    "1",
+      "reverse":  "true"
+    };
+
+    $.ajax({
+      type: "POST",
+      url: "stream.api",
+      data: data,
+      success: function(response)
         {
-          //There is no recent data.
-          alert("This machine isn't ready to log data.");
-        }
-        else
-        {
-          //There is recent data.
-          for (var input in response[0].data){
-
-            var inputSchema = response[0].data[input];
-
-            $(".inputNavButton").each(function()
-            {
-              if ($(this).find(".inputNameDiv").text().trim() == input)
-              {
-                $(this).find(".inputTimerSpan").text( inputSchema.timer );
-                $(this).find(".inputCounterSpan").text( inputSchema.counter );
-              }
-            });
+          if( !response[0] )
+          {
+            //There is no recent data.
+            alert("This machine isn't ready to log data.");
           }
-        }
-      },
-    dataType: "json"
-  });
+          else
+          {
+            //There is recent data.
+            for (var input in response[0].data){
+
+              var inputSchema = response[0].data[input];
+
+              $(".inputNavButton").each(function()
+              {
+                if ($(this).find(".inputNameDiv").text().trim() == input)
+                {
+                  $(this).find(".inputTimerSpan").text( inputSchema.timer );
+                  $(this).find(".inputCounterSpan").text( inputSchema.counter );
+                }
+              });
+            }
+          }
+        },
+      dataType: "json"
+    })
+  }, 1000);
+
 }
 </script>
