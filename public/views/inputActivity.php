@@ -72,7 +72,7 @@ function getRecentTimerAndCounter()
               if ($(this).find(".inputNameDiv").text().trim() == input)
               {
                 $(this).find(".inputTimerSpan").text( inputSchema.timer );
-                $(this).find(".inputCounerSpan").text( inputSchema.counter );
+                $(this).find(".inputCounterSpan").text( inputSchema.counter );
               }
             });
           }
