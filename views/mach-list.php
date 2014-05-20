@@ -1,7 +1,7 @@
 <div id="appViewContainer" style="">
 <div class="container">
   <div class="row">
-    <span id="form-container" class="col-xs-12" style="padding: 0px; padding-bottom: 200px;">
+    <span id="form-container" class="col-xs-12" style="padding: 0px; padding-bottom: 110px;">
 
       <ul id="option-overview" class="window">
 
