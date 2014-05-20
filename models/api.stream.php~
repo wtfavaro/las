@@ -68,7 +68,7 @@ class StreamAPI {
     // Manage the order of the query.
     if (isset($data["reverse"]) && $data["reverse"] == "true")
     {
-        $this->query .= " ORDER BY date_added";
+        $this->query .= " ORDER BY date_added DESC";
     }
 
     // Set the limit.
@@ -90,7 +90,7 @@ class StreamAPI {
     {
     global $db;
 
-    for($i = 0; $i < count($results)-1; $i++){
+    for($i = 0; $i < count($results); $i++){
     
       // Grab the data from the result row.
       $data = $results[$i]["data"];

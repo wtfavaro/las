@@ -1,4 +1,4 @@
-<div class="container" style="overflow-x: hidden; overflow-y: scroll; margin-right: -18px;">
+<div class="container" style="overflow-x: hidden;">
 
   <!--
   
@@ -41,6 +41,21 @@
   <div id="ppmNavButton" class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
     <div class="col-xs-6">
       Parts Per Minute:
+    </div>
+    <div class="col-xs-6 text-center">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </div>
+  </div>
+
+  <!--
+    
+  Input Activity
+
+  -->
+
+  <div id="inputNavButton" class="row" style="background: #fff; padding: 20px 0px; border-bottom: 1px solid #ccc; z-index: 200;">
+    <div class="col-xs-6">
+      View Inputs
     </div>
     <div class="col-xs-6 text-center">
       <span class="glyphicon glyphicon-chevron-right"></span>
@@ -184,6 +199,11 @@ $("#ppmNavButton").on("click", function()
 $("#btnRecentActivity").on("click", function()
 {
   new View("line", { machine: <? echo json_encode($_POST['machine']) ?> });
+});
+
+$("#inputNavButton").on("click", function()
+{
+  new View("inputActivity", { machine: <? echo json_encode($_POST['machine']) ?> });
 });
 
 </script>

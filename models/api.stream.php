@@ -90,7 +90,7 @@ class StreamAPI {
     {
     global $db;
 
-    for($i = 0; $i < count($results)-1; $i++){
+    for($i = 0; $i < count($results); $i++){
     
       // Grab the data from the result row.
       $data = $results[$i]["data"];
