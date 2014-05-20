@@ -188,7 +188,7 @@ Navigation
 .appViewNavigation {
   height: 100px;
   width: 100%;
-  position: absolute;
+  position: fixed;
   display: block;
   bottom: 0px;
   background: url('../img/navbar.png') no-repeat;
