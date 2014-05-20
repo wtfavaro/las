@@ -1,4 +1,4 @@
-<div id="appViewContainer" style="overflow: hidden;">
+<div id="appViewContainer" style="">
 <div class="container">
   <div class="row">
     <span id="form-container" class="col-xs-12" style="padding: 0px;">
