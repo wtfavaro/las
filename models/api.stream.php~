@@ -1,6 +1,4 @@
 <?php
-
-
 class StreamAPI {
 
   private $query = "SELECT * FROM packets WHERE 1=1";
@@ -55,14 +53,16 @@ class StreamAPI {
     // we can add that clause to the query.
     if (isset($data["time"]) && isset($data["time"]["start"]))
       {
-        $this->query .= sprintf(" AND date_added > '%s'", $data['time']['start']);
+        $timeStartDate = new DateTime($data["time"]["start"]);
+        $this->query .= sprintf(" AND date_added > '%s'", date_format($timeStartDate, 'Y-m-d H:i:s'));
       }
 
     // Look if we also have an end-time to add to the
     // query.
     if (isset($data["time"]) && isset($data["time"]["end"]))
       {
-        $this->query .= sprintf(" AND date_added < '%s'", $data['time']['end']);
+        $timeEndDate = new DateTime($data["time"]["end"]);
+        $this->query .= sprintf(" AND date_added < '%s'", date_format($timeEndDate, 'Y-m-d H:i:s'));
       }
 
     // Manage the order of the query.

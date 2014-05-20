@@ -16,8 +16,6 @@
       }
     };
 
-    console.log(new Date(new Date().getTime() - (24 * 60 * 60 * 1000)));
-
     $.ajax({
       type: "POST",
       url: "stream.api",
@@ -33,8 +31,8 @@
             // Result found.
             console.log(response);
           }
-       },
-      dataType: "json"
+       }//,
+      //dataType: "json"
     });    
 
 

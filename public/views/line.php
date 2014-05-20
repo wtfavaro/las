@@ -31,8 +31,8 @@
             // Result found.
             console.log(response);
           }
-       },
-      dataType: "json"
+       }//,
+      //dataType: "json"
     });    
 
 
