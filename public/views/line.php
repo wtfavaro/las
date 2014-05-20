@@ -12,7 +12,7 @@
       "time":
       {
         "start": new Date(new Date().getTime() - (48 * 60 * 60 * 1000)),
-        "end": new Date(new Date().getTime()) - (24 * 60 * 60 * 1000))
+        "end": new Date(new Date().getTime()) - (24 * 60 * 60 * 1000)
       }
     };
 
