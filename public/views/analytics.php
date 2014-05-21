@@ -145,7 +145,7 @@ function updateRecentActivity()
           }
           else if (gap.days == 1)
           {
-            lblRecentActivity.innerHTML = gap.days + "yesterday";
+            lblRecentActivity.innerHTML = "yesterday";
           }
           else if (gap.days <= 1 && gap.hours > 1)
           {
