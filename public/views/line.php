@@ -49,7 +49,7 @@
       }); 
     }, 500);   
 
-    function displayLiveGraphUpdates()
+    function displayLiveGraphUpdates(response)
     {
       $('body').html( $('body').html() + response );
     }
