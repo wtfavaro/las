@@ -11,31 +11,50 @@
       "address":  "<? echo $_POST['machine']['addr']; ?>",
       "time":
       {
-        "start": new Date(new Date().getTime() - (48 * 60 * 60 * 1000)),
-        "end": new Date(new Date().getTime()) - (24 * 60 * 60 * 1000))
-      }
+        "start": "",
+        "end": ""
+      },
+      "lastTimeEnd": ""
     };
 
-    $.ajax({
-      type: "POST",
-      url: "stream.api",
-      data: data,
-      success: function(response)
-        {
-          if( !response[0] )
-          {
-            // No result.
-          }
-          else
-          {
-            // Result found.
-            console.log(response);
-          }
-       },
-      dataType: "json"
-    });    
 
+    // Start the interval.
+    var newMapAnimation = setInterval(function()
+    {
 
+      // Set the current time to be searched.
+      data.time.start = data.lastTimeEnd || new Date(new Date().getTime()),
+      data.time.end = new Date(new Date().getTime())
+
+      // Store the lastTimeEnd to be used on the next search.
+      data.lastTimeEnd =  data.time.end;
+
+      // Perform the search.
+      $.ajax({
+        type: "POST",
+        url: "stream.api",
+        data: data,
+        success: function(response)
+          {
+            if( !response[0] )
+            {
+              // No result.
+            }
+            else
+            {
+              // Result found.
+              displayLiveGraphUpdates(response);
+            }
+         }
+      }); 
+    }, 500);   
+
+    function displayLiveGraphUpdates()
+    {
+      $('body').html( $('body').html() + response );
+    }
+
+/*
     // Add data to the canvas.
 		var lineChartData = {
 			labels : [],
@@ -46,14 +65,7 @@
 					pointColor : "rgba(151,187,205,0)",
 					pointStrokeColor : "rgba(151,187,205,0)",
 					data : []
-				},
-				/*{
-					fillColor : "rgba(151,187,205,0.5)",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "rgba(151,187,205,1)",
-					pointStrokeColor : "#fff",
-					data : [0,0,0,0,0,0,0,0,0,0,0,0]
-				}*/
+				}
 			]
 		}
 
@@ -82,7 +94,7 @@
     $("#canvas").animate({
       "left": "-=8000"
     }, 180000);
-	
+*/
 	</script>
 
 <div id="appLiveTrendNavigation" class="appViewNavigation">
