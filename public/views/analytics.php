@@ -122,6 +122,8 @@ function updateRecentActivity()
     data: data,
     success: function(response)
       {
+        //console.log(response);
+
         if( !response[0] )
         {
           lblRecentActivity.innerHTML = "Never";

@@ -43,7 +43,7 @@
             else
             {
               // Result found.
-              displayLiveGraphUpdates(response);
+              // displayLiveGraphUpdates(response);
             }
          }
       }); 

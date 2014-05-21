@@ -59,20 +59,23 @@ function getRecentTimerAndCounter()
         {
           if( !response[0] )
           {
-            //There is no recent data.
+            // There is no recent data.
             alert("This machine isn't ready to log data.");
+            window.location.href = "machines";
           }
           else
           {
-            //There is recent data.
+            // There is recent data.
             for (var input in response[0].data){
-
-              var inputSchema = response[0].data[input];
 
               $(".inputNavButton").each(function()
               {
                 if ($(this).find(".inputNameDiv").text().trim() == input)
                 {
+                  // Shorten the name of the response input.
+                  var inputSchema = response[0].data[input];
+
+                  // Change the input data on the gui.
                   $(this).find(".inputTimerSpan").text( inputSchema.timer );
                   $(this).find(".inputCounterSpan").text( inputSchema.counter );
                 }
