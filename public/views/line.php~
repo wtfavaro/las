@@ -4,6 +4,123 @@
 
 	<script>
 
+
+function DataStruct()
+{
+
+  this.get      = "packets";
+  this.softkey  = "<? echo $_POST['machine']['softkey']; ?>";
+  this.address  = "<? echo $_POST['machine']['addr']; ?>";
+  this.time     = {};
+
+}
+
+function QueryLibrary()
+{
+
+  this.Stream = function( a )
+  {
+    $.ajax({
+      type:     "POST",
+      url:      "stream.api",
+      data:     a.data,
+      success:  function(response)
+                {
+
+                  if ( typeof(a.onSuccess) == "function" ){ a.onSuccess( response ) };
+
+                  if( !response[0] && typeof(a.onNoResults) == "function" )
+                  {
+                    a.onNoResults( response );
+                  }
+                  else if( response[0] && typeof(a.onResults) == "function" ) 
+                  {
+                    a.onResults( response );
+                  }
+                },
+       error:   function()
+                {
+                  if ( typeof(a.onError) == "function" ) { a.onError() };
+                }
+    });
+  }
+
+}
+
+function APILibrary()
+{
+
+  // The API depends on the Query Library
+  var Query = new QueryLibrary();
+
+  // And needs a global data variable where the machine data is stored
+  var Data = new DataStruct();
+
+  // A function that gets the first and last packet of the past 24 hours for comparison
+  this.LastTwentyFour = function( callbackFromMainFirst, callbackFromMainLast )
+  {
+    // An object used to store the results -- the first and the last twenty-four hour packet
+    var results = { first: "", last: "" };
+
+    // Set the time from which to search and send a stream query to retrieve the first twenty-four hour packet
+    Data.time.start   = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+    Data.time.end     = new Date(new Date().getTime());
+    Data.limit        = "1";
+    Data.reverse      = "true";
+
+    Query.Stream(
+    {
+      data: Data,
+      onSuccess: function(response){
+        callbackFromMainFirst(response);
+      },
+      onError: function(response){
+        callbackFromMainFirst(false);
+      },
+      onNoResults: function(response){
+        callbackFromMainFirst(false);
+      }
+    });
+
+    // Now do the same for the last twenty-four hour packet
+    Data.limit        = "1";
+    Data.reverse      = "false";
+
+    Query.Stream (
+    {
+      data: Data,
+      onSuccess: function(response){
+        callbackFromMainLast(response);
+      },
+      onError: function(response){
+        callbackFromMainLast(false);
+      },
+      onNoResults: function(response){
+        callbackFromMainLast(false);
+      }
+    });
+
+  }
+
+}
+
+// Declare the API
+var API = new APILibrary();
+
+// Get the first and last packet of the last twenty-four hours.
+API.LastTwentyFour(
+
+  function(firstResponse){
+    console.log(firstResponse);
+  },
+  
+  function(lastResponse){
+    console.log(lastResponse);
+  }
+
+);
+
+/*
     // Get all the data from today.
     var data = {
       "get":      "packets",
@@ -53,7 +170,7 @@
     {
       $('body').html( $('body').html() + response );
     }
-
+*/
 /*
     // Add data to the canvas.
 		var lineChartData = {
