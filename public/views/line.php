@@ -18,7 +18,7 @@ function DataStruct()
 function QueryLibrary()
 {
 
-  this.Stream = function( a )
+  this.Stream = function( a, b )
   {
     $.ajax({
       type:     "POST",
@@ -26,6 +26,7 @@ function QueryLibrary()
       data:     a.data,
       success:  function(response)
                 {
+                  b();
 
                   if ( typeof(a.onSuccess) == "function" ){ a.onSuccess( response ) };
 
@@ -37,9 +38,11 @@ function QueryLibrary()
                   {
                     a.onResults( response );
                   }
+
                 },
        error:   function()
                 {
+                  b();
                   if ( typeof(a.onError) == "function" ) { a.onError() };
                 }
     });
@@ -49,7 +52,6 @@ function QueryLibrary()
 
 function APILibrary()
 {
-
   // The API depends on the Query Library
   var Query = new QueryLibrary();
 
@@ -57,13 +59,13 @@ function APILibrary()
   var Data = new DataStruct();
 
   // A function that gets the first and last packet of the past 24 hours for comparison
-  this.LastTwentyFour = function( callbackFromMainFirst, callbackFromMainLast )
+  this.LastTwentyFour = function( callBackToMain )
   {
     // An object used to store the results -- the first and the last twenty-four hour packet
-    var results = { first: "", last: "" };
+    var results = { first: "", last: "", int: 0 };
 
     // Set the time from which to search and send a stream query to retrieve the first twenty-four hour packet
-    Data.time.start   = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+    Data.time.start   = new Date(new Date().getTime() - (72 * 60 * 60 * 1000));
     Data.time.end     = new Date(new Date().getTime());
     Data.limit        = "1";
     Data.reverse      = "true";
@@ -72,13 +74,19 @@ function APILibrary()
     {
       data: Data,
       onSuccess: function(response){
-        callbackFromMainFirst(response);
+        results.first = response;
       },
       onError: function(response){
-        callbackFromMainFirst(false);
+        results.first = false;
       },
       onNoResults: function(response){
-        callbackFromMainFirst(false);
+        results.first = false;
+      }
+    }, function(){ 
+      results.int += 1;
+      
+      if (results.int === 2){
+        callBackToMain(results);
       }
     });
 
@@ -90,18 +98,22 @@ function APILibrary()
     {
       data: Data,
       onSuccess: function(response){
-        callbackFromMainLast(response);
+        results.last = response;
       },
       onError: function(response){
-        callbackFromMainLast(false);
+        results.last = false;
       },
       onNoResults: function(response){
-        callbackFromMainLast(false);
+        results.last = false;
+      }
+    }, function(){ 
+      results.int += 1;
+      
+      if (results.int === 2){
+        callBackToMain(results);
       }
     });
-
   }
-
 }
 
 // Declare the API
@@ -110,12 +122,8 @@ var API = new APILibrary();
 // Get the first and last packet of the last twenty-four hours.
 API.LastTwentyFour(
 
-  function(firstResponse){
-    console.log(firstResponse);
-  },
-  
-  function(lastResponse){
-    console.log(lastResponse);
+  function(response){
+    console.log(response);
   }
 
 );
