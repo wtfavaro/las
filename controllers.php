@@ -148,6 +148,8 @@ Router::path("sync-account", function()
 { 
   header("HTTP/1.1 200 OK");
   echo "Trying to establish a connection.";
+
+  print_r($_POST);
 /*
   header("HTTP/1.1 200 OK");
   // We've now set the header.
