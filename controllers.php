@@ -159,7 +159,7 @@ Router::path("sync-account", function()
 
   else
   {
-    $data = json_decode($_POST["data"]);
+    $data = json_decode($_POST["data"], true);
   }
   // We've turned the json data into an array for our function. 
 
