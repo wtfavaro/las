@@ -187,8 +187,10 @@ Router::path("sync-account", function()
 
 Router::path("sync-fupload", function()
 {
+  header("HTTP/1.1 200 OK");
+  echo "Here";
   print_r($GLOBALS);
-}
+});
 
 
 /*********************************
