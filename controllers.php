@@ -160,33 +160,20 @@ Router::path("sync-account", function()
   else
   {
     $data = json_decode($_POST["data"]);
-    print_r($data);
   }
   // We've turned the json data into an array for our function. 
-
-/*
-  header("HTTP/1.1 200 OK");
-  // We've now set the header.
-
-  print_r($_POST);
-
-  if (!isset($_POST["data"]))
-  { 
-    echo "0";
-    exit;
-  }
-  // We've now checked if $_POST["data"] is valid.
-  
-  $data = json_decode($_POST["data"]);
-  // We've not decoded the JSON data from our VB.NET application.
-
-  print_r($data);
 
   $keyVal = Sync_Account::Create($data);
   // We now have the user keyval (or "zero").
 
-  echo $keyVal;
-*/
+  if ($keyVal != false)
+  {
+    echo $keyVal;
+  }
+  else
+  {
+    echo "0";
+  }
 });
 
 /*
