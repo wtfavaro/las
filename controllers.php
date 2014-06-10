@@ -152,11 +152,9 @@ Router::path("sync-account", function()
     echo "0";
     exit;
   }
-
   // We've now checked if $_POST["data"] is valid.
 
   $keyVal = Sync_Account::Create($data);
-
   // We now have the user keyval (or "zero").
 
   echo $keyVal;
