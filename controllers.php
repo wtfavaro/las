@@ -163,18 +163,19 @@ Router::path("sync-account", function()
   }
   // We've turned the json data into an array for our function. 
 
-  echo "here";
   $keyVal = Sync_Account::Create($data);
-  // We now have the user keyval (or "zero").
+  // We've gotten the keyVal by creating an account.
 
-  /*if ($keyVal != false)
+  if ($keyVal != false)
   {
     echo $keyVal;
   }
   else
   {
     echo "0";
-  }*/
+  }
+  // Now we've output the proper value.
+
 });
 
 /*
