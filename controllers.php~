@@ -145,14 +145,18 @@ Router::path("dashboard", function()
 });
 
 Router::path("sync-account", function()
-{
-  
+{  
   if (!isset($_POST["data"]))
   { 
     echo "0";
     exit;
   }
   // We've now checked if $_POST["data"] is valid.
+  
+  $data = json_decode($_POST["data"]);
+  // We've not decoded the JSON data from our VB.NET application.
+
+  print_r($data);
 
   $keyVal = Sync_Account::Create($data);
   // We now have the user keyval (or "zero").
