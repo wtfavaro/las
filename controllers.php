@@ -191,6 +191,12 @@ Router::path("sync-fupload", function()
   print_r($GLOBALS);
 });
 
+Router::path("sync-flist", function()
+{
+  header("HTTP/1.1 200 OK");
+  print_r($GLOBALS);
+});
+
 
 /*********************************
 
