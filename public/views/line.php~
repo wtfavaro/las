@@ -1,6 +1,92 @@
-		<canvas id="canvas" height="450" width="600"></canvas>
+		<span id="machNameLabel"><p style="font-weight: 900; font-size: 0.7em; opacity: 0.6; padding: 10px 0px 0px 10px;"><? echo $_POST["machine"]["name"]; ?></p></span>
 
-    <span id="machNameLabel"><p style="font-weight: 900; font-size: 0.7em; opacity: 0.6; padding: 10px 0px 0px 10px;"><? echo $_POST["machine"]["name"]; ?></p></span>
+    <ul id="option-overview" class="window">
+
+      <li class="machine-item">
+        <h2 style="display: inline-block; font-size: 1.6em; margin-top: 10px;"></h2>
+      </li>
+
+      <li class="machine-item">
+
+        <h2 style="display: inline-block; font-size: 1.6em; margin-top: 10px;">Calculate <b>PPM</b>:</h2>
+        <select style="margin-left: 50px; font-size: 0.8em; padding: 5px 10px;">
+          <?php foreach($_POST["machine"]["inputs"] as $input): ?>
+            <option><?php echo $input; ?></option>
+          <? endforeach; ?>
+        </select>
+
+        <!--
+        <div style="display: inline-block; border-radius: 5px; border: 1px solid #ccc; margin-left: 50px; padding: 5px;">
+          <select style="font-size: 0.8em; padding: 5px 10px;">
+            <option>Last 24 Hours</option>
+            <option>This Week</option>
+            <option>This Month</option>
+          </select>
+        </div>
+        -->
+
+        <!-- 
+
+            SELECT DATE COMPARISONS
+
+        <div style="display: inline-block; border-radius: 5px; border: 1px solid #ccc; margin-left: 50px; padding: 5px;">
+          <select id="selectPPMMonth" style="font-size: 0.8em; padding: 5px 10px;">
+            <?php
+              $months = Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+              foreach ($months as $month) :
+            ?>
+
+            <option><?php echo $month; ?></option>
+
+            <?php endforeach; ?>
+          </select>
+
+          <select id="selectPPMDay" class="selectDateDisplay" style="font-size: 0.8em; padding: 5px 10px;">
+            <?php for ($i=1; $i <= 31; $i++): ?>
+            <option><?php echo $i; ?></option>
+            <?php endfor; ?>
+          </select>
+
+          <select id="selectPPMDay" class="selectYearDisplay" style="font-size: 0.8em; padding: 5px 10px;">
+            <?php $years = Array("2014");
+            foreach ($years as $year) : ?>
+            <option><?php echo $year; ?></option>
+            <?php endforeach; ?>
+          </select>
+
+        </div>
+
+        <span style="font-size: 0.7em; color: #aaa;"> to </span>
+
+        <div style="display: inline-block; border-radius: 5px; border: 1px solid #ccc; padding: 5px;">
+          <select id="selectPPMMonth" style="font-size: 0.8em; padding: 5px 10px;">
+            <?php
+              $months = Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+              foreach ($months as $month) :
+            ?>
+
+            <option><?php echo $month; ?></option>
+
+            <?php endforeach; ?>
+          </select>
+
+          <select id="selectPPMDay" class="selectDateDisplay" style="font-size: 0.8em; padding: 5px 10px;">
+            <?php for ($i=1; $i <= 31; $i++): ?>
+            <option><?php echo $i; ?></option>
+            <?php endfor; ?>
+          </select>
+
+          <select id="selectPPMDay" class="selectYearDisplay" style="font-size: 0.8em; padding: 5px 10px;">
+            <?php $years = Array("2014");
+            foreach ($years as $year) : ?>
+            <option><?php echo $year; ?></option>
+            <?php endforeach; ?>
+          </select>
+
+        </div> -->
+      </li>
+
+    </ul>
 
 	<script>
 
@@ -65,7 +151,7 @@ function APILibrary()
     var results = { first: "", last: "", int: 0 };
 
     // Set the time from which to search and send a stream query to retrieve the first twenty-four hour packet
-    Data.time.start   = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
+    Data.time.start   = new Date(new Date().getTime() - (72 * 60 * 60 * 1000));
     Data.time.end     = new Date(new Date().getTime());
     Data.limit        = "1";
     Data.reverse      = "true";

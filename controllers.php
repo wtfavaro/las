@@ -11,6 +11,19 @@ Router::path("/", function()
 
 /*
 
+  Tools
+
+*/
+
+Router::path("SQLtoCSV", function()
+  {
+    require PUBLIC_DIR."header.php";
+    require TOOLS_DIR."SQLtoCSV.php";
+    require PUBLIC_DIR."footer.php";
+  });
+
+/*
+
   Route for the login page.
 
 */
@@ -129,6 +142,25 @@ Router::path("dashboard", function()
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."analyticsView.php";
     require PUBLIC_DIR."footer.php";
+});
+
+Router::path("sync-account", function()
+{
+  
+  if (!isset($_POST["data"]))
+  { 
+    echo "0";
+    exit;
+  }
+
+  // We've now checked if $_POST["data"] is valid.
+
+  $keyVal = Sync_Account::Create($data);
+
+  // We now have the user keyval (or "zero").
+
+  echo $keyVal;
+
 });
 
 /*

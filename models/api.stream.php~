@@ -54,6 +54,7 @@ class StreamAPI {
     if (isset($data["time"]) && isset($data["time"]["start"]))
       {
         $timeStartDate = new DateTime($data["time"]["start"]);
+        echo $timeStartDate;
         $this->query .= sprintf(" AND date_added > '%s'", date_format($timeStartDate, 'Y-m-d H:i:s'));
       }
 

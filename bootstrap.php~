@@ -19,7 +19,7 @@ require("database.php");
 require("router.php");
 
 // Requie all the model classes.
-require_all("../models/*.php");
+require_all("/models/*.php");
 
 // Build the session.
 Session::Load();
