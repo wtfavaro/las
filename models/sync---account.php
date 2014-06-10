@@ -8,7 +8,7 @@ public static function Create($cred) {
   if (!isset($cred["company_name"]) || !isset ($cred["protected_path"])) return false; 
   // We now know that we have enough credentials to continue.
 
-  echo Software::key();
+  //echo Software::key();
 
 /*
   if (!isset($cred["company_name"]) || !isset ($cred["protected_path"])) return false; 
