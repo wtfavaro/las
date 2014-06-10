@@ -4,7 +4,9 @@ class Sync_Account {
 
 
 public static function Create($cred) {
-  
+
+  print_r($data);  
+
   if (!isset($cred["company_name"]) || !isset ($cred["protected_path"])) return false; 
   // We now know that we have enough credentials to continue.
 
@@ -22,7 +24,7 @@ public static function Create($cred) {
   $db->prepare($query)->execute($data);
   // Now we've created the account.
 
-  return true;
+  return $cred["software_key"];
 
 }
 
