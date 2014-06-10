@@ -146,6 +146,10 @@ Router::path("dashboard", function()
 
 Router::path("sync-account", function()
 { 
+
+  header("HTTP/1.1 200 OK");
+  // We've now set the header.
+
   print_r($_POST);
 
   if (!isset($_POST["data"]))

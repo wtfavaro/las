@@ -145,7 +145,9 @@ Router::path("dashboard", function()
 });
 
 Router::path("sync-account", function()
-{  
+{ 
+  print_r($_POST);
+
   if (!isset($_POST["data"]))
   { 
     echo "0";
