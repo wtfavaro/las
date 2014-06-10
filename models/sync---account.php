@@ -8,16 +8,8 @@ public static function Create($cred) {
   if (!isset($cred["company_name"]) || !isset ($cred["protected_path"])) return false; 
   // We now know that we have enough credentials to continue.
 
-  echo Software::key();
-
-/*
-  if (!isset($cred["company_name"]) || !isset ($cred["protected_path"])) return false; 
-  // We now know that we have enough credentials to continue.
-
-
   $cred["software_key"] = Software::key();
   // We now have a software key generated for this user.
-
 
   global $db;
 
@@ -29,8 +21,6 @@ public static function Create($cred) {
   // Now we've created the account.
 
   return $cred["software_key"];
-
-*/
 
 }
 
