@@ -146,7 +146,9 @@ Router::path("dashboard", function()
 
 Router::path("sync-account", function()
 { 
-
+  header("HTTP/1.1 200 OK");
+  echo "Trying to establish a connection.";
+/*
   header("HTTP/1.1 200 OK");
   // We've now set the header.
 
@@ -168,7 +170,7 @@ Router::path("sync-account", function()
   // We now have the user keyval (or "zero").
 
   echo $keyVal;
-
+*/
 });
 
 /*
