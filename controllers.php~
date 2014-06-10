@@ -185,9 +185,9 @@ Router::path("sync-account", function()
 
 });
 
-Router::path("sync-account", function()
+Router::path("sync-fupload", function()
 {
-
+  print_r($GLOBALS);
 }
 
 
