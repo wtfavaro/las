@@ -147,9 +147,23 @@ Router::path("dashboard", function()
 Router::path("sync-account", function()
 { 
   header("HTTP/1.1 200 OK");
-  echo "Trying to establish a connection.";
+  echo "";
+  // We've prepared the page.
 
-  print_r($_POST);
+  if (!isset($_POST["data"]))
+  { 
+    echo "0";
+    die;
+  }
+  // We've exited the method if data is not found.
+
+  else
+  {
+    $data = json_decode($_POST["data"]);
+    print_r($data);
+  }
+  // We've turned the json data into an array for our function. 
+
 /*
   header("HTTP/1.1 200 OK");
   // We've now set the header.
