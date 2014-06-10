@@ -144,6 +144,13 @@ Router::path("dashboard", function()
     require PUBLIC_DIR."footer.php";
 });
 
+
+/****************************
+
+VB.NET SYNCING APP
+
+*****************************/
+
 Router::path("sync-account", function()
 { 
   header("HTTP/1.1 200 OK");
@@ -178,11 +185,17 @@ Router::path("sync-account", function()
 
 });
 
-/*
+Router::path("sync-fupload", function()
+{
+  print_r($GLOBALS);
+}
+
+
+/*********************************
 
   Register Mach Data
 
-*/
+**********************************/
 Router::path("reg-mach", function()
   {
     header("HTTP/1.1 200 OK");
