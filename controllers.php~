@@ -194,7 +194,9 @@ Router::path("sync-fupload", function()
 Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
-  print_r($GLOBALS);
+  
+  if (isset($_POST["data"])) $fListArray = json_decode($_POST["data"], true);
+
 });
 
 
