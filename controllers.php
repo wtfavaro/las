@@ -210,7 +210,24 @@ Router::path("sync-flist", function()
   if (isset($_POST["data"]))
   {
     $fListArray = json_decode($_POST["data"], true);
-    print_r($fListArray);
+    // We've created an array of our data.  
+    
+    for($i = 0; $i < count($fListArray); $i++)
+    {
+      $bln_dbHasMatch = SyncCore::FileHasMatch( $fListArray[$i] );
+      // Determine if there is a match for this file in the database.
+
+      if ($bln_dbHasMatch)
+      {
+          echo "Record found.";  
+      }
+      else
+      {
+          echo "No record found.";
+      }
+
+    }
+    // We've now iterated through each item in the array and dealt with the pack.
   }
   else
   {
