@@ -194,16 +194,26 @@ Router::path("sync-fupload", function()
 Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
-  
-  if (isset($_POST["data"]) && isset($_POST["software_key"]))
+  if (isset($_POST["software_key"]))
   {
-    $fListArray = json_decode($_POST["data"], true);
-    $str_SoftwareKey = $_POST["software_key"];
-    echo $str_SoftwareKey;
+      $str_SoftwareKey = $_POST["software_key"];
   }
   else
   {
     echo "0";
+    die;
+  }
+  // We've determined that there's a valid software_key being used.
+  
+  if (isset($_POST["data"]) && isset($_POST["software_key"]))
+  {
+    $fListArray = json_decode($_POST["data"], true);
+    print_r($fListArray);
+  }
+  else
+  {
+    echo "0";
+    die;
   }
 
 });
