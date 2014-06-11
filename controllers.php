@@ -195,7 +195,15 @@ Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
   
-  if (isset($_POST["data"])) $fListArray = json_decode($_POST["data"], true);
+  if (isset($_POST["data"]))
+  {
+    $fListArray = json_decode($_POST["data"], true);
+    print_r($fListArray);
+  }
+  else
+  {
+    echo "0";
+  }
 
 });
 
