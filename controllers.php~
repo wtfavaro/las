@@ -205,7 +205,7 @@ Router::path("sync-flist", function()
   }
   // We've determined that there's a valid software_key being used.
   
-  if (isset($_POST["data"]) && isset($_POST["software_key"]))
+  if (isset($_POST["data"]))
   {
     $fListArray = json_decode($_POST["data"], true);
     print_r($fListArray);
