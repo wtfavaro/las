@@ -194,6 +194,8 @@ Router::path("sync-fupload", function()
 Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
+  print_r($_POST);
+
   if (isset($_POST["software_key"]))
   {
       $str_SoftwareKey = $_POST["software_key"];
