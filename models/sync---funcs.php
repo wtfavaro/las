@@ -1,6 +1,6 @@
 <?php
 
-public class SyncCore
+class SyncCore
 {
 
 public static function AuthenticSoftwareKey($str_SoftwareKey)
