@@ -48,29 +48,32 @@ private $FilePack         = "";
 private $ServerFileInfo   = "";
 private $intPrimaryId     = "";
 
-public function init( $arr_FilePack )
+public function init( $arr_FilePack, $softwareKey )
 {
 
   // Save the filepack locally.
     $this->FilePack = $arr_FilePack;
+    $this->FilePack["SoftwareKey"] = $softwareKey;
     unset($arr_FilePack);
 
   // If there is no record, and we can't create one, then we return false.
-    if(!_DoesRecordExist($this->FilePack)){
-      if(!_AddNewFileRecord($this->FilePack)){
+    if(!$this->_DoesRecordExist($this->FilePack)){
+      if(!$this->_AddNewFileRecord($this->FilePack)){
+        echo "We couldn't create a new file record.";
         return false;
       }
     }
 
   // If the record is up-to-date, then we remove it from the
   // file array by indicating false to the caller function.
-    if(_IsRecordUpToDate($this->FilePack, $this->ServerFileInfo)){
+    if($this->_IsRecordUpToDate($this->FilePack, $this->ServerFileInfo)){
+      echo "This record is already up-to-date.";
       return false;
     }
 
   // If the record isn't up-to-date, then we have to prepare
   // the cell for return.
-    _PrepFileInfoForReturn($this->ServerFileInfo);
+    $this->_PrepFileInfoForReturn($this->ServerFileInfo);
 
   // We're now ready to return the filepack.
     return $this->FilePack;
@@ -80,13 +83,17 @@ public function init( $arr_FilePack )
 private function _DoesRecordExist($FilePack){  
   // Check if this record exists.
     global $db;
-    $query = sprintf("SELECT * FROM sync_file WHERE path = '%s' AND name = '%s' AND software_key = '%s' LIMIT 1",
-                      $arr_FilePack["path"],
-                      $arr_FilePack["name"],
-                      $arr_FilePack["software_key"]
+    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' LIMIT 1",
+                      $FilePack["Name"],
+                      $FilePack["SoftwareKey"],
+                      $FilePack["Extension"],
+                      $FilePack["DateCreated"]
                     );
 
-    if($fetch = Database::FetchAll($query) && isset($fetch[0])){
+    $fetch = Database::FetchAll($query);
+
+    // Grab the fetch in $row.
+    if(isset($fetch[0])){
       $row = $fetch[0];
     } else {
       return false;
@@ -103,15 +110,15 @@ private function _DoesRecordExist($FilePack){
 private function _AddNewFileRecord($FilePack){
   // Add a new file record.
     global $db;
-    $query = "INSERT INTO file_sync ( name, size, path, date_created, date_modified, extension, software_key ) VALUES ( ?,?,?,?,?,?,? )";
+    $query = "INSERT INTO sync_file ( name, size, path, date_created, date_modified, extension, software_key ) VALUES ( ?,?,?,?,?,?,? )";
     $data = array(
-                    $FilePack["name"],
-                    $FilePack["size"],
-                    $FilePack["path"],
-                    $FilePack["date_created"],
-                    $FilePack["date_modified"],
-                    $FilePack["extension"],
-                    $FilePack["software_key"]
+                    $FilePack["Name"],
+                    $FilePack["Size"],
+                    $FilePack["Path"],
+                    $FilePack["DateCreated"],
+                    $FilePack["DateModified"],
+                    $FilePack["Extension"],
+                    $FilePack["SoftwareKey"]
             );
     $db->prepare($query)->execute($data);
 
@@ -119,7 +126,7 @@ private function _AddNewFileRecord($FilePack){
     return $this->_DoesRecordExist($FilePack);
 }
 private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
-  If($FilePack["size"] == $ServerFileInfo["size"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
+  If($FilePack["Size"] == $ServerFileInfo["size"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
       && $ServerFileInfo["file_pointer"] <> "NULL"){
     return true;
   } else {

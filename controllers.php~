@@ -194,10 +194,32 @@ Router::path("sync-fupload", function()
 Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
-  print_r($_POST);
+/*
+  $_POST["data"] = json_encode(
+                      array(
+                          array(
+                            "Name"          => "CM 92.log",
+                            "Size"          => "618",
+                            "Path"          => "\Freepoint\CellMonitor\Story.LOG",
+                            "DateCreated"   => "121094212",
+                            "DateModified"  => "129128283",
+                            "Extension"     => "LOG"
+                          ),
+                          array(
+                            "Name"          => "CM 93.log",
+                            "Size"          => "1028",
+                            "Path"          => "\Freepoint\CellMonitor\Story2.LOG",
+                            "DateCreated"   => "121094213",
+                            "DateModified"  => "129128284",
+                            "Extension"     => "LOG"                            
+                          )
+                    ));
+
+  $_POST["software_key"] = "ASD12%$*#KF*";
+*/
 
   if (isset($_POST["software_key"])){
-      $str_SoftwareKey = $_POST["software_key"];
+      $strSoftwareKey = $_POST["software_key"];
   } else {
     echo "0";
     die;
@@ -207,13 +229,12 @@ Router::path("sync-flist", function()
   if (isset($_POST["data"]))
   {
     $fListArray = json_decode($_POST["data"], true);
-    // We've created an array of our data.  
-    
+    // We've created an array of our data. 
+ 
     for($i = 0; $i < count($fListArray); $i++)
-    {
-      
+    {      
         $sfl = new SyncFileList();
-        if($FilePack = $sfl->init($fListArray[$i])){
+        if($FilePack = $sfl->init($fListArray[$i], $strSoftwareKey)){
           $fListArray[$i] = $FilePack; 
         } else {
           $fListArray[$i] = "";
