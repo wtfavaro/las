@@ -187,42 +187,19 @@ Router::path("sync-account", function()
 
 Router::path("sync-fupload", function()
 {
-  header("HTTP/1.1 200 OK");
-  print_r($GLOBALS);
+    header("HTTP/1.1 200 OK");
+    $sfupload = new SyncFupload();
+    $sfupload->init();
+  // We've instantiated the fupload class.
 });
 
 Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
-/*
-  $_POST["data"] = json_encode(
-                      array(
-                          array(
-                            "Name"          => "CM 92.log",
-                            "Size"          => "618",
-                            "Path"          => "\Freepoint\CellMonitor\Story.LOG",
-                            "DateCreated"   => "121094212",
-                            "DateModified"  => "129128283",
-                            "Extension"     => "LOG"
-                          ),
-                          array(
-                            "Name"          => "CM 93.log",
-                            "Size"          => "1028",
-                            "Path"          => "\Freepoint\CellMonitor\Story2.LOG",
-                            "DateCreated"   => "121094213",
-                            "DateModified"  => "129128284",
-                            "Extension"     => "LOG"                            
-                          )
-                    ));
 
-  $_POST["software_key"] = "ASD12%$*#KF*";
-*/
-
-  if (isset($_POST["software_key"])){
-      $strSoftwareKey = $_POST["software_key"];
-  } else {
-    echo "0";
-    die;
+  if (!isset($_POST["software_key"]) || !SyncCore::AuthenticSoftwareKey($_POST["software_key"])){
+      echo "0";
+      die;
   }
   // We've determined that there's a valid software_key being used.
   
