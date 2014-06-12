@@ -5,8 +5,7 @@ SyncFileList
 
 class SyncFupload
 {
-
-private const UPLOAD_PATH = PUBLIC_DIR . "uploads/";
+private $UPLOAD_PATH;
 private $key;
 private $id;
 private $file;
@@ -40,13 +39,14 @@ private function _HasGlobalUploadAssets(){
     $this->id       = $_GET["file_id"];
     $this->file     = $_FILES["file"];
     $this->filename = Software::key();
-    // Assign the class properties.
+    $this->UPLOAD_PATH  = PUBLIC_DIR . "uploads/";
+     // Assign the class properties.
     
     return true;
 }
 private function _FileUploaded($file, $filename){
      
-    $uploadpath = UPLOAD_PATH;
+    $uploadpath = $this->UPLOAD_PATH;
 
     if (file_exists($filename)) {
       return false;
@@ -58,7 +58,7 @@ private function _FileUploaded($file, $filename){
 }
 private function _HasOldFile($id){
     global $db;
-    $query = ("SELECT file_poiner FROM sync_file WHERE id = '%s'", $id);
+    $query = sprintf("SELECT file_poiner FROM sync_file WHERE id = '%s'", $id);
     $fp = Database::FetchAll($query);
     if(isset($fp[0]) && isset($fp[0]["file_pointer"])){
       return $fp[0]["file_pointer"];   
@@ -67,7 +67,7 @@ private function _HasOldFile($id){
     }
 }
 private function _RemoveOldFile($oldfilehash){
-  $filename     = UPLOAD_PATH . $oldfilehash 
+  $filename     = $this->UPLOAD_PATH . $oldfilehash 
   if(file_exists($filename)){
     unlink($filename);
   }
