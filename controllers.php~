@@ -196,12 +196,9 @@ Router::path("sync-flist", function()
   header("HTTP/1.1 200 OK");
   print_r($_POST);
 
-  if (isset($_POST["software_key"]))
-  {
+  if (isset($_POST["software_key"])){
       $str_SoftwareKey = $_POST["software_key"];
-  }
-  else
-  {
+  } else {
     echo "0";
     die;
   }
@@ -214,18 +211,13 @@ Router::path("sync-flist", function()
     
     for($i = 0; $i < count($fListArray); $i++)
     {
-      $bln_dbHasMatch = SyncCore::FileHasMatch( $fListArray[$i] );
-      // Determine if there is a match for this file in the database.
-
-      if ($bln_dbHasMatch)
-      {
-          echo "Record found.";  
-      }
-      else
-      {
-          echo "No record found.";
-      }
-
+      
+        $sfl = new SyncFileList();
+        if($FilePack = $sfl->init($fListArray[$i])){
+          $fListArray[$i] = $FilePack; 
+        } else {
+          $fListArray[$i] = "";
+        }
     }
     // We've now iterated through each item in the array and dealt with the pack.
   }
@@ -234,6 +226,9 @@ Router::path("sync-flist", function()
     echo "0";
     die;
   }
+
+  echo json_encode($fListArray);
+  // We've now echoed the output for our VB.NET program.
 
 });
 

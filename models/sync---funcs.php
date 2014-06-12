@@ -34,53 +34,101 @@ public static function AuthenticSoftwareKey($str_SoftwareKey)
     // Now we've determined if there's a match and returned to the calling function.
 }
 
-public static function FileHasMatch( $arr_FilePack )
+}
+
+
+/*************************************
+SyncFileList
+**************************************/
+
+class SyncFileList
 {
+
+private $FilePack         = "";
+private $ServerFileInfo   = "";
+private $intPrimaryId     = "";
+
+public function init( $arr_FilePack )
+{
+
+  // Save the filepack locally.
+    $this->FilePack = $arr_FilePack;
+    unset($arr_FilePack);
+
+  // If there is no record, and we can't create one, then we return false.
+    if(!_DoesRecordExist($this->FilePack)){
+      if(!_AddNewFileRecord($this->FilePack)){
+        return false;
+      }
+    }
+
+  // If the record is up-to-date, then we remove it from the
+  // file array by indicating false to the caller function.
+    if(_IsRecordUpToDate($this->FilePack, $this->ServerFileInfo)){
+      return false;
+    }
+
+  // If the record isn't up-to-date, then we have to prepare
+  // the cell for return.
+    _PrepFileInfoForReturn($this->ServerFileInfo);
+
+  // We're now ready to return the filepack.
+    return $this->FilePack;
+
+}
+
+private function _DoesRecordExist($FilePack){  
+  // Check if this record exists.
     global $db;
-    $query = sprintf("SELECT * FROM sync_file WHERE path = '%s' AND name = '%s' AND software_key = '%s' AND size < '%i'",
+    $query = sprintf("SELECT * FROM sync_file WHERE path = '%s' AND name = '%s' AND software_key = '%s' LIMIT 1",
                       $arr_FilePack["path"],
                       $arr_FilePack["name"],
-                      $arr_FilePack["software_key"],
-                      $arr_FilePack["size"]
+                      $arr_FilePack["software_key"]
                     );
-    // The query is prepared.
 
-    if (Database::match($query)){
+    if($fetch = Database::FetchAll($query) && isset($fetch[0])){
+      $row = $fetch[0];
+    } else {
+      return false;
+    }
+
+  // Save the row for the record and return.
+    if(isset($row) && isset($row["id"])){
+      $this->ServerFileInfo = $row;
       return true;
     } else {
       return false;
     }
-    // We've determined whether or not there's a match.   
 }
-
-public static function WriteFileInfoToServer( $arr_FilePack )
-{
+private function _AddNewFileRecord($FilePack){
+  // Add a new file record.
     global $db;
     $query = "INSERT INTO file_sync ( name, size, path, date_created, date_modified, extension, software_key ) VALUES ( ?,?,?,?,?,?,? )";
     $data = array(
-                    $arr_FilePack["name"],
-                    $arr_FilePack["size"],
-                    $arr_FilePack["path"],
-                    $arr_FilePack["date_created"],
-                    $arr_FilePack["date_modified"],
-                    $arr_FilePack["extension"],
-                    $arr_FilePack["software_key"]
+                    $FilePack["name"],
+                    $FilePack["size"],
+                    $FilePack["path"],
+                    $FilePack["date_created"],
+                    $FilePack["date_modified"],
+                    $FilePack["extension"],
+                    $FilePack["software_key"]
             );
-    // The query is prepared.
+    $db->prepare($query)->execute($data);
 
-    $stmt = $db->prepare($query);
-    $stmt->execute($data);
-    // The query is executed.
-
-    $db->beginTransaction(); 
-    $stmt->execute( array('user', 'user@example.com')); 
-    $db->commit(); 
-    // Commit the query.
-
-    return $db->lastInsertId();
-    // Come up with lastInsertId.
+  // Check if the record exists and return.
+    return $this->_DoesRecordExist($FilePack);
 }
-
+private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
+  If($FilePack["size"] == $ServerFileInfo["size"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
+      && $ServerFileInfo["file_pointer"] <> "NULL"){
+    return true;
+  } else {
+    return false;
+  }
+}
+private function _PrepFileInfoForReturn($ServerFileInfo){
+  $this->FilePack["id"] = $ServerFileInfo["id"];
+}
 }
 
 ?>

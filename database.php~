@@ -27,8 +27,6 @@ class Database {
     // Return true if there
     // is a result found.
     $results = $db->query($query);
-  
-    print_r($results);
 
     if($results){
       foreach ( $results as $result ) {
