@@ -189,8 +189,6 @@ Router::path("sync-fupload", function()
 {
     header("HTTP/1.1 200 OK");
 
-    print_r($GLOBALS);
-
     $sfupload = new SyncFupload();
     $sfupload->init();
   // We've instantiated the fupload class.
