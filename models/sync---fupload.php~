@@ -41,7 +41,9 @@ private function _FileUploaded(){
 
 }
 private function _StoreDBPointer(){
-
+    global $db;
+    $query = "UPDATE sync_file SET file_pointer = ? WHERE id = ?";
+    $data = array($this->fileUploadPath, $this->id);
 }
 private function Success(){
     echo "1";

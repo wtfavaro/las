@@ -73,6 +73,9 @@ public function init( $arr_FilePack, $softwareKey )
   // the cell for return.
     $this->_PrepFileInfoForReturn($this->ServerFileInfo);
 
+  // Update the record now.
+    $this->_UpdateRecord($this->FilePack);
+
   // We're now ready to return the filepack.
     return $this->FilePack;
 
@@ -130,6 +133,17 @@ private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
   } else {
     return false;
   }
+}
+private function _UpdateRecord($FilePack){
+    global $db;
+    $query = "UPDATE sync_file SET size = ?, path = ?, date_modified = ? WHERE id = ?";
+    $data = array(
+                    $FilePack["Size"],
+                    $FilePack["Path"],
+                    $FilePack["DateModified"],
+                    $FilePack["id"]
+            );
+    $db->prepare($query)->execute($data);
 }
 private function _PrepFileInfoForReturn($ServerFileInfo){
   $this->FilePack["id"] = $ServerFileInfo["id"];
