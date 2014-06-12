@@ -198,8 +198,9 @@ Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
 
+  echo "Flist";
+
   if (!isset($_POST["software_key"]) || !SyncCore::AuthenticSoftwareKey($_POST["software_key"])){
-      echo "Can't authenticate";
       echo "0";
       die;
   }
