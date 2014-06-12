@@ -201,8 +201,6 @@ Router::path("sync-flist", function()
   header("HTTP/1.1 200 OK");
 
   if (!isset($_POST["software_key"]) || !SyncCore::AuthenticSoftwareKey($_POST["software_key"])){
-      echo $_POST["software_key"];
-      if(SyncCore::AuthenticSoftwareKey($_POST["software_key"])) echo "~~~~1";
       echo "0";
       die;
   }

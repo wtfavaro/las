@@ -12,18 +12,15 @@ private $file;
 
 public function init(){
     if(!$this->_HasGlobalUploadAssets()){
-        echo "No Global Assets.";
-        $this->Failure();
+        $this->Failure("Has no global assets.");
     }
 
     if(!$this->_FileUploaded()){
-        echo "File couldn't be uploaded.";
-        $this->Failure();
+        $this->Failure("Failure to upload files.");
     }
 
     if(!$this->_StoreDBPointer()){
-        echo "Couldn't create DB Pointer";
-        $this->Failure();
+        $this->Failure("Failure to store the Database pointer.");
     }
 
     $this->Success();
@@ -50,8 +47,8 @@ private function Success(){
     echo "1";
     die;
 }
-private function Failure(){
-    echo "0";
+private function Failure($msg){
+    echo json_encode(array("error"=>$msg));
     die;
 }
 
