@@ -188,6 +188,9 @@ Router::path("sync-account", function()
 Router::path("sync-fupload", function()
 {
     header("HTTP/1.1 200 OK");
+
+    print_r($GLOBALS);
+
     $sfupload = new SyncFupload();
     $sfupload->init();
   // We've instantiated the fupload class.
@@ -198,6 +201,7 @@ Router::path("sync-flist", function()
   header("HTTP/1.1 200 OK");
 
   if (!isset($_POST["software_key"]) || !SyncCore::AuthenticSoftwareKey($_POST["software_key"])){
+      echo "No software key match.";
       echo "0";
       die;
   }
