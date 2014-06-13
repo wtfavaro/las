@@ -82,8 +82,9 @@ private function _DoesRecordExist($FilePack){
   // Check if this record exists.
   // *** working here.
     global $db;
-    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' LIMIT 1",
-                      $FilePack["Name"]
+    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' and id > '%i' LIMIT 1",
+                      $FilePack["Name"],
+                      0
                     );
 
     $fetch = Database::FetchAll($query);
@@ -91,6 +92,7 @@ private function _DoesRecordExist($FilePack){
     // Grab the fetch in $row.
     if(isset($fetch[0])){
       $row = $fetch[0];
+      print_r($row);
     } else {
       return false;
     }
