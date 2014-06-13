@@ -221,7 +221,7 @@ Router::path("sync-flist", function()
           $fListArray[$i]["id"] = "";
         }
 
-        print_r($fListArray[$i]);
+        //print_r($fListArray[$i]);
         unset($sfl);
     }
     // We've now iterated through each item in the array and dealt with the pack.

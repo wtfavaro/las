@@ -85,11 +85,15 @@ private function _DoesRecordExist($FilePack){
                       $FilePack["Name"], $FilePack["Path"]
                     );
 
+    print_r($FilePack);
+    /***/
+
     $fetch = Database::FetchAll($query);
 
     // Grab the fetch in $row.
     if(isset($fetch[0])){
       $row = $fetch[0];
+      print_r($row);
     } else {
       return false;
     }
