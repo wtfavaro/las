@@ -58,7 +58,6 @@ public function init( $arr_FilePack, $softwareKey )
   // If there is no record, and we can't create one, then we return false.
     if(!$this->_DoesRecordExist($this->FilePack)){
       if(!$this->_AddNewFileRecord($this->FilePack)){
-        echo "Can't add new record.";
         return false;
       }
     }
@@ -66,7 +65,6 @@ public function init( $arr_FilePack, $softwareKey )
   // If the record is up-to-date, then we remove it from the
   // file array by indicating false to the caller function.
     if($this->_IsRecordUpToDate($this->FilePack, $this->ServerFileInfo)){
-      echo "Record is up to date.";
       return false;
     }
 
