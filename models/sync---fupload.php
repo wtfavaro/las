@@ -39,7 +39,7 @@ private function _HasGlobalUploadAssets(){
     $this->id       = $_GET["file_id"];
     $this->file     = $_FILES["file"];
     $this->filename = Software::key();
-    $this->UPLOAD_PATH  = "uploads/";
+    $this->UPLOAD_PATH  = PUBLIC_DIR . "uploads/";
      // Assign the class properties.
     
     return true;
