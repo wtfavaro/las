@@ -54,13 +54,15 @@ private function _FileUploaded($file, $filename){
     }
     // If the file exists, we return false.
 
-    if (move_uploaded_file($file["tmp_name"],
+    /*if (move_uploaded_file($file["tmp_name"],
       $uploadpath)){
       return true;
-    }
+    }*/
+
+    $this->Failure($file);
     // If the file is moved, we return true.
 
-    $this->Failure("Can't save file.");
+    //$this->Failure("Can't save file.");
     // Debug tmp path contents.
 
 
