@@ -199,7 +199,6 @@ Router::path("sync-flist", function()
   header("HTTP/1.1 200 OK");
 
   if (!isset($_POST["software_key"]) || !SyncCore::AuthenticSoftwareKey($_POST["software_key"])){
-      echo "Bad software key";
       echo "0";
       die;
   }
@@ -221,19 +220,16 @@ Router::path("sync-flist", function()
         } else {
           $fListArray[$i]["id"] = "";
         }
-
-        print_r($FlistArray[$i]);
     }
     // We've now iterated through each item in the array and dealt with the pack.
   }
   else
   {
-    echo "No post data.";
     echo "0";
     die;
   }
 
-  //echo json_encode($fListArray);
+  echo json_encode($fListArray);
   // We've now echoed the output for our VB.NET program.
 
 });
