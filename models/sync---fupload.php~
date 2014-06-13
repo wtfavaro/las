@@ -49,18 +49,18 @@ private function _FileUploaded($file, $filename){
     $uploadpath = $this->UPLOAD_PATH . $this->filename;
 
     if (file_exists($uploadpath)) {
-      $this->Failure("Upload File: file exists - " . $uploadpath);
+      $this->Failure("Upload File: file exists.");
       return false;
     }
     // If the file exists, we return false.
 
     if (move_uploaded_file($file["tmp_name"],
-      $uploadpath . $filename)){
+      $uploadpath)){
       return true;
     }
     // If the file is moved, we return true.
 
-    $this->Failure("Upload File: could not move the uploaded file.");
+    $this->Failure("Upload File: could not move the uploaded file to " . $uploadpath);
 }
 private function _HasOldFile($id){
     global $db;
