@@ -84,8 +84,7 @@ private function _DoesRecordExist($FilePack){
     $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' AND software_key = '%s' AND path = '%s' LIMIT 1",
                       $FilePack["Name"],
                       $FilePack["SoftwareKey"],
-                      $FilePack["Path"],
-                      $FilePack["DateCreated"]
+                      $FilePack["Path"]
                     );
 
     $fetch = Database::FetchAll($query);
