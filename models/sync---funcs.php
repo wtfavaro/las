@@ -93,7 +93,6 @@ private function _DoesRecordExist($FilePack){
     // Grab the fetch in $row.
     if(isset($fetch[0])){
       $row = $fetch[0];
-      print_r($row);
     } else {
       return false;
     }
