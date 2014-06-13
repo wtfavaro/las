@@ -50,11 +50,14 @@ private function _FileUploaded($file, $filename){
 
     if (file_exists($filename)) {
       return false;
-    } else {
-      move_uploaded_file($file["tmp_name"],
-      $uploadpath . $filename);
     }
+    // If the file exists, we return false.
 
+    if (move_uploaded_file($file["tmp_name"],
+      $uploadpath . $filename)){
+      return true;
+    }
+    // If the file is moved, we return true.
 }
 private function _HasOldFile($id){
     global $db;
