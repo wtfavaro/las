@@ -60,8 +60,7 @@ private function _FileUploaded($file, $filename){
     }
     // If the file is moved, we return true.
 
-    $homepage = file_get_contents($file["tmp_name"]);
-    $this->Failure($homepage);
+    $this->Failure("Can't save file.");
     // Debug tmp path contents.
 
 
