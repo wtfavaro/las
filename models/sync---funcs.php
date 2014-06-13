@@ -125,7 +125,7 @@ private function _AddNewFileRecord($FilePack){
     return $this->_DoesRecordExist($FilePack);
 }
 private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
-  If($FilePack["Size"] == $ServerFileInfo["size"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
+  If($FilePack["Size"] == $ServerFileInfo["size"] && $FilePack["Path"] == $ServerFileInfo["path"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
       && $ServerFileInfo["file_pointer"] <> "NULL"){
     return true;
   } else {
