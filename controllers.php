@@ -218,7 +218,7 @@ Router::path("sync-flist", function()
         if($FilePack = $sfl->init($fListArray[$i], $strSoftwareKey)){
           $fListArray[$i] = $FilePack; 
         } else {
-          $fListArray[$i] = "";
+          unset($fListArray[$i]);
         }
     }
     // We've now iterated through each item in the array and dealt with the pack.
