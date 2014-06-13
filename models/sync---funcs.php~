@@ -81,7 +81,7 @@ public function init( $arr_FilePack, $softwareKey )
 private function _DoesRecordExist($FilePack){  
   // Check if this record exists.
     global $db;
-    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' AND software_key = '%s' AND path = '%s' LIMIT 1",
+    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' AND software_key = '%s' LIMIT 1",
                       $FilePack["Name"],
                       $FilePack["SoftwareKey"],
                       $FilePack["Path"]
