@@ -203,8 +203,6 @@ Router::path("sync-flist", function()
       die;
   }
   // We've determined that there's a valid software_key being used.
-  
-  print_r($GLOBALS);
 
   if (isset($_POST["data"]))
   {
@@ -212,7 +210,10 @@ Router::path("sync-flist", function()
     // We've created an array of our data. 
  
     for($i = 0; $i < count($fListArray); $i++)
-    {      
+    {
+        $fListArray[$i]["SoftwareKey"] = $_POST["software_key"];
+        // We add the software key to the file list.
+      
         $sfl = new SyncFileList();
         if($FilePack = $sfl->init($fListArray[$i], $strSoftwareKey)){
           $fListArray[$i] = $FilePack; 
