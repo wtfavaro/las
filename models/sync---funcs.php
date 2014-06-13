@@ -61,7 +61,7 @@ public function init( $arr_FilePack, $softwareKey )
     }
 
     print_r($this->ServerFileInfo);
-    /***
+    /***/
 
   // If the record is up-to-date, then we remove it from the
   // file array by indicating false to the caller function.
