@@ -220,6 +220,8 @@ Router::path("sync-flist", function()
         } else {
           $fListArray[$i]["id"] = "";
         }
+
+        print_r($fListArray[$i]);
     }
     // We've now iterated through each item in the array and dealt with the pack.
   }
