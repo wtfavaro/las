@@ -60,7 +60,7 @@ private function _FileUploaded($file, $filename){
     }
     // If the file is moved, we return true.
 
-    $this->Failure("Can't save file.");
+    $this->Failure("Upload File: can't save file.");
     // Debug tmp path contents.
 
 
@@ -86,6 +86,7 @@ private function _StoreDBPointer($id, $filename){
     $query = "UPDATE sync_file SET file_pointer = ? WHERE id = ?";
     $data = array($filename, $id);
     $db->prepare($query)->execute($data);
+    return true;
 }
 private function Success(){
     echo "1";
