@@ -49,6 +49,7 @@ private function _FileUploaded($file, $filename){
     $uploadpath = $this->UPLOAD_PATH;
 
     if (file_exists($uploadpath)) {
+      echo "file exists";
       return false;
     }
     // If the file exists, we return false.
@@ -58,6 +59,8 @@ private function _FileUploaded($file, $filename){
       return true;
     }
     // If the file is moved, we return true.
+
+    echo "Just plain couldn't move the uploaded file.";
 }
 private function _HasOldFile($id){
     global $db;
