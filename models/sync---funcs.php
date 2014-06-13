@@ -82,9 +82,10 @@ private function _DoesRecordExist($FilePack){
   // Check if this record exists.
   // *** working here.
     global $db;
-    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' and path = '%s' LIMIT 1",
+    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' AND path = '%s' AND software_key = '%s' LIMIT 1",
                       $FilePack["Name"],
-                      addslashes($FilePack["Path"])
+                      addslashes($FilePack["Path"]),
+                      addslashes($FilePack["SoftwareKey"])
                     );
 
     $fetch = Database::FetchAll($query);
