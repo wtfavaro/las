@@ -21,7 +21,7 @@ public function init(){
     }
 
     if(!$this->_FileUploaded($this->file, $this->filename)){
-        $this->Failure("Failure to upload files.");
+        $this->Failure("Failure to upload files @ " . $this->UPLOAD_PATH);
     }
 
     if(!$this->_StoreDBPointer($this->id, $this->filename)){
@@ -48,7 +48,7 @@ private function _FileUploaded($file, $filename){
      
     $uploadpath = $this->UPLOAD_PATH;
 
-    if (file_exists($filename)) {
+    if (file_exists($uploadpath)) {
       return false;
     }
     // If the file exists, we return false.
