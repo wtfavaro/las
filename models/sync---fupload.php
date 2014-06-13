@@ -21,7 +21,7 @@ public function init(){
     }
 
     if(!$this->_FileUploaded($this->file, $this->filename)){
-        $this->Failure("Failure to upload files @ " . $this->UPLOAD_PATH);
+        //$this->Failure("Failure to upload files @ " . $this->UPLOAD_PATH);
     }
 
     if(!$this->_StoreDBPointer($this->id, $this->filename)){
@@ -49,7 +49,7 @@ private function _FileUploaded($file, $filename){
     $uploadpath = $this->UPLOAD_PATH;
 
     if (file_exists($uploadpath)) {
-      echo "file exists";
+      $this->Failure("Upload File: file exists");
       return false;
     }
     // If the file exists, we return false.
@@ -60,7 +60,7 @@ private function _FileUploaded($file, $filename){
     }
     // If the file is moved, we return true.
 
-    echo "Just plain couldn't move the uploaded file.";
+    $this->Failure("Upload File: could not move the uploaded file.");
 }
 private function _HasOldFile($id){
     global $db;
