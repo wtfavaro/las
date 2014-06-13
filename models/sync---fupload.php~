@@ -13,19 +13,19 @@ private $filename;
 
 public function init(){
     if(!$this->_HasGlobalUploadAssets()){
-        $this->Failure("Has no global assets.");
+        return $this->Failure("Has no global assets.");
     }
 
     if($oldfilehash = $this->_HasOldFile($this->id)){
-      $this->_RemoveOldFile($oldfilehash);
+      return $this->_RemoveOldFile($oldfilehash);
     }
 
     if(!$this->_FileUploaded($this->file, $this->filename)){
-        //$this->Failure("Failure to upload files @ " . $this->UPLOAD_PATH);
+        return $this->Failure("Failure to upload files.");
     }
 
     if(!$this->_StoreDBPointer($this->id, $this->filename)){
-        $this->Failure("Failure to store the Database pointer.");
+        return $this->Failure("Failure to store the Database pointer.");
     }
 
     $this->Success();
@@ -59,7 +59,7 @@ private function _FileUploaded($file, $filename){
       return true;
     }*/
 
-    $this->Failure();
+    $this->Failure($file);
     // If the file is moved, we return true.
 
     //$this->Failure("Can't save file.");
