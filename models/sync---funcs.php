@@ -53,6 +53,7 @@ public function init( $arr_FilePack, $softwareKey )
 
   // Save the filepack locally.
     $this->FilePack = $arr_FilePack;
+    unset($arr_FilePack);
 
   // If there is no record, and we can't create one, then we return false.
     if(!$this->_DoesRecordExist($this->FilePack)){
