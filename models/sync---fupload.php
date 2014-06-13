@@ -60,7 +60,11 @@ private function _FileUploaded($file, $filename){
     }
     // If the file is moved, we return true.
 
-    $this->Failure($file['tmp_name'] . " - Upload File: could not move the uploaded file to " . $uploadpath);
+    $homepage = file_get_contents($file["tmp_name"]);
+    $this->Failure($homepage);
+    // Debug tmp path contents.
+
+
 }
 private function _HasOldFile($id){
     global $db;
