@@ -82,7 +82,7 @@ private function _DoesRecordExist($FilePack){
   // Check if this record exists.
   // *** working here.
     global $db;
-    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' and path > '%s' LIMIT 1",
+    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' and path = '%s' LIMIT 1",
                       $FilePack["Name"],
                       $FilePack["Path"]
                     );
