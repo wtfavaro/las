@@ -231,8 +231,7 @@ Router::path("sync-flist", function()
     die;
   }
 
-  echo "Test";
-  // echo json_encode($fListArray);
+  echo json_encode($fListArray);
   // We've now echoed the output for our VB.NET program.
 
 });
