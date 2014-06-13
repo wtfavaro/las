@@ -81,8 +81,8 @@ public function init( $arr_FilePack, $softwareKey )
 private function _DoesRecordExist($FilePack){  
   // Check if this record exists.
     global $db;
-    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' LIMIT 1",
-                      $FilePack["Name"]
+    $query = sprintf("SELECT * FROM sync_file WHERE name = '%s' AND path = '%s' LIMIT 1",
+                      $FilePack["Name"], $FilePack["Path"]
                     );
 
     $fetch = Database::FetchAll($query);
