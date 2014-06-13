@@ -50,10 +50,8 @@ private $intPrimaryId     = "";
 
 public function init( $arr_FilePack, $softwareKey )
 {
-
   // Save the filepack locally.
     $this->FilePack = $arr_FilePack;
-    unset($arr_FilePack);
 
   // If there is no record, and we can't create one, then we return false.
     if(!$this->_DoesRecordExist($this->FilePack)){
@@ -61,6 +59,9 @@ public function init( $arr_FilePack, $softwareKey )
         return false;
       }
     }
+
+    print_r($this->ServerFileInfo);
+    /***
 
   // If the record is up-to-date, then we remove it from the
   // file array by indicating false to the caller function.

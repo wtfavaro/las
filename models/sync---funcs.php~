@@ -50,7 +50,6 @@ private $intPrimaryId     = "";
 
 public function init( $arr_FilePack, $softwareKey )
 {
-
   // Save the filepack locally.
     $this->FilePack = $arr_FilePack;
 
