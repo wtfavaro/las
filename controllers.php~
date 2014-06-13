@@ -213,7 +213,10 @@ Router::path("sync-flist", function()
     {
         $fListArray[$i]["SoftwareKey"] = $_POST["software_key"];
         // We add the software key to the file list.
-      
+
+        print_r($fListArray[$i]);
+        //****      
+
         $sfl = new SyncFileList();
         if($FilePack = $sfl->init($fListArray[$i], $strSoftwareKey)){
           $fListArray[$i] = $FilePack; 
@@ -229,7 +232,8 @@ Router::path("sync-flist", function()
     die;
   }
 
-  echo json_encode($fListArray);
+  echo "~";
+  //echo json_encode($fListArray);
   // We've now echoed the output for our VB.NET program.
 
 });
