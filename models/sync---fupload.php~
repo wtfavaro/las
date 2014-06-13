@@ -21,7 +21,7 @@ public function init(){
     }
 
     if(!$this->_FileUploaded($this->file, $this->filename)){
-        $this->Failure("Failure to upload files.");
+        $this->Failure("Failure to upload files @ " . $this->UPLOAD_PATH);
     }
 
     if(!$this->_StoreDBPointer($this->id, $this->filename)){
@@ -39,7 +39,7 @@ private function _HasGlobalUploadAssets(){
     $this->id       = $_GET["file_id"];
     $this->file     = $_FILES["file"];
     $this->filename = Software::key();
-    $this->UPLOAD_PATH  = PUBLIC_DIR . "uploads/";
+    $this->UPLOAD_PATH  = PUBLIC_DIR . "/var/www/freepoint/public/uploads/";
      // Assign the class properties.
     
     return true;
