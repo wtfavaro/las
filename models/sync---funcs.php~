@@ -48,7 +48,7 @@ private $FilePack         = "";
 private $ServerFileInfo   = "";
 private $intPrimaryId     = "";
 
-public function init( $arr_FilePack, $softwareKey )
+public function init( $arr_FilePack )
 {
   // Save the filepack locally.
     $this->FilePack = $arr_FilePack;
@@ -133,13 +133,27 @@ private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
 }
 private function _UpdateRecord($FilePack){
     global $db;
-    $query = "UPDATE sync_file SET size = ?, path = ?, date_modified = ? WHERE id = ?";
-    $data = array(
-                    $FilePack["Size"],
-                    $FilePack["Path"],
-                    $FilePack["DateModified"],
-                    $FilePack["id"]
-            );
+
+    if ($FilePack["Size"] < $ServerFileInfo["size"]){
+        // If size is now less...
+        $query = "UPDATE sync_file SET path = ?, date_modified = ? WHERE id = ?";
+        $data = array(
+                        $FilePack["Path"],
+                        $FilePack["DateModified"],
+                        $FilePack["id"]
+                );
+    } else {
+    // If size is equal or more...
+        $query = "UPDATE sync_file SET size = ?, path = ?, date_modified = ? WHERE id = ?";
+        $data = array(
+                        $FilePack["Size"],
+                        $FilePack["Path"],
+                        $FilePack["DateModified"],
+                        $FilePack["id"]
+                );
+    }
+
+    // Execute.
     $db->prepare($query)->execute($data);
 }
 private function _PrepFileInfoForReturn($ServerFileInfo){
