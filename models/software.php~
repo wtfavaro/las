@@ -37,4 +37,13 @@ class Software {
 
 }
 
+class Key {
+  public function __construct(){
+
+  }
+  public function value(){
+
+  }
+}
+
 ?>

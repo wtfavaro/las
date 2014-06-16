@@ -35,10 +35,13 @@ private function _HasGlobalUploadAssets(){
     if(!isset($_GET["file_id"]) || !isset($_GET["software_key"]) || !SyncCore::AuthenticSoftwareKey($_GET["software_key"]) || !isset($_FILES) || !isset($_FILES["file"])) return false;
     // Find if global contains necessary variables.
 
+    $fNameHash = new Key();
+    // Geneated the filename hash.
+
     $this->key      = $_GET["software_key"];
     $this->id       = $_GET["file_id"];
     $this->file     = $_FILES["file"];
-    $this->filename = Software::key();
+    $this->filename = $fNameHash->value();
     $this->UPLOAD_PATH  = "/var/www/freepoint/public/uploads/";
      // Assign the class properties.
     

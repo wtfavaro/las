@@ -37,4 +37,14 @@ class Software {
 
 }
 
+class Key {
+  private $key;
+  public function __construct(){
+    $this->key = md5(base64_encode(date('Y-m-d H:i:s')));
+  }
+  public function value(){
+    return $this->key;
+  }
+}
+
 ?>
