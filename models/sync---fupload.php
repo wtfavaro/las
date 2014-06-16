@@ -49,7 +49,7 @@ private function _FileUploaded($file, $filename){
     $uploadpath = $this->UPLOAD_PATH . $this->filename;
 
     if (file_exists($uploadpath)) {
-      $this->Failure("Upload File: file exists.");
+      $this->Failure("Upload File: file exists $uploadpath.");
       return false;
     }
     // If the file exists, we return false.
