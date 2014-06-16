@@ -152,7 +152,6 @@ private function _UpdateRecord($FilePack){
                         $FilePack["DateModified"],
                         $FilePack["id"]
                 );
-        $this->failure($FilePack["Size"] . " is less than " . $ServerFileInfo["size"]);
     }
 
     // Execute.
