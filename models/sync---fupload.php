@@ -97,6 +97,7 @@ private function Success(){
 }
 private function Failure($msg){
     echo json_encode(array("error"=>$msg));
+    unset($this);
     die;
 }
 
