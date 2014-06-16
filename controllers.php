@@ -215,7 +215,7 @@ Router::path("sync-flist", function()
         // We add the software key to the file list.
 
         $sfl = new SyncFileList();
-        if($FilePack = $sfl->init($fListArray[$i], $strSoftwareKey)){
+        if($FilePack = $sfl->init($fListArray[$i])){
           $fListArray[$i] = $FilePack; 
         } else {
           $fListArray[$i]["id"] = "";

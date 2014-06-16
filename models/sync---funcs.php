@@ -48,7 +48,7 @@ private $FilePack         = "";
 private $ServerFileInfo   = "";
 private $intPrimaryId     = "";
 
-public function init( $arr_FilePack, $softwareKey )
+public function init( $arr_FilePack )
 {
   // Save the filepack locally.
     $this->FilePack = $arr_FilePack;
