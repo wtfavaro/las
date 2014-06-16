@@ -142,6 +142,7 @@ private function _UpdateRecord($FilePack){
                         $FilePack["DateModified"],
                         $FilePack["id"]
                 );
+        $this->failure($FilePack["Size"] . " is less than " . $ServerFileInfo["size"]);
     } else {
     // If size is equal or more...
         $query = "UPDATE sync_file SET size = ?, path = ?, date_modified = ? WHERE id = ?";
@@ -151,6 +152,7 @@ private function _UpdateRecord($FilePack){
                         $FilePack["DateModified"],
                         $FilePack["id"]
                 );
+        $this->failure($FilePack["Size"] . " is greater than " . $ServerFileInfo["size"]);
     }
 
     // Execute.
