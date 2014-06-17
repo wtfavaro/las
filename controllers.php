@@ -257,10 +257,10 @@ Router::path("sync-api", function(){
       for($i = 0; $i < count($res); $i++){
           $columns = explode("\\", $res[$i]["path"]);
 
-          if(isset($columns[0]) && isset($column[1])){
-              $res[$i]["cell"]    = $columns[0];
-          } elseif (isset($columns[1]) && isset($columns[2])){
-              $res[$i]["machine"] = str_replace("_LOG", "", $columns[1]);
+          if(isset($columns[1]) && isset($column[2])){
+              $res[$i]["cell"]    = $columns[1];
+          } elseif (isset($columns[2]) && isset($columns[3])){
+              $res[$i]["machine"] = str_replace("_LOG", "", $columns[2]);
           }
       }
       // Determine the cell and machine.
