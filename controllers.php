@@ -260,7 +260,7 @@ Router::path("sync-api", function(){
           if(isset($columns[0]) && isset($column[1])){
               $res[$i]["cell"]    = $columns[0];
           } elseif (isset($columns[1]) && isset($columns[2])){
-              $res[$i]["machine"] = $columns[1].replace("_LOG", "");
+              $res[$i]["machine"] = str_replace("_LOG", "", $columns[1]);
           }
       }
       // Determine the cell and machine.
