@@ -252,9 +252,9 @@ Router::path("sync-api", function(){
 
       $query  = sprintf("SELECT * FROM sync_file WHERE software_key = '%s'", $_GET["key"]);
       $res    = Database::FetchAll($query);
-      // Get all he files belonging to this key.
+      // Get all the files belonging to this key.
 
-      for($i = 0; $i < count($res); $i++){
+      /* for($i = 0; $i < count($res); $i++){
           $columns = explode("\\", $res[$i]["path"]);
 
           if(isset($columns[0]) && isset($column[1])){
@@ -262,7 +262,7 @@ Router::path("sync-api", function(){
           } elseif (isset($columns[1]) && isset($columns[2])){
               $res[$i]["machine"] = $columns[1].replace("_LOG", "");
           }
-      }
+      }*/
       // Determine the cell and machine.
 
     echo json_encode($res);
