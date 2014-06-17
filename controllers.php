@@ -247,7 +247,7 @@ Router::path("sync-api", function(){
     echo json_encode($res);
   }
 
-  // Deal with requests for Files.
+  // Deal with requests for Files.--
   if (isset($_GET["key"])){
 
       $query  = sprintf("SELECT * FROM sync_file WHERE software_key = '%s'", $_GET["key"]);
