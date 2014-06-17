@@ -226,7 +226,7 @@ Router::path("sync-flist", function()
   }
   else
   {
-    echo "0";
+    //echo "0";
     die;
   }
 
@@ -249,10 +249,24 @@ Router::path("sync-api", function(){
 
   // Deal with requests for Files.
   if (isset($_GET["key"])){
-    $query  = sprintf("SELECT * FROM sync_file WHERE software_key = '%s'", $_GET["key"]);
-    $res    = Database::FetchAll($query);
-    // Get all he files belonging to this key.
 
+      $query  = sprintf("SELECT * FROM sync_file WHERE software_key = '%s'", $_GET["key"]);
+      $res    = Database::FetchAll($query);
+      // Get all he files belonging to this key.
+/*
+      for($i = 0; $i < count($res); $i++){
+          $columns = explode("\\", $res[$i]["path"]);
+
+          if(isset($columns[3])){
+              $res[$i]["cell"]    = $columns[1];
+              $res[$i]["machine"] = $columns[2].replace("_LOG", "");
+          } elseif (isset($columns[2]) && !isset($columns[3])){
+                            $res[$i]["cell"]    = $columns[0];
+              $res[$i]["machine"] = $columns[1].replace("_LOG", "");
+          }
+      }
+      // Determine the cell and machine.
+*/
     echo json_encode($res);
   }
 
