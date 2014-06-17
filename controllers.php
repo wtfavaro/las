@@ -220,8 +220,6 @@ Router::path("sync-flist", function()
         } else {
           $fListArray[$i]["id"] = "";
         }
-
-        //print_r($fListArray[$i]);
         unset($sfl);
     }
     // We've now iterated through each item in the array and dealt with the pack.
@@ -237,6 +235,30 @@ Router::path("sync-flist", function()
 
 });
 
+Router::path("sync-api", function(){
+  
+  // Deal with requests for Company Names.
+  if (isset($_GET["lib"]) && $_GET["lib"] == "company"){
+
+    $query  = "SELECT * FROM sync_company";
+    $res    = Database::FetchAll($query);
+    // Get the results from the database.    
+
+    echo json_encode($res);
+  }
+
+  // Deal with requests for Files.
+  if (isset($_GET["key"])){
+    $query  = sprintf("SELECT * FROM sync_file WHERE software_key = '%s'", $_GET["key"]);
+    $res    = Database::FetchAll($query);
+    // Get all he files belonging to this key.
+
+    echo json_encode($res);
+  }
+
+  die;
+
+});
 
 /*********************************
 
