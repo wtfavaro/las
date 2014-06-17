@@ -2,7 +2,6 @@
 
 class Sync_Account {
 
-
 public static function Create($cred) {
 
   if (!isset($cred["company_name"]) || !isset ($cred["protected_path"])) return false; 

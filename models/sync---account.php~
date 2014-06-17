@@ -22,8 +22,6 @@ public static function Create($cred) {
 
   return $cred["software_key"];
 
-*/
-
 }
 
 }
