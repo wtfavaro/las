@@ -274,6 +274,12 @@ Router::path("sync-api", function(){
 
 });
 
+Router::path("analytics", function(){
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."getfreepoint/analytics.php";
+    require PUBLIC_DIR."footer.php";
+});
+
 /*********************************
 
   Register Mach Data

@@ -247,7 +247,7 @@ Router::path("sync-api", function(){
     echo json_encode($res);
   }
 
-  // Deal with requests for Files.
+  // Deal with requests for Files.--
   if (isset($_GET["key"])){
 
       $query  = sprintf("SELECT * FROM sync_file WHERE software_key = '%s'", $_GET["key"]);
@@ -272,6 +272,12 @@ Router::path("sync-api", function(){
 
   die;
 
+});
+
+Router::path("analytics", function(){
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."getfreepoint/analytics.php";
+    require PUBLIC_DIR."footer.php";
 });
 
 /*********************************
