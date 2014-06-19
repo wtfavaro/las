@@ -236,7 +236,9 @@ Router::path("sync-flist", function()
 });
 
 Router::path("sync-api", function(){
-  
+
+header('Access-Control-Allow-Origin: *');   
+
   // Deal with requests for Company Names.
   if (isset($_GET["lib"]) && $_GET["lib"] == "company"){
 
