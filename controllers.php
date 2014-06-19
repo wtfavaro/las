@@ -260,11 +260,11 @@ header('Access-Control-Allow-Origin: *');
           $columns = explode("\\", $res[$i]["path"]);
 
           if(isset($columns[1]) && isset($columns[2]) && $columns[1] != "backup"){
-              $res[$i]["cell"]    = $columns[1];
+              $res[$i]["cell"]    = $columns[2];
           }
 
           if (isset($columns[2]) && isset($columns[3]) && $columns[1] != "backup"){
-              $res[$i]["machine"] = str_replace("_LOG", "", $columns[2]);
+              $res[$i]["machine"] = str_replace("_LOG", "", $columns[3]);
           }
       }
       // Determine the cell and machine.

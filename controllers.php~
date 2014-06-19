@@ -236,7 +236,9 @@ Router::path("sync-flist", function()
 });
 
 Router::path("sync-api", function(){
-  
+
+header('Access-Control-Allow-Origin: *');   
+
   // Deal with requests for Company Names.
   if (isset($_GET["lib"]) && $_GET["lib"] == "company"){
 
@@ -258,7 +260,7 @@ Router::path("sync-api", function(){
           $columns = explode("\\", $res[$i]["path"]);
 
           if(isset($columns[1]) && isset($columns[2]) && $columns[1] != "backup"){
-              $res[$i]["cell"]    = $columns[1];
+              $res[$i]["cell"]    = $columns[2];
           }
 
           if (isset($columns[2]) && isset($columns[3]) && $columns[1] != "backup"){
