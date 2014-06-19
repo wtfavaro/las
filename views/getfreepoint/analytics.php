@@ -12,8 +12,8 @@
   </div>
 
   <div class="row" style="padding: 15px;">
-    <label for="selCompany">Select a Machine:</label>
-    <select id="selCompany" style="width: 100%; padding: 7.5px; opacity: 0.6;">
+    <label for="selMach">Select a Machine:</label>
+    <select id="selMach" style="width: 100%; padding: 7.5px; opacity: 0.6;">
     </select>
   </div>
 
@@ -93,14 +93,50 @@ function getCellList( SoftwareKey ){
 }
 
 function displayCellList( Cells ){
+  
+  $("#selCell").html("");
+  // Clear celllist.
+
+  var cellList = [];
   for(var i = 0; i < Cells.length; i++){
-
-    if (typeof(Cells[i].cell) != "undefined"){
-        var self = $("#selCell");
-        self.html(self.html() + "<option>"+Cells[i].cell+"</option>");
+    if( typeof(Cells[i].cell) != "undefined" ){
+      var locInArray = $.inArray(Cells[i].cell, cellList);
+      if (locInArray < 0){
+        cellList.push(Cells[i].cell);
+      }
     }
-
   }
+  // We get a list of unique Cell names.
+
+  for (var i = 0; i < cellList.length; i++){
+    var a = cellList[i];
+    $("#selCell").html(
+      $("#selCell").html() + "<option>" + a + "</option>"
+    );
+  }
+  // We display them in the GUI.
+}
+function selCell_Change(){
+  User.Select.Cell = $(this).val();
+  displayMachineList(Server.Cells);
+}
+
+$("#selCell").on("click", selCell_Change).on("change", selCell_Change);
+
+/* Machines */
+function displayMachineList(Cells){
+  var selMach = $("#selMach");
+
+  selMach.html("");
+  // Clear selMach.
+
+  for (var i = 0; i < Cells.length; i ++){
+    var row = Cells[i];
+    if (row.cell == User.Select.Cell){
+      selMach.html( selMach.html() + "<option>" + row.machine + "</option>");
+    }
+  }
+  // Display machines.
 }
 
 </script>

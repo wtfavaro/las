@@ -263,7 +263,7 @@ header('Access-Control-Allow-Origin: *');
               $res[$i]["cell"]    = $columns[2];
           }
 
-          if (isset($columns[2]) && isset($columns[3]) && $columns[1] != "backup"){
+          if (isset($columns[2]) && isset($columns[3]) && isset($columns[4]) && $columns[1] != "backup"){
               $res[$i]["machine"] = str_replace("_LOG", "", $columns[3]);
           }
       }
