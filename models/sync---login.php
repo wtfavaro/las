@@ -16,9 +16,10 @@
       // Return the value.
       if (isset($softwareKey) && $softwareKey){
         echo $softwareKey;
+      } else {
+        echo "0";
       }
 
-      echo 0;
     }
 
     public static function CreateAccount($data){

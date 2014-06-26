@@ -23,7 +23,6 @@
 </section>
 
 <script type="text/javascript">
-    var data = { 'email': document.getElementById('inputUsername').value, 'password': document.getElementById('inputPassword').value, 'callback': 'true' };
     var form = {
         username: $("#inputUsername"),
         password: $("#inputPassword")
@@ -32,8 +31,12 @@
     $("#btnLogin").on("click", function(){
         if(form.username.val() && form.password.val()){
 
+            var data = { 'email': form.username.val(), 'password': form.password.val(), 'callback': 'true' };
+ 
             httprequest('FPSecure', 'VerifyUser', data, function(resp){
-              alert(resp);
+              if (resp !== "0"){
+
+              }
             });
 
         }
