@@ -198,7 +198,7 @@ Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
 
-  error_log(json_encode($_POST), 3, "/var/www/livegen.log");
+  error_log(json_encode($_POST), 3, "livegen.log");
 
   if (!isset($_POST["software_key"]) || !SyncCore::AuthenticSoftwareKey($_POST["software_key"])){
       echo "0";
