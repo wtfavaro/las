@@ -29,8 +29,6 @@
 
 </div>
 
-<?php require 'modal.html';?>
-
 <script type="text/javascript">
 
 Array.prototype.contains = function ( needle ) {
