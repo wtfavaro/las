@@ -29,6 +29,7 @@
 
 </div>
 
+<?php require 'modal.html';?>
 
 <script type="text/javascript">
 
@@ -223,7 +224,7 @@ function selFlist_Change(){
     // Place the info on the anchor.
     var a = $("#aDownloadLauncher");
     a.attr("href", filePointer);
-    a.download = fileName;
+    a.attr("download", fileName);
    
 }
 

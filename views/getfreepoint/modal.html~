@@ -1,0 +1,15 @@
+<div class="syncModal">
+  <div style="width: 25%; margin-left: 37.5%;">
+    <div class="row">
+        <input type="text" id="inputUsername" placeholder="username" style="width: 100%" />
+    </div>
+    <div class="row" style="margin-top: 3px;">
+        <input type="text" id="inputPassword" placeholder="password" style="width: 100%" />
+    </div>
+    <br />
+    
+    <div class="row text-center">
+        <button class="btn btn-primary" style="padding: 5px 25px;">Login</button>
+    </div>
+  </div>
+</div>

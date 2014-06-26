@@ -282,6 +282,12 @@ Router::path("analytics", function(){
     require PUBLIC_DIR."footer.php";
 });
 
+Router::path("sync-login", function(){
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."getfreepoint/login.php";
+    require PUBLIC_DIR."footer.php";
+});
+
 /*********************************
 
   Register Mach Data

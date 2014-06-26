@@ -71,7 +71,7 @@ public function init( $arr_FilePack )
     $this->_PrepFileInfoForReturn($this->ServerFileInfo);
 
   // Update the record now.
-    $this->_UpdateRecord($this->FilePack);
+    $this->_UpdateRecord($this->FilePack, $this->ServerFileInfo);
 
   // We're now ready to return the filepack.
     return $this->FilePack;
@@ -131,7 +131,7 @@ private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
     return false;
   }
 }
-private function _UpdateRecord($FilePack){
+private function _UpdateRecord($FilePack, $ServerFileInfo){
     global $db;
 
     if ($FilePack["Size"] < $ServerFileInfo["size"]){

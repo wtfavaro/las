@@ -29,7 +29,6 @@
 
 </div>
 
-
 <script type="text/javascript">
 
 Array.prototype.contains = function ( needle ) {
