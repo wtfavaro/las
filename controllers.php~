@@ -198,7 +198,9 @@ Router::path("sync-flist", function()
 {
   header("HTTP/1.1 200 OK");
 
-  error_log(json_encode($_POST["software_key"]), 3, "livegen.log");
+  if (isset($_POST["software_key"])){
+    error_log(json_encode($_POST["software_key"]), 3, "livegen.log");
+  }
 
   if (!isset($_POST["software_key"]) || !SyncCore::AuthenticSoftwareKey($_POST["software_key"])){
       echo "0";
@@ -287,6 +289,12 @@ Router::path("analytics", function(){
 Router::path("sync-login", function(){
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."getfreepoint/login.php";
+    require PUBLIC_DIR."footer.php";
+});
+
+Router::path("sync-account", function(){
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."getfreepoint/new-account.php";
     require PUBLIC_DIR."footer.php";
 });
 

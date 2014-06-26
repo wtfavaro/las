@@ -6,9 +6,7 @@
 
       // Prepare the database call.
       global $db;
-      $result = Database::FetchAll(sprintf("SELECT software_key FROM sync_account WHERE email = '%s' AND password LIKE '%s'", $data["email"], md5($data["password"])));
-
-      print_r(md5($data["password"]));
+      $result = Database::FetchAll(sprintf("SELECT software_key FROM sync_account WHERE email = '%s' AND password = '%s'", $data["email"], md5($data["password"])));
 
       // Isolate software key
       if (isset($result[0]["software_key"]) && isset($result[0]["software_key"])){
@@ -21,6 +19,29 @@
       }
 
       echo 0;
+    }
+
+    public static function CreateAccount($data){
+      if (!isset($data["email"]) || !isset( $data["password"] ) || !isset($data["firstname"]) || !isset($data["lastname"]) ||
+          !isset($data["software_key"])){
+        echo json_encode(array("error"=>"Invalid parameters -- account could not be saved."));
+        return false;
+      }
+
+      if (!SyncCore::AuthenticSoftwareKey($data["software_key"])){
+        echo json_encode(array("error"=>"Software key not valid."));
+        return false;
+      }
+
+      global $db;
+
+      $query  = "INSERT INTO sync_account (email, password, firstname, lastname, software_key) VALUES (?,?,?,?,?)";
+      $data   = array($data["email"],md5($data["password"]),$data["firstname"],$data["lastname"],$data["software_key"]);
+
+      if($db->prepare($query)->execute($data)){
+        echo 1;
+        return true;
+      }
     }
 
     public static function GetSoftwareKey($data){
