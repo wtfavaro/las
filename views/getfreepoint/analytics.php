@@ -1,3 +1,11 @@
+<?php
+
+  if(!isset($_COOKIE) || !isset($_COOKIE["FreePointSecureDashboard"]) || !SyncCore::AuthenticSoftwareKey($_COOKIE["FreePointSecureDashboard"])){
+    header("Location: sync-login");
+  }
+
+?>
+
 <div class="container">
   <div class="row" style="padding: 15px;">
     <label for="selCompany">Select Company:</label>
@@ -62,7 +70,7 @@ function displayCompanyList(){
   $.ajax({
     type: "GET",
     url: "http://54.213.13.56/sync-api",
-    data: {lib: "company"},
+    data: {'lib': "company", 'software_key': "<?php echo $_COOKIE['FreePointSecureDashboard']; ?>" },
     dataType: "json",
     success: function(resp){
       Server.Companies = resp;

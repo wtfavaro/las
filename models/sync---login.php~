@@ -8,8 +8,6 @@
       global $db;
       $result = Database::FetchAll(sprintf("SELECT software_key FROM sync_account WHERE email = '%s' AND password = '%s'", $data["email"], md5($data["password"])));
 
-      print_r( $data );
-
       // Isolate software key
       if (isset($result[0]["software_key"]) && isset($result[0]["software_key"])){
         $softwareKey = $result[0]["software_key"];
@@ -17,9 +15,17 @@
 
       // Return the value.
       if (isset($softwareKey) && $softwareKey){
+        FPSecure::AddKeyToSession($softwareKey);        
         echo $softwareKey;
+      } else {
+        echo "0";
       }
 
+    }
+
+    public static function AddKeyToSession($softwareKey){
+        session_start();
+        setcookie("FreePointDashboard", $softwareKey, time()+3600);
     }
 
     public static function CreateAccount($data){

@@ -15,11 +15,17 @@
 
       // Return the value.
       if (isset($softwareKey) && $softwareKey){
+        FPSecure::AddKeyToSession($softwareKey);        
         echo $softwareKey;
       } else {
         echo "0";
       }
 
+    }
+
+    public static function AddKeyToSession($softwareKey){
+        session_start();
+        setcookie("FreePointSecureDashboard", $softwareKey, time()+3600);
     }
 
     public static function CreateAccount($data){

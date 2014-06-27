@@ -34,6 +34,7 @@
             var data = { 'email': form.username.val(), 'password': form.password.val(), 'callback': 'true' };
  
             httprequest('FPSecure', 'VerifyUser', data, function(resp){
+              console.log(resp);              
               if (resp !== "0"){
                 window.location.href = "analytics";
               }

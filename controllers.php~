@@ -244,9 +244,9 @@ Router::path("sync-api", function(){
 header('Access-Control-Allow-Origin: *');   
 
   // Deal with requests for Company Names.
-  if (isset($_GET["lib"]) && $_GET["lib"] == "company"){
+  if (isset($_GET["lib"]) && $_GET["lib"] == "company" && isset($_GET["software_key"])){
 
-    $query  = "SELECT * FROM sync_company";
+    $query  = sprintf("SELECT * FROM sync_company WHERE software_key = '%s'", $_GET["software_key"]);
     $res    = Database::FetchAll($query);
     // Get the results from the database.    
 
