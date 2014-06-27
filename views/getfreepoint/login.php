@@ -33,10 +33,11 @@
 
             var data = { 'email': form.username.val(), 'password': form.password.val(), 'callback': 'true' };
  
-            httprequest('FPSecure', 'VerifyUser', data, function(resp){
-              console.log(resp);              
+            httprequest('FPSecure', 'VerifyUser', data, function(resp){           
               if (resp !== "0"){
                 window.location.href = "analytics";
+              } else {
+                alert("Your username/password combination is incorrect.");
               }
             });
 
