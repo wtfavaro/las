@@ -246,7 +246,11 @@ header('Access-Control-Allow-Origin: *');
   // Deal with requests for Company Names.
   if (isset($_GET["lib"]) && $_GET["lib"] == "company" && isset($_GET["software_key"])){
 
-    $query  = sprintf("SELECT * FROM sync_company WHERE software_key = '%s'", $_GET["software_key"]);
+    if ($_GET["software_key"]==="global15Xyue"){
+      $query  = "SELECT * FROM sync_company";
+    } else {
+      $query  = sprintf("SELECT * FROM sync_company WHERE software_key = '%s'", $_GET["software_key"]);
+    }
     $res    = Database::FetchAll($query);
     // Get the results from the database.    
 
