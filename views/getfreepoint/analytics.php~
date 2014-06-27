@@ -1,6 +1,6 @@
 <?php
 
-  if(!isset($_COOKIE) || !isset($_COOKIE["FreePointSecureDashboard"]) || !SyncCore::AuthenticSoftwareKey($_COOKIE["FreePointSecureDashboard"])){
+  if(!isset($_COOKIE) || !isset($_COOKIE["FreePointSecureDashboard"])){
     header("Location: sync-login");
   }
 
