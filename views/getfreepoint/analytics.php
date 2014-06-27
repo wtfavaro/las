@@ -75,6 +75,8 @@ function displayCompanyList(){
     success: function(resp){
       Server.Companies = resp;
       displayList(resp);
+    },
+    error: function(e){
     }
   });
 }

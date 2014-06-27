@@ -257,16 +257,15 @@ header('Access-Control-Allow-Origin: *');
         $qryData = array();
 
         // Convert the software_key JSON to ARRAY.
-        $postKeys = json_decode($_POST["software_key"], true);
+        $postKeys = json_decode($_POST["software_key"]);
       
         // Iterate through the keys to chain the sql statement.
         foreach ($postKeys as $key){
-          $qry = " OR software_key = '%s'";
+          $qry .= " OR software_key = '%s'";
           $qryData[] = $key;
         }
 
         $query = vsprintf($qry, $qryData);
-
     }
 
     $res    = Database::FetchAll($query);

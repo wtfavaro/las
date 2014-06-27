@@ -10,7 +10,7 @@
 
       // Isolate software key
       if (isset($result[0]) && isset($result[0]["software_key"])){
-        $softwareKey = $result[0]["software_key"];
+        $softwareKey = stripslashes($result[0]["software_key"]);
       }
 
       // Return the value.
@@ -46,7 +46,7 @@
       global $db;
 
       $query  = "INSERT INTO sync_account (email, password, firstname, lastname, software_key) VALUES (?,?,?,?,?)";
-      $data   = array($data["email"],md5($data["password"]),$data["firstname"],$data["lastname"],$keysJson);
+      $data   = array($data["email"],md5($data["password"]),$data["firstname"],$data["lastname"],addslashes($keysJson));
 
       if($db->prepare($query)->execute($data)){
         echo 1;
