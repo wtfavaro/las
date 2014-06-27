@@ -206,10 +206,12 @@ function getFileList(){
       // Display the files.
       if (row.cell === User.Select.Cell && row.machine === User.Select.Machine){
           
-          selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
-
+          if (row.file_pointer != null){
+            selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+          } else {
+            selFlist.html(selFlist.html() + "<option style='color: red;' data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+          }
       }
-
   }
 }
 
@@ -225,14 +227,24 @@ function selFlist_Change(){
       return false;
     }
 
+    // Choose the button.
+    var btn = $("#aDownloadLauncher");
+
+    // Only make the download link if it's not null.
+    if($selectedFile.data("pointer") == null){
+      btn.attr("disabled", "disabled");
+    } else {
+      btn.removeAttr("disabled");
+    }
+
+
     // Get pertinent info for download link.
     var filePointer = "http://54.213.13.56/uploads/" + $selectedFile.data("pointer");
     var fileName = $selectedFile.val();
 
     // Place the info on the anchor.
-    var a = $("#aDownloadLauncher");
-    a.attr("href", filePointer);
-    a.attr("download", fileName);
+    btn.attr("href", filePointer);
+    btn.attr("download", fileName);
    
 }
 
