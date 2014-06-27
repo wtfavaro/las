@@ -36,6 +36,8 @@
             httprequest('FPSecure', 'VerifyUser', data, function(resp){           
               if (resp !== "0"){
                 window.location.href = "analytics";
+              } else {
+                alert("Your username/password combination is incorrect.");
               }
             });
 

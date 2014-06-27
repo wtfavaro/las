@@ -68,9 +68,9 @@ var Server = {
 /* company list */
 function displayCompanyList(){
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: "http://54.213.13.56/sync-api",
-    data: {'lib': "company", 'software_key': "<?php echo $_COOKIE['FreePointSecureDashboard']; ?>" },
+    data: {'lib': "company", 'software_key': '<?php echo $_COOKIE["FreePointSecureDashboard"]; ?>' },
     dataType: "json",
     success: function(resp){
       Server.Companies = resp;

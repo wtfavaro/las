@@ -9,7 +9,7 @@
       $result = Database::FetchAll(sprintf("SELECT software_key FROM sync_account WHERE email = '%s' AND password = '%s'", $data["email"], md5($data["password"])));
 
       // Isolate software key
-      if (isset($result[0]["software_key"]) && isset($result[0]["software_key"])){
+      if (isset($result[0]) && isset($result[0]["software_key"])){
         $softwareKey = $result[0]["software_key"];
       }
 
@@ -35,15 +35,18 @@
         return false;
       }
 
-      if (!SyncCore::AuthenticSoftwareKey($data["software_key"])){
-        echo json_encode(array("error"=>"Software key not valid."));
-        return false;
+      // The software_key being entered from the form is CSV. We need to remove spaces and explode it into
+      // an array. Then we need to JSON_ENCODE the array.
+      if (isset($data["software_key"])){
+        $k = str_replace(' ', '', $data["software_key"]);
+        $keysArray = explode(",", $k);
+        $keysJson = json_encode($keysArray);
       }
 
       global $db;
 
       $query  = "INSERT INTO sync_account (email, password, firstname, lastname, software_key) VALUES (?,?,?,?,?)";
-      $data   = array($data["email"],md5($data["password"]),$data["firstname"],$data["lastname"],$data["software_key"]);
+      $data   = array($data["email"],md5($data["password"]),$data["firstname"],$data["lastname"],$keysJson);
 
       if($db->prepare($query)->execute($data)){
         echo 1;

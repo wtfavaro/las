@@ -244,13 +244,31 @@ Router::path("sync-api", function(){
 header('Access-Control-Allow-Origin: *');   
 
   // Deal with requests for Company Names.
-  if (isset($_GET["lib"]) && $_GET["lib"] == "company" && isset($_GET["software_key"])){
+  if (isset($_POST["lib"]) && $_POST["lib"] == "company" && isset($_POST["software_key"])){
 
-    if ($_GET["software_key"]==="global15Xyue8^%3S#3"){
-      $query  = "SELECT * FROM sync_company";
+    // Use the global password if necessary.
+    if ($_POST["software_key"]==="global15Xyue"){
+
+        $query  = "SELECT * FROM sync_company";
+
     } else {
-      $query  = sprintf("SELECT * FROM sync_company WHERE software_key = '%s'", $_GET["software_key"]);
+
+        $qry = "SELECT * FROM sync_company WHERE 1=0";
+        $qryData = array();
+
+        // Convert the software_key JSON to ARRAY.
+        $postKeys = json_decode($_POST["software_key"], true);
+      
+        // Iterate through the keys to chain the sql statement.
+        foreach ($postKeys as $key){
+          $qry = " OR software_key = '%s'";
+          $qryData[] = $key;
+        }
+
+        $query = vsprintf($qry, $qryData);
+
     }
+
     $res    = Database::FetchAll($query);
     // Get the results from the database.    
 
