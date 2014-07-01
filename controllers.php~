@@ -307,6 +307,12 @@ Router::path("analytics", function(){
     require PUBLIC_DIR."footer.php";
 });
 
+Router::path("sync-report", function(){
+    require PUBLIC_DIR."header.php";
+    require PRIVATE_VIEW."getfreepoint/report.php";
+    require PUBLIC_DIR."footer.php";
+});
+
 Router::path("sync-login", function(){
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."getfreepoint/login.php";

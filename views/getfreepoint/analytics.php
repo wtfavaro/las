@@ -27,13 +27,17 @@
 
   <div class="row" style="padding: 15px;">
     <label for="selFlist">Select a File:</label><br />
-    <select id="selFlist" style="width: 80%; padding: 7.5px; opacity: 0.6;">
+    <select id="selFlist" style="width: 50%; padding: 7.5px; opacity: 0.6;">
     </select>
 
     <a id="aDownloadLauncher" href="#">
-      <button id="btnDownload" style="width: 15%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
+      <button id="btnDownload" style="width: 12%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
     </a>
-  </div>
+    <form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">
+      <input id="formfpath" type="hidden" name="path" />
+      <button type="submit" style="opacity: 0;" id="btnReport" class="btn btn-default" style="padding: 7.5px; width: 100%;">Report</button>
+    </form>  
+</div>
 
 </div>
 
@@ -64,6 +68,18 @@ var Server = {
   Machines: {}
 
 }
+
+/* Disable buttons on start */
+
+DisableFileButtons();
+
+function DisableFileButtons(){
+
+  $("#btnDownload").attr("disabled", "disabled");
+  $("#btnReport").attr("disabled", "disabled");
+
+}
+
 
 /* company list */
 function displayCompanyList(){
@@ -203,8 +219,11 @@ function getFileList(){
       // Store a row.
       var row = Server.Cells[i];
 
+      // Trim the row (Correction made for Precision MFG - cell with trailing spaces)
+      if (row.machine !== undefined) row.machine = row.machine.trim();
+
       // Display the files.
-      if (row.cell === User.Select.Cell && row.machine === User.Select.Machine){
+      if (row.cell == User.Select.Cell && row.machine == User.Select.Machine){
           
           if (row.file_pointer != null){
             selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
@@ -234,8 +253,10 @@ function selFlist_Change(){
     if($selectedFile.data("pointer") == null){
       btn.attr("disabled", "disabled");
       $("#btnDownload").attr("disabled", "disabled");
+      $("#btnReport").attr("disabled", "disabled");
     } else {
       btn.removeAttr("disabled");
+      $("#btnReport").removeAttr("disabled");
       $("#btnDownload").removeAttr("disabled");
     }
 
@@ -247,6 +268,9 @@ function selFlist_Change(){
     // Place the info on the anchor.
     btn.attr("href", filePointer);
     btn.attr("download", fileName);
+
+    // Place the info on the hidden form input.
+    $("#formfpath").attr("value", filePointer);
    
 }
 
