@@ -1,3 +1,5 @@
+<h1>Not prepared to generate a report.</h1>
+
 <?php
 
 if (!isset($_POST["path"])){

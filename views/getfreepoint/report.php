@@ -59,7 +59,7 @@ private function _AddDateTimeToContent($content){
     $time["time"][2] = $ms[0];
     $time["ms"] = $ms[1];
     
-    //print_r($time);
+    print_r($time);
   }
 
   return $content;

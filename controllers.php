@@ -325,6 +325,13 @@ Router::path("sync-join", function(){
     require PUBLIC_DIR."footer.php";
 });
 
+Router::path("sync-logout", function(){
+  if(isset($_COOKIE) && isset($_COOKIE["FreePointSecureDashboard"])){
+    setcookie("FreePointSecureDashboard", "", -1);
+    header("Location: sync-login");
+  }
+});
+
 /*********************************
 
   Register Mach Data

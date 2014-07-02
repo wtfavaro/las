@@ -6,6 +6,9 @@
 
 ?>
 
+
+  <a href="sync-logout" style="position: fixed; right: 15px; top: 15px;">Logout</a>
+
 <div class="container">
   <div class="row" style="padding: 15px;">
     <label for="selCompany">Select Company:</label>
@@ -35,9 +38,9 @@
     </a>
     <form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">
       <input id="formfpath" type="hidden" name="path" />
-      <button type="submit" style="opacity: 0;" id="btnReport" class="btn btn-default" style="padding: 7.5px; width: 100%;">Report</button>
+      <button type="submit" id="btnReport" class="btn btn-default" style="opacity: 0; padding: 7.5px; width: 100%;">Report</button>
     </form>  
-</div>
+  </div>
 
 </div>
 
