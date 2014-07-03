@@ -53,6 +53,9 @@ public function init( $arr_FilePack )
   // Save the filepack locally.
     $this->FilePack = $arr_FilePack;
 
+  // Acknowledge this sync request.
+  $this->AddSyncRequestDateTime($this->FilePack);
+
   // If there is no record, and we can't create one, then we return false.
     if(!$this->_DoesRecordExist($this->FilePack)){
       if(!$this->_AddNewFileRecord($this->FilePack)){
@@ -159,6 +162,14 @@ private function _UpdateRecord($FilePack, $ServerFileInfo){
 }
 private function _PrepFileInfoForReturn($ServerFileInfo){
   $this->FilePack["id"] = $ServerFileInfo["id"];
+}
+private function AddSyncRequestDateTime($FilePack){
+  global $db;
+  $query = "UPDATE sync_company SET last_updated = ? WHERE software_key = ?";
+  $data = array(date("Y/m/d H:i:s"), $FilePack["software_key"]);
+
+  // Execute the query.
+  return $db->prepare($query)->execute($data);
 }
 }
 

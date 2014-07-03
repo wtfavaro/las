@@ -1,16 +1,16 @@
-<h1>Not prepared to generate a report.</h1>
-
 <?php
 
 if (!isset($_POST["path"])){
   echo "No file found.";
 } else {
+
+  // LogFile generates an array-based Log File located in object->contents.
   $LogFile = new LogFile($_POST["path"]);
-  print_r($LogFile->contents);
 }
 
 class LogFile {
 
+public $inputs = array();
 public $contents = array();
 
 public function __construct($path){
@@ -35,7 +35,6 @@ public function __construct($path){
 
     // Convert the date string at column[0] into a datetime object.
     $this->contents = $this->_AddDateTimeToContent($this->contents);
-
   }
 }
 
@@ -82,16 +81,52 @@ private function _AddDateTimeToContent($content){
               );
     
     // Add timestamp to the row
-    $row[0] = $datetime;
+    $row[0] = $datetime->format("Y/m/d H:i:s");
 
     // Re-add the row to the content
     $content[$i] = $row;
+
+    // As an aside, add the input name to the inputs property
+    if (isset($row[3]) && $row[3] != "" && !in_array($row[3], $this->inputs)) array_push($this->inputs, $row[3]);
   }
 
   return $content;
 
 }
 
+public function FirstCycle(){
+
+  /*
+      The first cycle does not merely seek out the first instance of activity (when Cell Monitor turns on).
+      Instead, it looks for the first instance where the state is 1.
+  */
+
+  foreach($this->contents as $row){
+    if($row[0] != "" && $row[4] != "" && $row[4] > 0){
+      echo "First Cycle: " . $row[0]->format("Y/m/d H:i:s");
+      return true;
+    }
+  }
+  return false;
+}
+
 }
 
 ?>
+
+<script type="text/javascript">
+  var content = "<?php echo addslashes(json_encode($LogFile->contents)); ?>";
+  var logfile = jQuery.parseJSON( content );
+
+
+function Analytics(){
+
+  this.FirstActivity = function(){
+    for (var row in logfile) {
+      //
+    }
+  }
+
+}
+
+</script>

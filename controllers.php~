@@ -327,7 +327,7 @@ Router::path("sync-join", function(){
 
 Router::path("sync-logout", function(){
   if(isset($_COOKIE) && isset($_COOKIE["FreePointSecureDashboard"])){
-    unset($_COOKIE["FreePointSecureDashboard"]);
+    setcookie("FreePointSecureDashboard", "", -1);
     header("Location: sync-login");
   }
 });

@@ -133,6 +133,7 @@ function getCellList( SoftwareKey ){
     data: {key: SoftwareKey},
     dataType: "json",
     success: function(resp){
+      console.log(resp);
       Server.Cells = resp;
       displayCellList(Server.Cells);
     }
