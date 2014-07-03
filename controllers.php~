@@ -284,7 +284,7 @@ header('Access-Control-Allow-Origin: *');
       for($i = 0; $i < count($res); $i++){
           $columns = explode("\\", $res[$i]["path"]);
 
-          if(isset($columns[1]) && isset($columns[2]) && $columns[1] != "backup" && strpos($columns[1],'.mach') === false && $strpos($columns[1],"_LOG") === false){
+          if(isset($columns[1]) && isset($columns[2]) && $columns[1] != "backup" && strpos($columns[2],'.mach') === false && $strpos($columns[2],"_LOG") === false){
               $res[$i]["cell"]    = $columns[2];
           }
 
