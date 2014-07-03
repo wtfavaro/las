@@ -164,9 +164,12 @@ private function _PrepFileInfoForReturn($ServerFileInfo){
   $this->FilePack["id"] = $ServerFileInfo["id"];
 }
 private function AddSyncRequestDateTime($FilePack){
+  $dtNow = new DateTime();
+  $mysqlDateTime = $dtNow->format(DateTime::ISO8601);
+
   global $db;
   $query = "UPDATE sync_company SET last_updated = ? WHERE software_key = ?";
-  $data = array(date("Y/m/d H:i:s"), $FilePack["software_key"]);
+  $data = array($mysqlDateTime, $FilePack["software_key"]);
 
   // Execute the query.
   return $db->prepare($query)->execute($data);
