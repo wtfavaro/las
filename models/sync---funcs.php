@@ -145,7 +145,7 @@ private function _UpdateRecord($FilePack, $ServerFileInfo){
                         $FilePack["DateModified"],
                         $FilePack["id"]
                 );
-        $this->failure($FilePack["Size"] . " is less than " . $ServerFileInfo["size"]);
+        return false;
     } else {
     // If size is equal or more...
         $query = "UPDATE sync_file SET size = ?, path = ?, date_modified = ? WHERE id = ?";
@@ -158,7 +158,7 @@ private function _UpdateRecord($FilePack, $ServerFileInfo){
     }
 
     // Execute.
-    $db->prepare($query)->execute($data);
+    return $db->prepare($query)->execute($data);
 }
 private function _PrepFileInfoForReturn($ServerFileInfo){
   $this->FilePack["id"] = $ServerFileInfo["id"];
@@ -167,12 +167,12 @@ private function AddSyncRequestDateTime($FilePack){
   $dtNow = new DateTime();
   $mysqlDateTime = $dtNow->format(DateTime::ISO8601);
 
-  global $db;
-  $query = "UPDATE sync_company SET last_updated = ? WHERE software_key = ?";
-  $data = array($mysqlDateTime, $FilePack["software_key"]);
+  //global $db;
+  //$query = "UPDATE sync_company SET last_updated = ? WHERE software_key = ?";
+  //$data = array($mysqlDateTime, $FilePack["software_key"]);
 
   // Execute the query.
-  return $db->prepare($query)->execute($data);
+  //return $db->prepare($query)->execute($data);
 }
 }
 

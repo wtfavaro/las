@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="no-js">
     <head>
@@ -21,6 +23,14 @@
         <script src="js/Chart.min.js"></script>
 	      <script type="text/javascript" src="js/canvasjs.min.js"></script>
         <script src="js/core.intelli.fpt.js"></script>
+
+        <!-- c3/d3 -->
+        <!-- Load c3.css -->
+        <link href="c3/c3.css" rel="stylesheet" type="text/css">
+
+        <!-- Load d3.js and c3.js -->
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="c3/c3.min.js"></script>
     </head>
     <body>
 
