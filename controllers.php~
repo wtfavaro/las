@@ -307,6 +307,35 @@ Router::path("analytics", function(){
     require PUBLIC_DIR."footer.php";
 });
 
+Router::path("sync-force", function(){
+
+  // sync-force will notify the software that a force request has been made
+  // and to initialize the update immediately.
+  
+  if (isset($_GET["software-key"])){
+
+    // Fetch the record.
+    global $db;
+    $query = sprintf("SELECT * FROM sync_force WHERE software_key = '%s'", $_GET["software-key"]);
+    $match = Database::match($query);
+
+    // Delete the record.
+    if ($match){
+      $query = "DELETE FROM sync_force WHERE software_key = ?";
+      $data = array($_GET["software-key"]);
+      $db->prepare($query)->execute($data);
+      echo "1";
+    } else {
+      echo "0";
+    }
+  }
+
+});
+
+Router::path("sync-test", function(){
+  //SyncCore::ForceUpdate(array("software-key"=>"sample"));
+});
+
 Router::path("sync-report", function(){
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."getfreepoint/report.php";
@@ -337,7 +366,7 @@ Router::path("sync-logout", function(){
 TEMPLATES
 
 **********************************/
-Router::path("template-timberline", function(){
+Router::path("timberline", function(){
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."template/timberline.php";
     require PUBLIC_DIR."footer.php";
