@@ -9,6 +9,8 @@
 
   <a href="sync-logout" style="position: fixed; right: 15px; top: 15px;">Logout</a>
 
+<div id="server-process" style="display: none; color: #fff; background-color: rgba(0,0,0,0.8); padding: 5px;">Trying To Establish Connection</div>
+
 <div class="container">
   <div class="row" style="padding: 15px;">
     <label for="selCompany">Select Company:</label>
@@ -36,7 +38,7 @@
     <a id="aDownloadLauncher" href="#">
       <button id="btnDownload" style="width: 12%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
     </a>
-    <button id="btnForceSync" style="width: 12%; float: right; padding: 7.5px; margin-right: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>
+    <!--<button id="btnForceSync" style="width: 12%; float: right; padding: 7.5px; margin-right: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>-->
     <form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">
       <input id="formfpath" type="hidden" name="path" />
       <button type="submit" id="btnReport" class="btn btn-default" style="display: none; padding: 7.5px; width: 100%;">Report</button>
@@ -119,7 +121,7 @@ $("#selCompany").change(function(){
   getCellList(User.Select.SoftwareKey);
 
   // Load the Force Sync button.
-  Force.Enable($(this).find(":selected").data("key"));  
+  Force.Enable($(this).find(":selected").html(), $(this).find(":selected").data("key"));
 
 }).click(function(){
   User.Select.Company = $(this).val();
@@ -128,7 +130,7 @@ $("#selCompany").change(function(){
   getCellList(User.Select.SoftwareKey);
 
   // Load the Force Sync button.
-  Force.Enable($(this).find(":selected").data("key"));  
+  Force.Enable($(this).find(":selected").html(), $(this).find(":selected").data("key"));
 });
 
 displayCompanyList();
@@ -296,31 +298,104 @@ $("#btnDownload").on("click", function(){
 /* Button: Force Sync */
 $("#btnForceSync").on("click", function(){
 
-  Force.Request();
+  Force.Request($("#selCompany").find(":selected").html(), $("#selCompany").find(":selected").data("key"));
 
 });
 
 var Force = {
 
-  Enable: function(key){
-    $("#btnForceSync").removeAttr("disabled").attr("data-key", key);
+  CompanyName: "",
+
+  SoftwareKey: "",
+
+  Busy: false,
+
+  pollInterval: "",
+
+  init: function(company, key){
+    Force.firstRequest = true;
+    Force.CompanyName = company;
+    Force.SoftwareKey = key;
   },
 
-  Request: function(){
+  Enable: function(company, key){
+    if (Force.Busy === false){
+      console.log(key);
+      $("#btnForceSync").removeAttr("disabled").attr("data-key", key);
+    } else {
+      $("#btnForceSync").attr("disabled", "disabled");
+    }
+  },
+
+  Request: function(company, key){
+    if (Force.Busy === false){
+      Force.Busy = true;
+      Force.init(company, key);
+    } else {
+      return false;
+    }
+
     var data = 
     { 
-      'software-key': $("#btnForceSync").data("key"),
+      'software-key': Force.SoftwareKey,
       'json': 'true'
     };
 
     httprequest('SyncCore', 'ForceUpdate', data, function(resp){
-      console.log(resp);
       if(resp === 0 || resp === "0" || resp === "" ){
         alert("Couldn't force request.");
       } else if (resp === 1 || resp === "1"){
         alert("The force request has been sent.");
+        Force.ShowProcessing();
       }
     });
+  },
+
+  Stop: function(){
+
+    Force.Busy = false;
+    clearInterval(Force.pollInterval);
+
+  },
+
+  ShowProcessing: function(){
+    $("#server-process").css("display", "block");
+    var i = 001, firstRequest = true;
+
+    Force.pollInterval = setInterval(function(){
+      // Display the proper message.
+      $("#server-process").css("color", "#fff").html("Trying to Establish a Connection with " + Force.CompanyName + " - " + i + " seconds");
+
+      // Send a request to the server -- asking if the ping has been answered.
+      var data = 
+      { 
+        'software-key': Force.SoftwareKey
+      };
+
+      httprequest('SyncCore', 'HasPingRequest', data, function(resp){
+        if(resp === 0 || resp === "0"){
+          if(Force.firstRequest===false){        
+            $("#server-process").css("color", "green").html("Connection Established with " + Force.CompanyName + ". Now syncing.");
+            Force.Stop();
+          } else {
+            $("#server-process").css("color", "red").html("The server has experienced an error while establishing connection with " + Force.CompanyName);
+            Force.Stop();
+          }
+        }
+      });
+
+      // Check if the ping attempt has timed out.
+      if ( i >= 60 ){
+        $("#server-process").css("color", "red").html("Connection could not be established with " + Force.CompanyName);
+        Force.Stop();
+      }
+    
+      // Increment i
+      i=i+01;
+
+      // This is no longer the first request
+      Force.firstRequest = false;
+    }, 1000);
   }
 
 }

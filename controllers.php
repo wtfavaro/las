@@ -319,7 +319,7 @@ Router::path("sync-force", function(){
     $query = sprintf("SELECT * FROM sync_force WHERE software_key = '%s'", $_GET["software-key"]);
     $match = Database::match($query);
 
-    // Delete the record if this isn't a ping request.
+    // Delete the record if this isn't a ping request
     if (!isset($_GET["ping"])){
       $query = "DELETE FROM sync_force WHERE software_key = ?";
       $data = array($_GET["software-key"]);

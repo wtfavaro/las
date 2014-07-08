@@ -58,6 +58,27 @@ public static function ForceUpdate($args){
     }
   }
 }
+
+public static function HasPingRequest($args){
+  // sync-force will notify the software that a force request has been made
+  // and to initialize the update immediately.
+  
+  if (isset($args["software-key"])){
+
+    // Fetch the record.
+    global $db;
+    $query = sprintf("SELECT * FROM sync_force WHERE software_key = '%s'", $args["software-key"]);
+    $match = Database::match($query);
+
+    // Echo the output.
+    if ($match){
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
 }
 
 
