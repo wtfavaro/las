@@ -36,6 +36,7 @@
     <a id="aDownloadLauncher" href="#">
       <button id="btnDownload" style="width: 12%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
     </a>
+    <button id="btnForceSync" style="width: 12%; float: right; padding: 7.5px; margin-right: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>
     <form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">
       <input id="formfpath" type="hidden" name="path" />
       <button type="submit" id="btnReport" class="btn btn-default" style="display: none; padding: 7.5px; width: 100%;">Report</button>
@@ -116,11 +117,18 @@ $("#selCompany").change(function(){
   User.Select.SoftwareKey = $(this).find(":selected").data("key");
 
   getCellList(User.Select.SoftwareKey);
+
+  // Load the Force Sync button.
+  Force.Enable($(this).find(":selected").data("key"));  
+
 }).click(function(){
   User.Select.Company = $(this).val();
   User.Select.SoftwareKey = $(this).find(":selected").data("key");
 
   getCellList(User.Select.SoftwareKey);
+
+  // Load the Force Sync button.
+  Force.Enable($(this).find(":selected").data("key"));  
 });
 
 displayCompanyList();
@@ -281,9 +289,40 @@ function selFlist_Change(){
 /* Button: Download */
 $("#btnDownload").on("click", function(){
 
-    console.log($("#selFlist").find(":selected").val());
+  console.log($("#selFlist").find(":selected").val());
 
 });
 
+/* Button: Force Sync */
+$("#btnForceSync").on("click", function(){
+
+  Force.Request();
+
+});
+
+var Force = {
+
+  Enable: function(key){
+    $("#btnForceSync").removeAttr("disabled").attr("data-key", key);
+  },
+
+  Request: function(){
+    var data = 
+    { 
+      'software-key': $("#btnForceSync").data("key"),
+      'json': 'true'
+    };
+
+    httprequest('SyncCore', 'ForceUpdate', data, function(resp){
+      console.log(resp);
+      if(resp === 0 || resp === "0" || resp === "" ){
+        alert("Couldn't force request.");
+      } else if (resp === 1 || resp === "1"){
+        alert("The force request has been sent.");
+      }
+    });
+  }
+
+}
 
 </script>

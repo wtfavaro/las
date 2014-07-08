@@ -321,9 +321,11 @@ Router::path("sync-force", function(){
 
     // Delete the record.
     if ($match){
-      $query = "DELETE FROM sync_force WHERE software_key = ?";
-      $data = array($_GET["software-key"]);
-      $db->prepare($query)->execute($data);
+      if (!isset($_GET["ping"])){
+        $query = "DELETE FROM sync_force WHERE software_key = ?";
+        $data = array($_GET["software-key"]);
+        $db->prepare($query)->execute($data);
+      }
       echo "1";
     } else {
       echo "0";
@@ -333,7 +335,7 @@ Router::path("sync-force", function(){
 });
 
 Router::path("sync-test", function(){
-  //SyncCore::ForceUpdate(array("software-key"=>"sample"));
+  SyncCore::ForceUpdate(array("software-key"=>"sample"));
 });
 
 Router::path("sync-report", function(){

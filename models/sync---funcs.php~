@@ -34,18 +34,27 @@ public static function AuthenticSoftwareKey($str_SoftwareKey)
     // Now we've determined if there's a match and returned to the calling function.
 }
 
-public static function ForceUpdate($data){
-  if(isset($data["software-key"])){
+public static function ForceUpdate($args){
+  if(isset($args["software-key"])){
     global $db;
     $date = new DateTime();
     $query = "INSERT INTO sync_force (software_key, date_added) VALUES (?,?)";
-    $data = array($data["software-key"], $date->format("Y-m-d H:i:s"));
+    $data = array($args["software-key"], $date->format("Y-m-d H:i:s"));
     $write = $db->prepare($query)->execute($data);
 
-    if ($write) {
-      echo 1;
+    // Return values
+    if (!isset($args["json"])){
+      if ($write) {
+        echo 1;
+      } else {
+        echo 0;
+      }
     } else {
-      echo 0;
+      if ($write) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 }
