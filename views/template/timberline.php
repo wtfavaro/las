@@ -141,7 +141,7 @@ body {
           <tr><td>12:55:14PM</th><td>1:32:50PM</td></tr> 
           <tr><td>2:00:08PM</th><td>2:45:21PM</td></tr>
           <tr><td colspan="2"></td></tr>
-          <tr class="chart-downtime-tr-header"><th colspan="2">Total Low Activity: <span style="color:red;">03:17:53</span></th></tr>       
+          <tr class="chart-downtime-tr-header"><th colspan="2">Total Low Activity: <span style="color:red;">02:57:59</span></th></tr>       
         </table>
       </div>
     </span>
@@ -211,10 +211,14 @@ var chart = c3.generate({
         x : 'x',
         columns: [
             ['x', '7-8AM', '8-9AM', '9-10AM', '10-11AM', '11-12PM', '12-1PM', '1PM-2PM', '2PM-3PM'],
-            ['Uptime', 41.65],
-            ['Setup & Downtime', 58.35]
+            ['M/C Ready', '82.65'],
+            ['Guard Up', 9.34],
+            ['Idle', '8.01']
         ],
-        type: 'pie'
+        type: 'pie',
+        colors: {
+            Idle: '#aaaaaa'
+        }
     },
     axis: {
         x: {
