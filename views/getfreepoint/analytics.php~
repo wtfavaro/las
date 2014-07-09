@@ -12,38 +12,54 @@
 <div id="server-process" style="display: none; color: #fff; background-color: rgba(0,0,0,0.8); padding: 5px;">Trying To Establish Connection</div>
 
 <div class="container">
-  <div class="row" style="padding: 15px;">
-    <label for="selCompany">Select Company:</label>
-    <select id="selCompany" style="width: 100%; padding: 7.5px; opacity: 0.6;">
-    </select>
-  </div>
 
-  <div class="row" style="padding: 15px;">
-    <label for="selCell">Select a Cell:</label>
-    <select id="selCell" style="width: 100%; padding: 7.5px; opacity: 0.6;">
-    </select>
-  </div>
+  <!-- Col Width 8 -->
+  <span class="col-xs-8">
+    <div class="row" style="padding: 15px;">
+      <label for="selCompany">Select Company:</label>
+      <select id="selCompany" style="width: 100%; padding: 7.5px; opacity: 0.6;">
+      </select>
+    </div>
 
-  <div class="row" style="padding: 15px;">
-    <label for="selMach">Select a Machine:</label>
-    <select id="selMach" style="width: 100%; padding: 7.5px; opacity: 0.6;">
-    </select>
-  </div>
+    <div class="row" style="padding: 15px;">
+      <label for="selCell">Select a Cell:</label>
+      <select id="selCell" style="width: 100%; padding: 7.5px; opacity: 0.6;">
+      </select>
+    </div>
 
-  <div class="row" style="padding: 15px;">
-    <label for="selFlist">Select a File:</label><br />
-    <select id="selFlist" style="width: 50%; padding: 7.5px; opacity: 0.6;">
-    </select>
+    <div class="row" style="padding: 15px;">
+      <label for="selMach">Select a Machine:</label>
+      <select id="selMach" style="width: 100%; padding: 7.5px; opacity: 0.6;">
+      </select>
+    </div>
 
-    <a id="aDownloadLauncher" href="#">
-      <button id="btnDownload" style="width: 12%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
-    </a>
-    <!--<button id="btnForceSync" style="width: 12%; float: right; padding: 7.5px; margin-right: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>-->
-    <form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">
-      <input id="formfpath" type="hidden" name="path" />
-      <button type="submit" id="btnReport" class="btn btn-default" style="display: none; padding: 7.5px; width: 100%;">Report</button>
-    </form>  
-  </div>
+    <div class="row" style="padding: 15px;">
+      <label for="selFlist">Select a File:</label><br />
+      <select id="selFlist" style="width: 75%; padding: 7.5px; opacity: 0.6;">
+      </select>
+      <a id="aDownloadLauncher" href="#">
+        <button id="btnDownload" style="width: 12%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
+      </a>
+      <!--<button id="btnForceSync" style="width: 12%; float: right; padding: 7.5px; margin-right: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>-->
+      <!--<form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">
+        <input id="formfpath" type="hidden" name="path" />
+        <button type="submit" id="btnReport" class="btn btn-default" style="display: none; padding: 7.5px; width: 100%;">Report</button>
+      </form>--> 
+    </div>   
+  </span>
+  <!-- End Col Width 8 -->
+
+  <span class="col-xs-4" style="height: 100px; margin-top: 15px;">
+    <div style="width: 100%; background: rgba(100,100,100,1);" class="text-center">
+      <p style="padding: 5px; font-weight: 900; color: #fff; margin: 0;">Overview</p>
+    </div>
+    <div style="border: 1px solid #aaa; height: 100%; width: 100%; padding: 20px;">
+      <table style="width: 100%;">
+        <tr><td style="width: 33%; min-width: 33%;">Company:</td><td id="table-overview-companyname"></td></tr>
+        <tr><td style="width: 33%; min-width: 33%;">Last Update:</td><td id="table-overview-lastupdate"></td></tr>
+      </table>
+    </div>
+  </span>
 
 </div>
 
@@ -110,7 +126,9 @@ function displayList(list){
 
   for (var i = 0; i < list.length; i++){
     var self = $("#selCompany");
-    self.html(self.html() + "<option data-key='"+list[i].software_key+"'>"+list[i].name+"</option>");
+
+    // Add the update
+    self.html(self.html() + "<option data-key='"+list[i].software_key+"' data-update='"+list[i].last_updated+"'>"+list[i].name+"</option>");
   }
 }
 
@@ -120,6 +138,10 @@ $("#selCompany").change(function(){
 
   getCellList(User.Select.SoftwareKey);
 
+  // Add overview information.
+  $("#table-overview-companyname").html($(this).val());
+  $("#table-overview-lastupdate").html($(this).find(":selected").data("update"));
+
   // Load the Force Sync button.
   Force.Enable($(this).find(":selected").html(), $(this).find(":selected").data("key"));
 
@@ -128,6 +150,10 @@ $("#selCompany").change(function(){
   User.Select.SoftwareKey = $(this).find(":selected").data("key");
 
   getCellList(User.Select.SoftwareKey);
+
+  // Add overview information.
+  $("#table-overview-companyname").html($(this).val());
+  $("#table-overview-lastupdate").html($(this).find(":selected").data("update"));
 
   // Load the Force Sync button.
   Force.Enable($(this).find(":selected").html(), $(this).find(":selected").data("key"));
@@ -143,7 +169,6 @@ function getCellList( SoftwareKey ){
     data: {key: SoftwareKey},
     dataType: "json",
     success: function(resp){
-      console.log(resp);
       Server.Cells = resp;
       displayCellList(Server.Cells);
     }
@@ -291,7 +316,7 @@ function selFlist_Change(){
 /* Button: Download */
 $("#btnDownload").on("click", function(){
 
-  console.log($("#selFlist").find(":selected").val());
+  //console.log($("#selFlist").find(":selected").val());
 
 });
 
@@ -320,7 +345,6 @@ var Force = {
 
   Enable: function(company, key){
     if (Force.Busy === false){
-      console.log(key);
       $("#btnForceSync").removeAttr("disabled").attr("data-key", key);
     } else {
       $("#btnForceSync").attr("disabled", "disabled");
