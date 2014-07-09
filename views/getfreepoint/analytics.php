@@ -35,7 +35,7 @@
 
     <div class="row" style="padding: 15px;">
       <label for="selFlist">Select a File:</label><br />
-      <select id="selFlist" style="width: 75%; padding: 7.5px; opacity: 0.6;">
+      <select id="selFlist" style="width: 60%; padding: 7.5px; opacity: 0.6;">
       </select>
       <a id="aDownloadLauncher" href="#">
         <button id="btnDownload" style="width: 100px; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
