@@ -38,7 +38,7 @@
       <select id="selFlist" style="width: 50%; padding: 7.5px; opacity: 0.6;">
       </select>
       <a id="aDownloadLauncher" href="#">
-        <button id="btnDownload" style="width: 12%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
+        <button id="btnDownload" style="width: 100px; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
       </a>
       <!--<button id="btnForceSync" style="width: 12%; float: right; padding: 7.5px; margin-right: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>-->
       <!--<form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">

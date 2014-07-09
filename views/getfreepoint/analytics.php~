@@ -14,7 +14,7 @@
 <div class="container">
 
   <!-- Col Width 8 -->
-  <span class="col-xs-8">
+  <span class="col-xs-6">
     <div class="row" style="padding: 15px;">
       <label for="selCompany">Select Company:</label>
       <select id="selCompany" style="width: 100%; padding: 7.5px; opacity: 0.6;">
@@ -35,7 +35,7 @@
 
     <div class="row" style="padding: 15px;">
       <label for="selFlist">Select a File:</label><br />
-      <select id="selFlist" style="width: 75%; padding: 7.5px; opacity: 0.6;">
+      <select id="selFlist" style="width: 50%; padding: 7.5px; opacity: 0.6;">
       </select>
       <a id="aDownloadLauncher" href="#">
         <button id="btnDownload" style="width: 12%; float: right; padding: 7.5px;" class="btn btn-primary">Download</button>
@@ -49,7 +49,7 @@
   </span>
   <!-- End Col Width 8 -->
 
-  <span class="col-xs-4" style="height: 100px; margin-top: 15px;">
+  <span class="col-xs-6" style="height: 100px; margin-top: 15px;">
     <div style="width: 100%; background: rgba(100,100,100,1);" class="text-center">
       <p style="padding: 5px; font-weight: 900; color: #fff; margin: 0;">Overview</p>
     </div>
