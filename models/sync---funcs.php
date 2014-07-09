@@ -210,6 +210,8 @@ private function _PrepFileInfoForReturn($ServerFileInfo){
 }
 private function AddSyncRequestDateTime($FilePack){
   $dtNow = new DateTime();
+  $tz_ny = new DateTimeZone("America/Toronto");
+  $dtNow->setTimezone($tz_ny);
   $mysqlDateTime = $dtNow->format("Y-m-d H:i:s");
 
   global $db;
