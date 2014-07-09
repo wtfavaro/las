@@ -210,14 +210,14 @@ private function _PrepFileInfoForReturn($ServerFileInfo){
 }
 private function AddSyncRequestDateTime($FilePack){
   $dtNow = new DateTime();
-  $mysqlDateTime = $dtNow->format(DateTime::ISO8601);
+  $mysqlDateTime = $dtNow->format("Y-m-d H:i:s");
 
-  //global $db;
-  //$query = "UPDATE sync_company SET last_updated = ? WHERE software_key = ?";
-  //$data = array($mysqlDateTime, $FilePack["software_key"]);
+  global $db;
+  $query = "UPDATE sync_company SET last_updated = ? WHERE software_key = ?";
+  $data = array($mysqlDateTime, $FilePack["SoftwareKey"]);
 
   // Execute the query.
-  //return $db->prepare($query)->execute($data);
+  return $db->prepare($query)->execute($data);
 }
 }
 
