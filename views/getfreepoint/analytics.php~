@@ -38,10 +38,6 @@
       <select id="selFlist" style="width: 100%; padding: 7.5px; opacity: 0.6;">
       </select>
       <!--<button id="btnForceSync" style="width: 12%; float: right; padding: 7.5px; margin-right: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>-->
-      <!--<form method="POST" action="sync-report" style="margin: 0; padding: 0; display: inline-block; width: 12%; margin-right: 7.5px; float: right;">
-        <input id="formfpath" type="hidden" name="path" />
-        <button type="submit" id="btnReport" class="btn btn-default" style="display: none; padding: 7.5px; width: 100%;">Report</button>
-      </form>--> 
     </div>   
   </span>
   <!-- End Col Width 8 -->
@@ -59,8 +55,12 @@
         <a id="aDownloadLauncher" href="#">
           <button id="btnDownload" style="width: 100%;" class="btn btn-primary">Download File</button>
         </a>
-        <a href="sync-logout" style="margin-top: 7.5px;">
-          <button class="btn btn-primary" style="width: 100%;">Logout</button>
+        <form method="POST" action="sync-report" style="margin: 0; margin-top: 7.5px; padding: 0; width: 100%;">
+          <input id="formfpath" type="hidden" name="path" />
+          <button type="submit" id="btnReport" class="btn btn-default" style=" width: 100%;">Generate Report</button>
+        </form>
+        <a href="sync-logout">
+          <button class="btn btn-default" style="width: 100%; margin-top: 7.5px;">Logout</button>
         </a>
       </div>
     </div>

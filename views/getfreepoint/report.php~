@@ -3,9 +3,10 @@
 if (!isset($_POST["path"])){
   echo "No file found.";
 } else {
-
   // LogFile generates an array-based Log File located in object->contents.
   $LogFile = new LogFile($_POST["path"]);
+  $LogICounter = new LogFileInputCounter($LogFile->contents, "BENDER");
+  echo "Result: " . $LogICounter->getCount();
 }
 
 class LogFile {
@@ -19,6 +20,7 @@ public function __construct($path){
 
   $handle = @fopen($path, "r");
 
+  // Access the file.
   if ($handle) {
       while (($buffer = fgets($handle, 4096)) !== false) {
           $this->contents[] = explode(",", $buffer);
@@ -29,8 +31,8 @@ public function __construct($path){
       fclose($handle);
   }
 
+  // Check if an error was generated while accessing the file.
   if (!$error){
-
     unset($this->contents[0]);
 
     // Convert the date string at column[0] into a datetime object.
@@ -40,10 +42,11 @@ public function __construct($path){
 
 private function _AddDateTimeToContent($content){
 
-  for($i=0; $i<count($content); $i++) {
+  for($i=0; $i<count($content)+1; $i++) {
 
     // Get the current row
     if (!isset($content[$i])) continue;
+     
     $row = $content[$i];
 
     // Get the parts of the timestamp
@@ -93,37 +96,119 @@ private function _AddDateTimeToContent($content){
   return $content;
 
 }
+}
 
-public function FirstCycle(){
+class LogFileInputCounter{
 
-  /*
-      The first cycle does not merely seek out the first instance of activity (when Cell Monitor turns on).
-      Instead, it looks for the first instance where the state is 1.
-  */
+// Row information.
+private $row;
 
-  foreach($this->contents as $row){
-    if($row[0] != "" && $row[4] != "" && $row[4] > 0){
-      echo "First Cycle: " . $row[0]->format("Y/m/d H:i:s");
-      return true;
+// Instance related information
+private $input_focus;
+private $logfile_array;
+
+// Capture increment values
+private $current_increment;
+
+// Counting from last zero
+private $active_count_current_value;
+private $active_count_last_value;
+private $active_count_start_value;
+private $active_count_total;
+
+// Accumulative count
+private $accumulative_count_total;
+
+// Note flags along the way
+private $encountered_DI_reset = false;
+private $encountered_remote_power_up = false;
+
+public function __construct($logfile, $input_name){
+  $this->input_focus = $input_name;
+  $this->logfile_array = $logfile;
+  $this->increment();
+}
+private function increment(){
+  $logfile_length = count($this->logfile_array);
+  for($i = 0; $i < $logfile_length+1; $i++){
+    // Continue if no row
+    if (!isset($this->logfile_array[$i])) continue;
+    // Save a pointer to the row in this instance
+    $this->row = $this->logfile_array[$i];
+
+    if ($this->row[3] == $this->input_focus){
+      // Save the previous and current increment value
+      $this->current_increment = $i;
+      // Keep active count
+      $this->keepActiveCount();
+      // Add active total
+      $this->addToActiveTotal();
+      // Test for notes
+      $this->testForNotes();
     }
   }
-  return false;
 }
-
+private function addToActiveTotal(){
+  // Check if the counter is incrementing upward -- add to the total if true
+  if ($this->row[5] != "" || $this->row[5] > $this->active_count_start_value){
+    $this->active_count_total = $this->row[5] - $this->active_count_start_value;
+  }
+  // If it isn't incrementing -- damn -- we've got to deal with a rollover.
+  else {
+    if($this->encounteredResetOrPowerUpNote()){
+      // Because we got a reset or power note, we know the count
+      // was cut short. We need to add active count to total and start fresh.
+      $this->addActiveCountToTotal();
+      $this->startNewActiveCount();
+    } else {
+      // Because there was no note, we know a rollover happened
+      $this->accmulative_count_total = (($this->active_count_start_value - 65535)*-1);
+      $this->startNewActiveCount();
+    }
+  }
 }
-
+private function testForNotes(){
+  if ($this->row[7] == "DI Reset") $this->encountered_DI_reset = true;
+  if ($this->row[7] == "Remote Power Up") $this->encountered_remote_power_up = true;
+}
+private function encounteredResetOrPowerUpNote(){
+  return ($this->encountered_DI_reset || $this->encountered_remote_power_up ? true : false);
+}
+private function keepActiveCount(){
+  $this->active_count_last_value = $this->active_count_current_value;
+  $this->active_count_current_value = $this->row[5];
+}
+private function addActiveCountToTotal(){
+  $accumulative_total = $this->accumulative_count_total;
+  $this->accumulative_count_total = $accumulative_total + $this->active_count_total;
+}
+private function startNewActiveCount(){
+  // Save state
+  $this->active_count_start_value = $this->active_count_current_value;
+  // Reset state
+  $this->active_count_last_value = 0;
+  $this->active_count_total = 0;
+  $this->encountered_DI_reset = false;
+  $this->encountered_remote_power_up = false;
+}
+public function getCount(){
+  return $this->accumulative_count_total;
+}
+}
 ?>
 
 <script type="text/javascript">
-  var content = "<?php echo addslashes(json_encode($LogFile->contents)); ?>";
-  var logfile = jQuery.parseJSON( content );
-
+var content = "<?php echo addslashes(json_encode($LogFile->contents)); ?>";
+var logfile = jQuery.parseJSON( content );
+var Analytics = new Analytics();
+Analytics.FirstActivity();
 
 function Analytics(){
 
   this.FirstActivity = function(){
     for (var row in logfile) {
-      console.log(logfile(row));
+      //
+      console.log(logfile[row]);
     }
   }
 
