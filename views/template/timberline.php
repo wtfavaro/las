@@ -136,10 +136,10 @@ body {
         <table id="chart-downtime-table">
           <tr class="chart-downtime-tr-header"><th>From</th><th>Until</th></tr>  
           <tr><td>7:00:00AM</td><td>7:18:27AM</td></tr> 
-          <tr><td>7:55:17AM</th><td>8:22:18AM</td></tr>
-          <tr><td>10:55:09AM</th><td>11:44:51AM</td></tr> 
-          <tr><td>12:55:14PM</th><td>1:32:50PM</td></tr> 
-          <tr><td>2:00:08PM</th><td>2:45:21PM</td></tr>
+          <tr><td>7:55:17AM</td><td>8:22:18AM</td></tr>
+          <tr><td>10:55:09AM</td><td>11:44:51AM</td></tr> 
+          <tr><td>12:55:14PM</td><td>1:32:50PM</td></tr> 
+          <tr><td>2:00:08PM</td><td>2:45:21PM</td></tr>
           <tr><td colspan="2"></td></tr>
           <tr class="chart-downtime-tr-header"><th colspan="2">Total Low Activity: <span style="color:red;">02:57:59</span></th></tr>       
         </table>
@@ -200,7 +200,7 @@ var chart = c3.generate({
     },
     axis: {
         x: {
-            type: 'category' // this needed to load string x value
+            type: 'category'
         }
     }
 });

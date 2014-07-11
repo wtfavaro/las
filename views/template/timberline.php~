@@ -200,7 +200,7 @@ var chart = c3.generate({
     },
     axis: {
         x: {
-            type: 'category' // this needed to load string x value
+            type: 'category'
         }
     }
 });
