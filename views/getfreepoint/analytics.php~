@@ -433,7 +433,8 @@ var Force = {
 
 function GetGenericData(){
     httprequest('SyncProperties', 'getTotalServerFileLoad', {}, function(resp){
-      $("#table-overview-totalmb").html(resp + "KB");
+      var mb = (resp/1000);
+      $("#table-overview-totalmb").html(mb + "MB");
     });
 } GetGenericData();
 
