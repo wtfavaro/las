@@ -407,6 +407,7 @@ var Force = {
         if(resp === 0 || resp === "0"){
           if(Force.firstRequest===false){        
             $("#server-process").css("color", "green").html("Connection Established with " + Force.CompanyName + ". Now syncing.");
+            $("#table-overview-lastupdate").html("Now");
             Force.Stop();
           } else {
             $("#server-process").css("color", "red").html("The server has experienced an error while establishing connection with " + Force.CompanyName);
