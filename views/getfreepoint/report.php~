@@ -1,11 +1,10 @@
 <?php
-
 if (!isset($_POST["path"])){
   echo "No file found.";
 } else {
   // LogFile generates an array-based Log File located in object->contents.
   $LogFile = new LogFile($_POST["path"]);
-  $LogICounter = new LogFileInputCounter($LogFile->contents, "BENDER");
+  $LogICounter = new LogFileInputCounter($LogFile->contents, "INPUT 4");
   echo "Result: " . $LogICounter->getCount();
 }
 
@@ -16,28 +15,15 @@ public $contents = array();
 
 public function __construct($path){
 
-  $error = false;
+  // Open the file
+  $lines  = @file($path);
 
-  $handle = @fopen($path, "r");
+  // Save it as a global property
+  $this->contents = $lines;
+  unset($lines);
 
-  // Access the file.
-  if ($handle) {
-      while (($buffer = fgets($handle, 4096)) !== false) {
-          $this->contents[] = explode(",", $buffer);
-      }
-      if (!feof($handle)) {
-          $error = true;
-      }
-      fclose($handle);
-  }
-
-  // Check if an error was generated while accessing the file.
-  if (!$error){
-    unset($this->contents[0]);
-
-    // Convert the date string at column[0] into a datetime object.
-    $this->contents = $this->_AddDateTimeToContent($this->contents);
-  }
+  // Convert the date string into a datetime object.
+  // $this->contents = $this->_AddDateTimeToContent($this->contents);
 }
 
 private function _AddDateTimeToContent($content){
@@ -47,6 +33,7 @@ private function _AddDateTimeToContent($content){
     // Get the current row
     if (!isset($content[$i])) continue;
      
+    // Explode
     $row = $content[$i];
 
     // Get the parts of the timestamp
@@ -133,43 +120,57 @@ private function increment(){
   for($i = 0; $i < $logfile_length+1; $i++){
     // Continue if no row
     if (!isset($this->logfile_array[$i])) continue;
-    // Save a pointer to the row in this instance
-    $this->row = $this->logfile_array[$i];
+    // Explode the row, saving a pointer
+    $this->row = explode(",", $this->logfile_array[$i]);
+    // We test for notes.
+    $this->testForNotes();
+    // If there is no counter value, we move on.
+    if($this->row[5]=="") continue;
 
     if ($this->row[3] == $this->input_focus){
+      // Assign start value
+      $this->assignStartValue();
       // Save the previous and current increment value
       $this->current_increment = $i;
       // Keep active count
       $this->keepActiveCount();
       // Add active total
       $this->addToActiveTotal();
-      // Test for notes
-      $this->testForNotes();
     }
   }
+
+  $this->addActiveCountToTotal();
+}
+private function assignStartValue(){
+  if($this->active_count_start_value == "") $this->active_count_start_value = $this->row[5];
 }
 private function addToActiveTotal(){
+
   // Check if the counter is incrementing upward -- add to the total if true
-  if ($this->row[5] != "" || $this->row[5] > $this->active_count_start_value){
+  if ($this->row[5] > $this->active_count_start_value){
     $this->active_count_total = $this->row[5] - $this->active_count_start_value;
   }
   // If it isn't incrementing -- damn -- we've got to deal with a rollover.
   else {
     if($this->encounteredResetOrPowerUpNote()){
+      echo "Rollover with note.";
       // Because we got a reset or power note, we know the count
       // was cut short. We need to add active count to total and start fresh.
       $this->addActiveCountToTotal();
       $this->startNewActiveCount();
     } else {
+      echo "Rollover without note.";
+      echo "\n".$this->active_count_total;
+      echo
       // Because there was no note, we know a rollover happened
-      $this->accmulative_count_total = (($this->active_count_start_value - 65535)*-1);
+      $this->accumulative_count_total = $this->accumulative_count_total + (($this->active_count_start_value - 65535)*-1);
       $this->startNewActiveCount();
     }
   }
 }
 private function testForNotes(){
-  if ($this->row[7] == "DI Reset") $this->encountered_DI_reset = true;
-  if ($this->row[7] == "Remote Power Up") $this->encountered_remote_power_up = true;
+  if (trim($this->row[7], " ") == "DI Reset") $this->encountered_DI_reset = true;
+  if (trim($this->row[7], " ") == "Remote Power Up") $this->encountered_remote_power_up = true;
 }
 private function encounteredResetOrPowerUpNote(){
   return ($this->encountered_DI_reset || $this->encountered_remote_power_up ? true : false);
@@ -198,10 +199,10 @@ public function getCount(){
 ?>
 
 <script type="text/javascript">
-var content = "<?php echo addslashes(json_encode($LogFile->contents)); ?>";
-var logfile = jQuery.parseJSON( content );
-var Analytics = new Analytics();
-Analytics.FirstActivity();
+//var content = "<?php echo addslashes(json_encode($LogFile->contents)); ?>";
+//var logfile = jQuery.parseJSON( content );
+//var Analytics = new Analytics();
+//Analytics.FirstActivity();
 
 function Analytics(){
 
