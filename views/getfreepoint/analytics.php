@@ -60,7 +60,7 @@
           <input id="formfpath" type="hidden" name="path" />
           <button type="submit" id="btnReport" class="btn btn-default" style=" width: 100%;">Generate Report</button>
         </form>-->
-        <button id="btnForceSync" style="width: 100%; margin-top: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>
+        <!--<button id="btnForceSync" style="width: 100%; margin-top: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>-->
         <a href="sync-logout">
           <button class="btn btn-default" style="width: 100%; margin-top: 7.5px;">Logout</button>
         </a>
