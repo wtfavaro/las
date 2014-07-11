@@ -4,7 +4,7 @@ class SyncProperties {
 
   public static function getTotalServerFileLoad(){
     global $db;
-    $query = "SELECT size from sync_file AND file_pointer IS NOT NULL";
+    $query = "SELECT size from sync_file WHERE file_pointer IS NOT NULL";
     $results = Database::FetchAll($query);
     
     $total_size = 0;
