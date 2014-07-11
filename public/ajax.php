@@ -32,14 +32,7 @@ if (method_exists($_POST['class'], $_POST['method'])){
 } 
 
 function ajaxResponse($method_response){
-  switch($method_response){
-    case true:
-      echo 1;
-      break;
-    case false:
-      echo 0;
-      break;
-  }
+  if ($method_response === true) echo 1;
+  if ($method_response === false) echo 0;
 }
-
 ?>

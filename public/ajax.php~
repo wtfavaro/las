@@ -16,16 +16,16 @@ if (method_exists($_POST['class'], $_POST['method'])){
   $method = $_POST['method'];
 
   // Call the method.
-  if(isset($_POST['args']) && !isset($_POST['callback'])){
+  if(isset($_POST['args']) && !isset($_POST["args"]["callback"])){
     ajaxResponse($class::$method($_POST['args']));
-  } elseif(!isset($_POST['args']) && !isset($_POST['callback'])) {
+  } elseif(!isset($_POST['args']) && !isset($_POST["args"]["callback"])) {
     ajaxResponse($class::$method());
   }
 
   // Call the method for if a callback is expected.
-  if(isset($_POST["callback"]) && isset($_POST["args"])){
+  if(isset($_POST["args"]["callback"]) && isset($_POST["args"])){
     $class::$method($_POST["args"]);
-  } elseif (isset($_POST["callback"]) && !isset($_POST["args"])){
+  } elseif (isset($_POST["args"]["callback"]) && !isset($_POST["args"])){
     $class::$method();
   }
 
@@ -38,6 +38,8 @@ function ajaxResponse($method_response){
       break;
     case false:
       echo 0;
+      break;
+    case "json":
       break;
   }
 }

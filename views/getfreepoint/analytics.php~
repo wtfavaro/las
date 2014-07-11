@@ -50,6 +50,7 @@
       <table style="width: 100%;">
         <tr><td style="width: 33%; min-width: 33%;">Company:</td><td id="table-overview-companyname"></td></tr>
         <tr><td style="width: 33%; min-width: 33%;">Last Update:</td><td id="table-overview-lastupdate"></td></tr>
+        <tr><td style="width: 33%; min-width: 33%;">Total Uploads:</td><td id="table-overview-totalmb"></td></tr>
       </table>
       <div class="text-center" style="border-top: 1px solid #aaa; padding-top: 20px; margin-top: 20px;">
         <a id="aDownloadLauncher" href="#">
@@ -71,6 +72,7 @@
 
 <script type="text/javascript">
 
+// Application Functions //
 Array.prototype.contains = function ( needle ) {
    for (i in this) {
        if (this[i] == needle) return true;
@@ -375,7 +377,6 @@ var Force = {
       if(resp === 0 || resp === "0" || resp === "" ){
         alert("Couldn't force request.");
       } else if (resp === 1 || resp === "1"){
-        alert("The force request has been sent.");
         Force.ShowProcessing();
       }
     });
@@ -429,5 +430,11 @@ var Force = {
   }
 
 }
+
+function GetGenericData(){
+    httprequest('SyncProperties', 'getTotalServerFileLoad', {}, function(resp){
+      $("#table-overview-totalmb").html(resp + "KB");
+    });
+} GetGenericData();
 
 </script>

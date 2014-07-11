@@ -50,6 +50,7 @@
       <table style="width: 100%;">
         <tr><td style="width: 33%; min-width: 33%;">Company:</td><td id="table-overview-companyname"></td></tr>
         <tr><td style="width: 33%; min-width: 33%;">Last Update:</td><td id="table-overview-lastupdate"></td></tr>
+        <tr><td style="width: 33%; min-width: 33%;">Total Uploads:</td><td id="table-overview-totalmb"></td></tr>
       </table>
       <div class="text-center" style="border-top: 1px solid #aaa; padding-top: 20px; margin-top: 20px;">
         <a id="aDownloadLauncher" href="#">
@@ -71,6 +72,7 @@
 
 <script type="text/javascript">
 
+// Application Functions //
 Array.prototype.contains = function ( needle ) {
    for (i in this) {
        if (this[i] == needle) return true;
@@ -428,5 +430,12 @@ var Force = {
   }
 
 }
+
+function GetGenericData(){
+    httprequest('SyncProperties', 'getTotalServerFileLoad', {}, function(resp){
+      var mb = (resp/1000);
+      $("#table-overview-totalmb").html(mb + "MB");
+    });
+} GetGenericData();
 
 </script>
