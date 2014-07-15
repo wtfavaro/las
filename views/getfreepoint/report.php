@@ -210,129 +210,135 @@ var h=0;
 
 $('body').html("<h1>Generating Report</h1>");
 
+// Input List //
+var Inputs = {
+
+  List: Array(),
+
+  Get: function(){
+    for (var i in logfile){
+      logfile[i] = logfile[i].split(",");
+      getInputNames(logfile[i]);
+    }
+
+    function getInputNames(row){
+      if (Inputs.List.indexOf(row[3]) === -1 && row[3] !== "Name" && row[3] !== ""){
+        Inputs.List.push(row[3]);
+      }
+    }
+  }
+};
+
 // Process Analytics //
-var Analytics = {
+function Analytics(){
 
-      Inputs: Array(),
+    var self = this;
 
-      __init: function(callback){ 
-        this.getInputList();
+    var Inputs = new Array();
 
-        $.each(this.Inputs, function(key, value){
-          Analytics.Run(value);
-        });
+    __init(function(){});
 
-        callback();
-      },
+    function __init(callback){ 
+      $.each(self.Inputs, function(key, value){
+        Analytics.Run(value);
+      });
 
-      getInputList: function(){
-        for (var i in logfile){
-          logfile[i] = logfile[i].split(",");
-          getInputNames(logfile[i]);
-        }
+      callback();
+    };
 
-        function getInputNames(row){
-          if (Analytics.Inputs.indexOf(row[3]) === -1 && row[3] !== "Name" && row[3] !== ""){
-            Analytics.Inputs.push(row[3]);
-          }
-        }
-      },
+    function Run(inputName){
 
-      Run: function(inputName){
+      // Current input focus
+      var input_focus = inputName;
 
-        // Current input focus
-        var input_focus = inputName;
+      // Active count
+      var active_count = 0;
 
-        // Active count
-        var active_count = 0;
+      // Accumulative count
+      var accumulative_count = 0;
 
-        // Accumulative count
-        var accumulative_count = 0;
+      // Counter
+      var start_value;                                          // defaults to zero after the first go
+      var this_count_value;
+      var last_count_value;
+      var rIndex = 0;
 
-        // Counter
-        var start_value;                                          // defaults to zero after the first go
-        var this_count_value;
-        var last_count_value;
-        var rIndex = 0;
+      // Notes
+      var encountered_DI_reset = false;
+      var encountered_power_up = false;
 
-        // Notes
-        var encountered_DI_reset = false;
-        var encountered_power_up = false;
+      // Start the function
+      console.log("Starting to iterate...");        
+      iterator();
 
-        // Start the function
-        console.log("Starting to iterate...");        
-        iterator();
+      // Iterator Function
+      function iterator(){
+            for (var i in logfile){
 
-        // Iterator Function
-        function iterator(){
-              for (var i in logfile){
+              // Isolate row
+              var row = logfile[i];
 
-                // Isolate row
-                var row = logfile[i];
+              // Looking for notes
+              lookForRolloverNote(row);
 
-                // Looking for notes
-                lookForRolloverNote(row);
+              // Go no further if there is no integer at counter value
+              // And go no further if this isn't the input name we're looking for
+              if (row[3] != input_focus || !isInt(row[5])) continue;
 
-                // Go no further if there is no integer at counter value
-                // And go no further if this isn't the input name we're looking for
-                if (row[3] != input_focus || !isInt(row[5])) continue;
+              // Keeping count
+              last_count_value = this_count_value;
+              this_count_value = row[5];
 
-                // Keeping count
-                last_count_value = this_count_value;
-                this_count_value = row[5];
-
-                // This is okay to be added to the active count
-                if (this_count_value > last_count_value){
-                  addToActiveCount();
-                }
-                // Now we have to deal with a damn rollover
-                else if(this_count_value < last_count_value && didEncounterNote()) {
-                  console.log(row);
-                  addToAccumulativeCount();
-                  clearVariablesForNextActiveCount();
-                }
+              // This is okay to be added to the active count
+              if (this_count_value > last_count_value){
+                addToActiveCount();
               }
-        }
+              // Now we have to deal with a damn rollover
+              else if(this_count_value < last_count_value && didEncounterNote()) {
+                console.log(row);
+                addToAccumulativeCount();
+                clearVariablesForNextActiveCount();
+              }
+            }
+      }
 
-        function isInt(n){
-          if(n/n===1) return true;
-          else return false;
-        }
+      function isInt(n){
+        if(n/n===1) return true;
+        else return false;
+      }
 
-        function lookForRolloverNote(row){
+      function lookForRolloverNote(row){
 
-          if (row[7].trim() === "DI Reset") encountered_DI_reset = true;
-          else if (row[7].trim() === "Remote Power Up") encountered_power_up = true;
+        if (row[7].trim() === "DI Reset") encountered_DI_reset = true;
+        else if (row[7].trim() === "Remote Power Up") encountered_power_up = true;
 
-        }
+      }
 
-        function didEncounterNote(){
-          if (encountered_DI_reset || encountered_power_up) return true;
-          else return false;
-        }
+      function didEncounterNote(){
+        if (encountered_DI_reset || encountered_power_up) return true;
+        else return false;
+      }
 
-        function addToActiveCount(){
-          active_count = this_count_value - start_value;
-        }
+      function addToActiveCount(){
+        active_count = this_count_value - start_value;
+      }
 
-        function addToAccumulativeCount(){
-          //console.log(parseInt(accumulative_count) + ((start_value - 65535)*-1) + active_count);
-          var count = accumulative_count;
-          accumulative_count = ((start_value - 65535)*-1) + active_count;
-        }
+      function addToAccumulativeCount(){
+        //console.log(parseInt(accumulative_count) + ((start_value - 65535)*-1) + active_count);
+        var count = accumulative_count;
+        accumulative_count = ((start_value - 65535)*-1) + active_count;
+      }
 
-        function clearVariablesForNextActiveCount(){
-          start_value           = this_count_value;
-          active_count          = 0;
-          current_value         = 0;
-          last_value            = 0;
-          encountered_DI_reset  = false;
-          encountered_power_up  = false;
-        }
-     }
+      function clearVariablesForNextActiveCount(){
+        start_value           = this_count_value;
+        active_count          = 0;
+        current_value         = 0;
+        last_value            = 0;
+        encountered_DI_reset  = false;
+        encountered_power_up  = false;
+      }
+   }
 }
 
-Analytics.__init(function(){
-  console.log("Finished iterating.");
-});
+console.log(Inputs.Get());
 </script>
