@@ -4,8 +4,8 @@ if (!isset($_POST["path"])){
 } else {
   // LogFile generates an array-based Log File located in object->contents.
   $LogFile = new LogFile($_POST["path"]);
-  $LogICounter = new LogFileInputCounter($LogFile->contents, "INPUT 4");
-  echo "Result: " . $LogICounter->getCount();
+  //$LogICounter = new LogFileInputCounter($LogFile->contents, "INPUT 4");
+  //echo "Result: " . $LogICounter->getCount();
 }
 
 class LogFile {
@@ -160,8 +160,6 @@ private function addToActiveTotal(){
       $this->startNewActiveCount();
     } else {
       echo "Rollover without note.";
-      echo "\n".$this->active_count_total;
-      echo
       // Because there was no note, we know a rollover happened
       $this->accumulative_count_total = $this->accumulative_count_total + (($this->active_count_start_value - 65535)*-1);
       $this->startNewActiveCount();
@@ -199,20 +197,145 @@ public function getCount(){
 ?>
 
 <script type="text/javascript">
-//var content = "<?php echo addslashes(json_encode($LogFile->contents)); ?>";
-//var logfile = jQuery.parseJSON( content );
-//var Analytics = new Analytics();
-//Analytics.FirstActivity();
+console.log("Reaches script.");
 
-function Analytics(){
+var content = "<?php if (isset($LogFile->contents[1])) echo addslashes(json_encode($LogFile->contents)); ?>";
+var logfile = jQuery.parseJSON( content );
 
-  this.FirstActivity = function(){
-    for (var row in logfile) {
-      //
-      console.log(logfile[row]);
-    }
-  }
-
+var data = {
+  inputs: new Array()
 }
+
+var h=0;
+
+$('body').html("<h1>Generating Report</h1>");
+
+// Process Analytics //
+var Analytics = {
+
+      Inputs: Array(),
+
+      __init: function(callback){ 
+        this.getInputList();
+
+        $.each(this.Inputs, function(key, value){
+          Analytics.Run(value);
+        });
+
+        callback();
+      },
+
+      getInputList: function(){
+        for (var i in logfile){
+          logfile[i] = logfile[i].split(",");
+          getInputNames(logfile[i]);
+        }
+
+        function getInputNames(row){
+          if (Analytics.Inputs.indexOf(row[3]) === -1 && row[3] !== "Name" && row[3] !== ""){
+            Analytics.Inputs.push(row[3]);
+          }
+        }
+      },
+
+      Run: function(inputName){
+
+        // Current input focus
+        var input_focus = inputName;
+
+        // Active count
+        var active_count = 0;
+
+        // Accumulative count
+        var accumulative_count = 0;
+
+        // Counter
+        var start_value;                                          // defaults to zero after the first go
+        var this_count_value;
+        var last_count_value;
+        var rIndex = 0;
+
+        // Notes
+        var encountered_DI_reset = false;
+        var encountered_power_up = false;
+
+        // Start the function
+        console.log("Starting to iterate...");        
+        iterator();
+
+        // Iterator Function
+        function iterator(){
+              for (var i in logfile){
+
+                // Isolate row
+                var row = logfile[i];
+
+                // Looking for notes
+                lookForRolloverNote(row);
+
+                // Go no further if there is no integer at counter value
+                // And go no further if this isn't the input name we're looking for
+                if (row[3] != input_focus || !isInt(row[5])) continue;
+
+                // Keeping count
+                last_count_value = this_count_value;
+                this_count_value = row[5];
+
+                // This is okay to be added to the active count
+                if (this_count_value > last_count_value){
+                  addToActiveCount();
+                }
+                // Now we have to deal with a damn rollover
+                else if(this_count_value < last_count_value && !didEncounterNote()) {
+                  addToAccumulativeCount();
+                  clearVariablesForNextActiveCount();
+                }
+              }
+        }
+
+        function isInt(n){
+          if(n/n===1) return true;
+          else return false;
+        }
+
+        function lookForRolloverNote(row){
+
+          if (row[7].trim() === "DI Reset") encountered_DI_reset = true;
+          else if (row[7].trim() === "Remote Power Up") encountered_power_up = true;
+
+        }
+
+        function didEncounterNote(){
+          if (encountered_DI_reset || encountered_power_up) return true;
+          else return false;
+        }
+
+        function addToActiveCount(){
+          active_count = this_count_value - start_value;
+        }
+
+        function addToAccumulativeCount(){
+          //console.log(parseInt(accumulative_count) + ((start_value - 65535)*-1) + active_count);
+          accumulative_count = ((start_value - 65535)*-1) + active_count;
+          console.log(accumulative_count);
+        }
+
+        function clearVariablesForNextActiveCount(){
+          start_value           = this_count_value;
+          active_count          = 0;
+          current_value         = 0;
+          last_value            = 0;
+          encountered_DI_reset  = false;
+          encountered_power_up  = false;
+        }
+     }
+}
+
+// Run the analytics engine.
+Analytics.__init(function(){
+
+  console.log("Now back to main");
+
+});
 
 </script>
