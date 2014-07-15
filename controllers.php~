@@ -370,7 +370,7 @@ Router::path("sync-logout", function(){
 TEMPLATES
 
 **********************************/
-Router::path("timberline", function(){
+Router::path("cutter", function(){
     require PUBLIC_DIR."header.php";
     require PRIVATE_VIEW."template/timberline.php";
     require PUBLIC_DIR."footer.php";

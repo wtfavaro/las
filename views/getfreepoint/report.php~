@@ -286,7 +286,8 @@ var Analytics = {
                   addToActiveCount();
                 }
                 // Now we have to deal with a damn rollover
-                else if(this_count_value < last_count_value && !didEncounterNote()) {
+                else if(this_count_value < last_count_value && didEncounterNote()) {
+                  console.log(row);
                   addToAccumulativeCount();
                   clearVariablesForNextActiveCount();
                 }
@@ -316,8 +317,8 @@ var Analytics = {
 
         function addToAccumulativeCount(){
           //console.log(parseInt(accumulative_count) + ((start_value - 65535)*-1) + active_count);
+          var count = accumulative_count;
           accumulative_count = ((start_value - 65535)*-1) + active_count;
-          console.log(accumulative_count);
         }
 
         function clearVariablesForNextActiveCount(){
@@ -330,12 +331,4 @@ var Analytics = {
         }
      }
 }
-
-// Run the analytics engine.
-Analytics.__init(function(){
-
-  console.log("Now back to main");
-
-});
-
 </script>
