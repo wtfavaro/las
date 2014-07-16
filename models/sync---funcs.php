@@ -102,7 +102,7 @@ public function init( $arr_FilePack )
   $this->AddSyncRequestDateTime($this->FilePack);
 
   // If the path contains "backup", we don't want to upload it.
-  if (stripos($this->FilePack["path"],"backup")){
+  if (stripos($this->FilePack["Path"],"backup") !== FALSE){
     return false;
   }
 
