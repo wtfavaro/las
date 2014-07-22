@@ -180,7 +180,8 @@ private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
   if($FilePack["Size"] == $ServerFileInfo["size"] && $FilePack["Path"] == $ServerFileInfo["path"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
       && $ServerFileInfo["file_pointer"] <> "NULL"){
     return true;
-  } else if (stripos($FilePack["Name"],".machlist") !== FALSE) {
+  } else if (stripos($FilePack["Name"],".machlist" || stripos($FilePack["Name"],".config") !== FALSE) {
+    return true;
   } else {
     return false;
   }
