@@ -1,207 +1,22 @@
-<?php
-if (!isset($_POST["path"])){
-  echo "No file found.";
-} else {
-  // LogFile generates an array-based Log File located in object->contents.
-  $LogFile = new LogFile($_POST["path"]);
-  //$LogICounter = new LogFileInputCounter($LogFile->contents, "INPUT 4");
-  //echo "Result: " . $LogICounter->getCount();
-}
 
-class LogFile {
-
-public $inputs = array();
-public $contents = array();
-
-public function __construct($path){
-
-  // Open the file
-  $lines  = @file($path);
-
-  // Save it as a global property
-  $this->contents = $lines;
-  unset($lines);
-
-  // Convert the date string into a datetime object.
-  // $this->contents = $this->_AddDateTimeToContent($this->contents);
-}
-
-private function _AddDateTimeToContent($content){
-
-  for($i=0; $i<count($content)+1; $i++) {
-
-    // Get the current row
-    if (!isset($content[$i])) continue;
-     
-    // Explode
-    $row = $content[$i];
-
-    // Get the parts of the timestamp
-    $timestamp = explode(" ", $row[0]);
-
-    // Check if this is a valid timestamp
-    if (!isset($timestamp[2])) continue;
-
-    // Convert Timestamp into structured array
-    $time = array(
-      "date"   => "",
-      "time"   => "",
-      "ms"     => "",
-      "suffix" => ""
-    );
-
-      $time["date"] = explode("/", $timestamp[0]);
-      $time["time"] = explode(":", $timestamp[1]);
-      $time["suffix"] = $timestamp[2];
-      $ms = explode(".", $time["time"][2]);
-      $time["time"][2] = $ms[0];
-      $time["ms"] = $ms[1];
-
-    // Calculation for 24 hour clock
-    if($time["suffix"] == "PM" && $time["time"][0] != 12){
-      $time["time"][0] = $time["time"][0] + 12;
-    } elseif($time["suffix"] == "PM" && $time["time"][0] != 12) {
-      $time["time"][0] = 0;
-    }
-    
-    // Now make the datetime
-    $datetime = new DateTime(
-                  $time["date"][0] . "/" . $time["date"][1] . "/" . $time["date"][2] . " " .
-                  $time["time"][0] . ":" . $time["time"][1] . ":" . $time["time"][2]
-              );
-    
-    // Add timestamp to the row
-    $row[0] = $datetime->format("Y/m/d H:i:s");
-
-    // Re-add the row to the content
-    $content[$i] = $row;
-
-    // As an aside, add the input name to the inputs property
-    if (isset($row[3]) && $row[3] != "" && !in_array($row[3], $this->inputs)) array_push($this->inputs, $row[3]);
-  }
-
-  return $content;
-
-}
-}
-
-class LogFileInputCounter{
-
-// Row information.
-private $row;
-
-// Instance related information
-private $input_focus;
-private $logfile_array;
-
-// Capture increment values
-private $current_increment;
-
-// Counting from last zero
-private $active_count_current_value;
-private $active_count_last_value;
-private $active_count_start_value;
-private $active_count_total;
-
-// Accumulative count
-private $accumulative_count_total;
-
-// Note flags along the way
-private $encountered_DI_reset = false;
-private $encountered_remote_power_up = false;
-
-public function __construct($logfile, $input_name){
-  $this->input_focus = $input_name;
-  $this->logfile_array = $logfile;
-  $this->increment();
-}
-private function increment(){
-  $logfile_length = count($this->logfile_array);
-  for($i = 0; $i < $logfile_length+1; $i++){
-    // Continue if no row
-    if (!isset($this->logfile_array[$i])) continue;
-    // Explode the row, saving a pointer
-    $this->row = explode(",", $this->logfile_array[$i]);
-    // We test for notes.
-    $this->testForNotes();
-    // If there is no counter value, we move on.
-    if($this->row[5]=="") continue;
-
-    if ($this->row[3] == $this->input_focus){
-      // Assign start value
-      $this->assignStartValue();
-      // Save the previous and current increment value
-      $this->current_increment = $i;
-      // Keep active count
-      $this->keepActiveCount();
-      // Add active total
-      $this->addToActiveTotal();
-    }
-  }
-
-  $this->addActiveCountToTotal();
-}
-private function assignStartValue(){
-  if($this->active_count_start_value == "") $this->active_count_start_value = $this->row[5];
-}
-private function addToActiveTotal(){
-
-  // Check if the counter is incrementing upward -- add to the total if true
-  if ($this->row[5] > $this->active_count_start_value){
-    $this->active_count_total = $this->row[5] - $this->active_count_start_value;
-  }
-  // If it isn't incrementing -- damn -- we've got to deal with a rollover.
-  else {
-    if($this->encounteredResetOrPowerUpNote()){
-      echo "Rollover with note.";
-      // Because we got a reset or power note, we know the count
-      // was cut short. We need to add active count to total and start fresh.
-      $this->addActiveCountToTotal();
-      $this->startNewActiveCount();
-    } else {
-      echo "Rollover without note.";
-      // Because there was no note, we know a rollover happened
-      $this->accumulative_count_total = $this->accumulative_count_total + (($this->active_count_start_value - 65535)*-1);
-      $this->startNewActiveCount();
-    }
-  }
-}
-private function testForNotes(){
-  if (trim($this->row[7], " ") == "DI Reset") $this->encountered_DI_reset = true;
-  if (trim($this->row[7], " ") == "Remote Power Up") $this->encountered_remote_power_up = true;
-}
-private function encounteredResetOrPowerUpNote(){
-  return ($this->encountered_DI_reset || $this->encountered_remote_power_up ? true : false);
-}
-private function keepActiveCount(){
-  $this->active_count_last_value = $this->active_count_current_value;
-  $this->active_count_current_value = $this->row[5];
-}
-private function addActiveCountToTotal(){
-  $accumulative_total = $this->accumulative_count_total;
-  $this->accumulative_count_total = $accumulative_total + $this->active_count_total;
-}
-private function startNewActiveCount(){
-  // Save state
-  $this->active_count_start_value = $this->active_count_current_value;
-  // Reset state
-  $this->active_count_last_value = 0;
-  $this->active_count_total = 0;
-  $this->encountered_DI_reset = false;
-  $this->encountered_remote_power_up = false;
-}
-public function getCount(){
-  return $this->accumulative_count_total;
-}
-}
-?>
 
 <script type="text/javascript">
+
 console.log("Reaches script.");
 
-var content = "<?php if (isset($LogFile->contents[1])) echo addslashes(json_encode($LogFile->contents)); ?>";
-var logfile = jQuery.parseJSON( content );
+// Get all rows
+data = { path: "<?php echo $_POST['path']; ?>" };
+httprequest('\\Log\\Loader', 'GetAllRows', data, function(resp){
+  alert("The actual response: " + resp);
+  if(resp === 0 || resp === "0" || resp === "" ){
+    alert("Cannot load this report. Try again.");
+  } else {
+    var logfile = jQuery.parseJSON(resp);
+  }
+});
 
+
+/*
 var data = {
   inputs: new Array()
 }
@@ -210,11 +25,22 @@ var h=0;
 
 $('body').html("<h1>Generating Report</h1>");
 
+// Engine catalyst
+function Main(resp){
+
+    var logfile = jQuery.parseJSON( resp );
+    // Initialize the Analytics class //
+    var InputClass = new Inputs(logfile);
+    InputClass.Get();
+}
+
 // Input List //
-function Inputs(){
+function Inputs(logfile){
 
   this.List = Array();
   this.Instance = Array();
+  var inputCount = 0;
+  var instanceFinishedCount = 0;
   var self = this;
 
   this.Get = function(){
@@ -225,7 +51,7 @@ function Inputs(){
 
     // Create the analytics instance.
     $.each(self.List, function(key, value){
-      var tool = new Analytics();
+      var tool = new Analytics(logfile);
       tool.Run(value);
       self.Instance.push(tool);
     });
@@ -238,16 +64,18 @@ function Inputs(){
   }
 };
 
-// Initialize the Analytics class //
-var InputClass = new Inputs();
-InputClass.Get();
 
 // Process Analytics //
-function Analytics(){
+function Analytics(logfile){
 
     var self = this;
     this.inputName = "";
     this.accumulative_count = 0;
+    this.next_record = "";
+    this.timer_pointer = 0;                                         // To keep track of where the timer should next look.
+    this.up_time = new Array();
+    this.down_time = new Array();
+    this.off_time = new Array();
 
     this.Run = function(inputName){
 
@@ -283,6 +111,10 @@ function Analytics(){
               // Isolate row
               var row = logfile[i];
 
+              // Try to create the date object
+              row[0] = new Date(row[0]);
+              logfile[i] = row;
+
               // Looking for notes
               lookForRolloverNote(row);
 
@@ -299,6 +131,11 @@ function Analytics(){
               last_count_value = this_count_value*1;
               this_count_value = row[5]*1;
 
+              // If timer_pointer points here -- check if state is low and find the next record...
+              if (self.timer_pointer >= i) {
+                if (row[4]*1 === 0) next_record = findNextRecord(i, this_count_value);
+              }
+
               // This is okay to be added to the active count
               if (this_count_value > last_count_value){
 
@@ -313,13 +150,14 @@ function Analytics(){
               }
               // Now we have to deal with a rollover
               else if(this_count_value < last_count_value && didEncounterNote()) {
+                console.log("Detected a power down note.");
                 addToAccumulativeCount();
-                clearVariablesForNextActiveCount();
               }
               else if(parseInt(this_count_value) < parseInt(last_count_value) && !didEncounterNote()) {
                 console.log(this_count_value + "-" + last_count_value);
-                if (row[5]*1 && row[6]*1 == 0){
-                  console.log("Accumulative count..." + row[5] + "-" + row[6]);
+                console.log(row[5] + " " + row[6]);
+                if (row[5]*1 == 0 && row[6]*1 == 0 || row[5]*1 == 1 && row[6]*1 == 0){
+                  console.log("Detected as an authentic power down -- " + row[5] + "/" + row[6]);
                   addToAccumulativeCount();
                 } else {
                   addToAccumulativeCountWithRollover();
@@ -327,7 +165,26 @@ function Analytics(){
               }            
             }
             addToAccumulativeCount();
-            console.log(InputClass.Instance);
+      }
+
+      function findNextRecord(index, this_count_value){
+        for (var h = index; h < logfile.length; h ++){
+          if (logfile[h][3] === self.inputName){
+            // The input name matches...
+            if (logfile[h][4]*1 === 1 && logfile[h][5]*1 === (this_count_value*1)+1){
+              // The next count is one higher and its state is high...
+              return logfile[h];
+            } else if(logfile[h][5]*1 > (this_count_value*1) + 1){
+              // The next count has skipped over some steps...
+              var skipped_amount = (logfile[h][5]*1) - (this_count_value*1);
+              console.log(logfile[h][5]);
+              
+              // Specify the timer pointer so we do not read the same skipped area twice.
+              self.timer_pointer = (logfile[h][5]*1)+1;
+              return false;
+            }
+          }
+        } 
       }
 
       function isInt(n){
@@ -337,10 +194,8 @@ function Analytics(){
       }
 
       function lookForRolloverNote(row){
-
         if (row[7].trim() === "DI Reset") encountered_DI_reset = true;
         else if (row[7].trim() === "Remote Power Up") encountered_power_up = true;
-
       }
 
       function didEncounterNote(){
@@ -353,10 +208,11 @@ function Analytics(){
       }
 
       function addToAccumulativeCount(){
-        accumulative_count = (accumulative_count + active_count);
+        accumulative_count = accumulative_count*1 + active_count*1;
         self.accumulative_count = accumulative_count;
         clearVariablesForNextActiveCount();
       }
+
       function addToAccumulativeCountWithRollover(){
         console.log(accumulative_count);
         console.log("Start Value: " + start_value);
@@ -366,15 +222,83 @@ function Analytics(){
         self.accumulative_count = accumulative_count;
         clearVariablesForNextActiveCount();
       }
+
       function clearVariablesForNextActiveCount(){
+
+        // Counter //
         start_value           = this_count_value;
         active_count          = 0;
         current_value         = 0;
         last_value            = 0;
         encountered_DI_reset  = false;
         encountered_power_up  = false;
+
+        // Timer //
+        self.timer_pointer    = 0;
       }
    }
 }
 
+function TotalTimeHigh(input_name, logfile, row, fromTime, toTime){
+
+  var self = this;
+  var inputName = input_name;
+
+  Controller();
+
+  // The controller chooses which methods are used...
+  function Controller(){
+    // No time has been specified. We're going to do the whole file.
+    if (fromTime == undefined){
+    //console.log(row[0].getTime() + " - with state: " + row[4] + " - and count: " + row[5]);
+      Iterator();  
+    } else {
+      logfile = parseLogfileWithConstraints();
+      Iterator();  
+    }
+  }
+
+  function Iterator(){
+    for (var i in logfile){
+      var row = logfile[i];
+      var next_row = getNextRowWithInputMatch(i);
+      if (row[3] !== inputName) continue;
+      getTimeHigh(row, i);
+    }
+  }
+
+  function parseLogfileWithConstraints(){
+    parsedLogFile = logfile;
+    return parsedLogFile;
+  }
+
+  function getTimeHigh(row, next_row, i){
+
+    if (!next_row){
+      return false;
+    }
+
+    if (row[4]*1 == 0 && next_row[4]*1 == 1){// && row[5]*1 == logfile[i+1][5]*1-1){
+      // The state has gone from low to high appropriately.
+      console.log("State went from low to high.");
+      if (row[5]*1 == next_row[5]*1){
+        console.log("Next row is fine");
+      }
+    }
+  }
+
+  function getNextRowWithInputMatch(index){
+    for (var h = index+1; h < logfile.length+1; h++){
+      if (logfile[h][3] !== inputName) return false;
+      if (logfile[h][3] === inputName) return logfile[h];
+    }
+
+    return false;
+  }
+}
+
+// Now use the analytics...//
+// Contains instances...//
+//InputClass.Instance
+*/
 </script>

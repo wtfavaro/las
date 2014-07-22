@@ -102,7 +102,7 @@ public function init( $arr_FilePack )
   $this->AddSyncRequestDateTime($this->FilePack);
 
   // If the path contains "backup", we don't want to upload it.
-  if (stripos($this->FilePack["path"],"backup") !== FALSE){
+  if (stripos($this->FilePack["Path"],"backup") !== FALSE){
     return false;
   }
 
@@ -177,9 +177,10 @@ private function _AddNewFileRecord($FilePack){
     return $this->_DoesRecordExist($FilePack);
 }
 private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
-  If($FilePack["Size"] == $ServerFileInfo["size"] && $FilePack["Path"] == $ServerFileInfo["path"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
+  if($FilePack["Size"] == $ServerFileInfo["size"] && $FilePack["Path"] == $ServerFileInfo["path"] && isset($ServerFileInfo["file_pointer"]) && $ServerFileInfo["file_pointer"] <> ""
       && $ServerFileInfo["file_pointer"] <> "NULL"){
     return true;
+  } else if (stripos($FilePack["Name"],".machlist") !== FALSE) {
   } else {
     return false;
   }
