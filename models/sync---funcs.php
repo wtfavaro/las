@@ -178,7 +178,7 @@ private function _AddNewFileRecord($FilePack){
 }
 private function _IsRecordUpToDate($FilePack, $ServerFileInfo){
   // If the file contains keywords.
-  if (stripos($FilePack["Name"],".machlist") !== FALSE || stripos($FilePack["Name"],".config") !== FALSE) {
+  if (stripos($FilePack["Name"],".machlist") !== FALSE || stripos($FilePack["Name"],".config") !== FALSE || stripos($FilePack["Name"],".mach") !== FALSE) {
     return false;
   }
 

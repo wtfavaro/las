@@ -179,6 +179,7 @@ function getCellList( SoftwareKey ){
     success: function(resp){
       Server.Cells = resp;
       displayCellList(Server.Cells);
+      getFileList(true);
     }
   });
 }
@@ -256,7 +257,7 @@ function selMach_Change(){
 }
 
 /* File List */
-function getFileList(){
+function getFileList(showConfigFiles){
 
   var selFlist = $("#selFlist");
   selFlist.html("");
@@ -265,18 +266,30 @@ function getFileList(){
 
       // Store a row.
       var row = Server.Cells[i];
+      if (showConfigFiles === true){
 
+        // Display the files.
+        if (row.machine == undefined){
+            if (row.file_pointer != null){
+              selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            } else {
+              selFlist.html(selFlist.html() + "<option style='color: red;' data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            }
+        }
+
+      } else {
       // Trim the row (Correction made for Precision MFG - cell with trailing spaces)
-      if (row.machine !== undefined) row.machine = row.machine.trim();
+        if (row.machine !== undefined) row.machine = row.machine.trim();
 
-      // Display the files.
-      if (row.cell == User.Select.Cell && row.machine == User.Select.Machine){
-          
-          if (row.file_pointer != null){
-            selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
-          } else {
-            selFlist.html(selFlist.html() + "<option style='color: red;' data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
-          }
+        // Display the files.
+        if (row.cell == User.Select.Cell && row.machine == User.Select.Machine){
+            
+            if (row.file_pointer != null){
+              selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            } else {
+              selFlist.html(selFlist.html() + "<option style='color: red;' data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            }
+        }
       }
   }
 }

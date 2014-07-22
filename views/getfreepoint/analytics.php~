@@ -56,11 +56,11 @@
         <a id="aDownloadLauncher" href="#">
           <button id="btnDownload" style="width: 100%;" class="btn btn-primary">Download File</button>
         </a>
-        <form method="POST" action="sync-report" style="margin: 0; margin-top: 7.5px; padding: 0; width: 100%;">
+        <!--<form method="POST" action="sync-report" style="margin: 0; margin-top: 7.5px; padding: 0; width: 100%;">
           <input id="formfpath" type="hidden" name="path" />
           <button type="submit" id="btnReport" class="btn btn-default" style=" width: 100%;">Generate Report</button>
         </form>
-        <button id="btnForceSync" style="width: 100%; margin-top: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>
+        <button id="btnForceSync" style="width: 100%; margin-top: 7.5px;" disabled="disabled" class="btn btn-primary">Force Sync</button>-->
         <a href="sync-logout">
           <button class="btn btn-default" style="width: 100%; margin-top: 7.5px;">Logout</button>
         </a>
@@ -256,7 +256,7 @@ function selMach_Change(){
 }
 
 /* File List */
-function getFileList(){
+function getFileList(showConfigFiles){
 
   var selFlist = $("#selFlist");
   selFlist.html("");
@@ -265,18 +265,30 @@ function getFileList(){
 
       // Store a row.
       var row = Server.Cells[i];
+      if (showConfigFiles === true){
 
+        // Display the files.
+        if (row.machine == undefined){
+            if (row.file_pointer != null){
+              selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            } else {
+              selFlist.html(selFlist.html() + "<option style='color: red;' data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            }
+        }
+
+      } else {
       // Trim the row (Correction made for Precision MFG - cell with trailing spaces)
-      if (row.machine !== undefined) row.machine = row.machine.trim();
+        if (row.machine !== undefined) row.machine = row.machine.trim();
 
-      // Display the files.
-      if (row.cell == User.Select.Cell && row.machine == User.Select.Machine){
-          
-          if (row.file_pointer != null){
-            selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
-          } else {
-            selFlist.html(selFlist.html() + "<option style='color: red;' data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
-          }
+        // Display the files.
+        if (row.cell == User.Select.Cell && row.machine == User.Select.Machine){
+            
+            if (row.file_pointer != null){
+              selFlist.html(selFlist.html() + "<option data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            } else {
+              selFlist.html(selFlist.html() + "<option style='color: red;' data-pointer='" + row.file_pointer + "'>" + row.name + "</option>");
+            }
+        }
       }
   }
 }
