@@ -44,6 +44,6 @@ function Analytics_GetInputs(logfile){
   var array_of_inputs = new Array();
     Analytics_Iterator(logfile, function(){
       
-    }
+    });
   return array_of_inputs;
 }
