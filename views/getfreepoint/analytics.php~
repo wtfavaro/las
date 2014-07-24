@@ -179,6 +179,7 @@ function getCellList( SoftwareKey ){
     success: function(resp){
       Server.Cells = resp;
       displayCellList(Server.Cells);
+      getFileList(true);
     }
   });
 }

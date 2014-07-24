@@ -2,12 +2,9 @@
 
 <script type="text/javascript">
 
-console.log("Reaches script.");
-
 // Get all rows
 data = { path: "<?php echo $_POST['path']; ?>" };
 httprequest('\\Log\\Loader', 'GetAllRows', data, function(resp){
-  alert("The actual response: " + resp);
   if(resp === 0 || resp === "0" || resp === "" ){
     alert("Cannot load this report. Try again.");
   } else {
