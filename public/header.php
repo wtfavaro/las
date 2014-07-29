@@ -23,7 +23,11 @@
         <script src="js/Chart.min.js"></script>
 	      <script type="text/javascript" src="js/canvasjs.min.js"></script>
         <script src="js/core.intelli.fpt.js"></script>
+
         <script src="js/analytics/iterator.js"></script>
+        <script src="js/analytics/parser.js"></script>
+        <script src="js/analytics/purify.js"></script>
+        <script src="js/analytics/callers.js"></script>
 
         <!-- c3/d3 -->
         <!-- Load c3.css -->

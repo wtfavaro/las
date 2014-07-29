@@ -9,7 +9,9 @@ httprequest('\\Log\\Loader', 'GetAllRows', data, function(resp){
     alert("Cannot load this report. Try again.");
   } else {
     var logfile = jQuery.parseJSON(resp);
-    new Analytics(logfile);
+    var Graph = {
+      SDK: new Analytics(logfile)
+    }
   }
 });
 
