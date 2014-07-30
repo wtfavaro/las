@@ -49,8 +49,13 @@ function Parser(parent){
   }
 
   // Returns an array of rows between timeA and timeB
-  this.Interval = function(){
-
+  this.Interval = function(logfile, interval){
+    var parsedLogfile = new Array();
+      parent.Iterator.Start(logfile, function(Row, stopIterator){
+        if (Row.Date >= interval[0] && Row.Date < interval[1]) {
+          parsedLogfile.push(Row);
+        }
+      }, false);
+    return parsedLogfile;
   }
-
 }

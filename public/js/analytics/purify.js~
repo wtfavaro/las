@@ -2,11 +2,15 @@ function Purify(Core, logfile) {
 
   var self = this;
 
+  var Values = {};
+
   console.log("Purifying");
 
   // Get a list of the inputs.
-  var inputs = Core.Struct.Inputs(logfile);
+  var inputs = Core.Struct.Inputs(Core.logfile);
 
+  // Create an indicators object that will be used to
+  // keep track of the iterator.
   var Indicators = {
     firstIteration: true,
     Reset: false,
@@ -28,6 +32,8 @@ function Purify(Core, logfile) {
   for (var i in inputs){
 
     var parsedLogfile = Core.Parser.Input(logfile, inputs[i]);
+
+    var HighTime = new HighTime(Core, parsedLogfile);
 
     Core.Iterator.Start(parsedLogfile, function(Row, stopIterator, index, fnSkip){    
 
@@ -87,6 +93,7 @@ function Purify(Core, logfile) {
     // At the end of the input loop, clean up.
     Indicators.Accumulative.Count = Indicators.Accumulative.Count + Indicators.Counter.Current - Indicators.Active.Start;
     console.log(inputs[i] + " - " + Indicators.Accumulative.Count);
+    Values[inputs[i]] = Indicators.Accumulative.Count;
     ResetIndicators();
   }
 
@@ -100,4 +107,15 @@ function ResetIndicators(){
   Indicators.IterationsSinceReset = 0;
 }
 
+  return Values;
+}
+
+
+// Calculate High Time -- Used By Purify To Supply Complimentary Results //
+function HighTime(Core, Row){
+/*
+  this.LastRow = this.Row;
+  this.Row = Row;
+  console.log(this);
+  */
 }

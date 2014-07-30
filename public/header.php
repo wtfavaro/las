@@ -24,6 +24,7 @@
 	      <script type="text/javascript" src="js/canvasjs.min.js"></script>
         <script src="js/core.intelli.fpt.js"></script>
 
+        <script src="js/analytics/prototype.js"></script>
         <script src="js/analytics/iterator.js"></script>
         <script src="js/analytics/parser.js"></script>
         <script src="js/analytics/purify.js"></script>

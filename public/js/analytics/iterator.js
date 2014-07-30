@@ -12,18 +12,19 @@
 function Analytics(logfile){
 
   var self = this;
+  this.logfile = logfile;
 
   // Loading the essential instances.
   this.Iterator = new Iterator(self);
   this.Parser = new Parser(self);
   this.Struct = new Struct(self);
 
-  // Purifying the logfile of rollovers.
-  this.logfile = new Purify(self, logfile);
-
   // Using the built-in library to generate results.
   this.Library = new Library(self);
   this.Results = new Results(self);
+
+  // Addon Functions -- built on the page.
+  this.Prototype = new Prototype(self);
 
   console.log(self);
 }
@@ -44,11 +45,10 @@ function Results(parent){
   this.Inputs = parent.Struct.Inputs(parent.logfile);
   this.Activity = parent.Library.Activity(parent.logfile);  
   this.FileTimeSpan = parent.Library.Timespan(parent.logfile);
-  //this.CountByFive = getCountByFiveSecForEachInput(parent.logfile);
+  this.TotalCount = Purify(parent, parent.logfile);
   this.CountByHour;
   this.TotalTime;
   this.FileDuration;
-
 }
 
 
@@ -132,8 +132,16 @@ function Struct(parent){
   this.Intervals = function(cnf){
     var ms = (((cnf[0]*60)*60)*1000) + ((cnf[1]*60)*1000) + (cnf[2]*1000) + cnf[3];
 
+    var newDate = parent.Results.FileTimeSpan.Start;
+    var oldDate;
     var pairs = Array();
-    pairs.push([new Date(), new Date(new Date().getTime()+ms)]);
+
+    while (newDate < parent.Results.FileTimeSpan.End){
+      oldDate = newDate;
+      newDate = new Date(newDate.getTime() + ms);
+      if (newDate <= parent.Results.FileTimeSpan.End) pairs.push([oldDate, newDate]);
+    }
+
     return pairs;
   };
 

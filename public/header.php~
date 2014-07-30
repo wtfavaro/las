@@ -26,6 +26,7 @@
 
         <script src="js/analytics/iterator.js"></script>
         <script src="js/analytics/parser.js"></script>
+        <script src="js/analytics/purify.js"></script>
         <script src="js/analytics/callers.js"></script>
 
         <!-- c3/d3 -->

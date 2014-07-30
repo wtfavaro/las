@@ -59,35 +59,6 @@ function Library (Core) {
     return Timespan;
   }
 
-  this.countByFive = function(){
-    var intervals = Core.Struct.Intervals();
-    
-    return count_array;
-  }
-
-  /*
-    Filters
-  */
-
-  /*
-
-        Filter_Authentic_Count
-        - Returns a number only, representing the accrued count. 
-
-  */
-  function Filter_Authentic_Count(logfile, config){
-      var Count = { Present: 0, Rewind: 0, Forward: 0 };
-      var Note = { Found: false, Message: "" };
-
-      Filter(logfile, config, function(Row){
-        if (Row.State === 1){
-          Count.Present++;
-        }
-      });
-
-      return Count.Present;
-  }
-
 }
 
 
