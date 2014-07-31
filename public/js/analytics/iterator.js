@@ -41,14 +41,9 @@ function Analytics(logfile){
 
 */
 function Results(parent){
-
   this.Inputs = parent.Struct.Inputs(parent.logfile);
   this.Activity = parent.Library.Activity(parent.logfile);  
   this.FileTimeSpan = parent.Library.Timespan(parent.logfile);
-  this.TotalCount = Purify(parent, parent.logfile);
-  this.CountByHour;
-  this.TotalTime;
-  this.FileDuration;
 }
 
 

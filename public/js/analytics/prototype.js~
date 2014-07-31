@@ -24,12 +24,49 @@ function Prototype (parent) {
     }
   }
 
+  this.mainGUI = function(){
+    $("#lblFirstActivityTime").html(time_format(parent.Results.Activity.First));
+    $("#lblLastActivityTime").html(time_format(parent.Results.Activity.Last));
+    $("#lblTotalActivityTime").html(time_difference(parent.Results.Activity.First, parent.Results.Activity.Last));
+    $("#lblTotalReportTime").html(time_difference(parent.Results.FileTimeSpan.Start, parent.Results.FileTimeSpan.End));
+  };
+
+  this.TotalCount = function(){
+    Purify(parent, parent.logfile, function(results){
+      // Add this to view.
+      for (var index in results){
+        var $div = $("#structInputSample").clone();
+        $div.css({"display": "block"}).appendTo("#sectionOverviewText");
+        $div.id = "";
+        $div.find("small#lblOverviewInputName").html(index);
+        $div.find("b#lblOverviewInputCount").html(results[index].Counter);
+      }
+    });
+  };
+
   this.CountByFiveMinutes = function(){
-    // ... Do something ...
+
+    // Get the interval struct array and build the overview graph.
     var intervals = parent.Struct.Intervals([0,5,0,0]);
+    build_activity_graph();
+
+    // Loop through the struct
     for (var i in intervals) {
-      var fiveMinIntLogfile = parent.Parser.Interval(parent.logfile, intervals[i]);
-      // .. Add it to the view .. //
+      var logfile = parent.Parser.Interval(parent.logfile, intervals[i]);
+        Purify(parent, logfile, function(results){
+          // Add this to view.
+          for (var index in results){
+            //
+          }
+        });
+    }
+
+    function build_activity_graph(){
+
+    }
+
+    function fill_activity_graph(){
+
     }
   }
 
@@ -37,9 +74,39 @@ function Prototype (parent) {
     // ... Do something ...
     var intervals = parent.Struct.Intervals([1,0,0,0]);
     for (var i in intervals) {
-      var hourIntLogfile = parent.Parser.Interval(parent.logfile, intervals[i]);
-      // .. Add it to the view .. //    
+      var logfile = parent.Parser.Interval(parent.logfile, intervals[i]);
+        Purify(parent, logfile, function(results){
+          // Add this to view.
+          for (var index in results){
+            //
+          }
+        }); 
     }
   }
 
+}
+
+
+// Misc functions.
+function time_format(d) {
+    hours = format_two_digits(d.getHours());
+    minutes = format_two_digits(d.getMinutes());
+    seconds = format_two_digits(d.getSeconds());
+    return hours + ":" + minutes + ":" + seconds;
+}
+
+function format_two_digits(n) {
+    return n < 10 ? '0' + n : n;
+}
+
+function time_difference(d1, d2) {
+  var remainder = d2.getTime() - d1.getTime();
+
+  if (format_two_digits(parseInt((remainder/(1000*60*60))%24)) === "00") remainder = remainder - 1000;
+
+  var seconds = format_two_digits(parseInt((remainder/1000)%60))
+        , minutes = format_two_digits(parseInt((remainder/(1000*60))%60))
+        , hours = format_two_digits(parseInt((remainder/(1000*60*60))%24))
+
+  return hours + ":" + minutes + ":" + seconds;
 }
