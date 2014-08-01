@@ -25,6 +25,7 @@ function Prototype (parent) {
   }
 
   this.mainGUI = function(){
+    $("#loadOverlay").animate({ "opacity": "0" }, 1000, function(){ $(this).css({ "z-index": "-1" }); });
     $("#lblFirstActivityTime").html(time_format(parent.Results.Activity.First));
     $("#lblLastActivityTime").html(time_format(parent.Results.Activity.Last));
     $("#lblTotalActivityTime").html(time_difference(parent.Results.Activity.First, parent.Results.Activity.Last));
@@ -41,46 +42,175 @@ function Prototype (parent) {
         $div.find("small#lblOverviewInputName").html(index);
         $div.find("b#lblOverviewInputCount").html(results[index].Counter);
       }
+
+      uptimePercentageChart(results);
     });
+
+    function uptimePercentageChart(data){
+      console.log(data);
+    }
   };
 
   this.CountByFiveMinutes = function(){
 
     // Get the interval struct array and build the overview graph.
     var intervals = parent.Struct.Intervals([0,5,0,0]);
-    build_activity_graph();
 
-    // Loop through the struct
+    // Loop through the struct and generate 5 minute logfiles
+    // Send those logfiles to fill the activity graph.
+    var intervalLogfileArray = new Array();
     for (var i in intervals) {
-      var logfile = parent.Parser.Interval(parent.logfile, intervals[i]);
-        Purify(parent, logfile, function(results){
-          // Add this to view.
+      intervalLogfileArray.push(parent.Parser.Interval(parent.logfile, intervals[i]));
+    }
+
+    build_activity_graph(intervals, intervalLogfileArray);
+
+    function build_activity_graph(intStruct, logfileArray){
+
+      var generatedColumnsArray = new Array('x');
+      var generatedInputArrays = new Array();
+
+      // Generate the input arrays -- this will create the array of count
+      // per input, per five minutes on the graph.
+      for (var i in parent.Results.Inputs) {
+        generatedInputArrays.push(new Array(parent.Results.Inputs[i]));
+      }
+
+
+      // Step through the Interval Structure for this graph.
+      // Label the X-axis.
+      // Get the count and timer for each tick.
+      for (var i in intStruct) {
+
+        // Add ticks to the graph on X-axis.
+        generatedColumnsArray.push(intStruct[i][0].getHours() + ":" + format_two_digits(intStruct[i][0].getMinutes()));
+        
+        Purify(parent, logfileArray[i], function(results){
           for (var index in results){
-            //
+            for (var id in generatedInputArrays){
+              if (generatedInputArrays[id][0] == index) {
+                generatedInputArrays[id].push(results[index].Counter);
+              }
+            }
           }
         });
-    }
 
-    function build_activity_graph(){
+      }
 
-    }
+      // Add to the generated columns array.
+      var totalColumnsArray = new Array();
+      totalColumnsArray.push(generatedColumnsArray);
+      for (var i in generatedInputArrays) {
+        totalColumnsArray.push(generatedInputArrays[i]);
+      }
 
-    function fill_activity_graph(){
-
+      var chart = c3.generate({
+          bindto: '#chart-downtime',
+          data: {
+              x : 'x',
+              columns: totalColumnsArray,
+              groups: [
+                  ['download', 'loading']
+              ],
+              type: 'area'
+          },
+          axis: {
+              x: {
+                  type: 'category', // this needed to load string x value
+                  show: true,
+                  tick: {
+                    culling: {
+                      max: 9              
+                    }
+                  }
+              },
+          },
+          zoom: {
+                  enabled: true
+                },
+          regions: [
+            /*{axis: 'x', start: 0, end: 3, class:'chartDowntime'},
+            {axis: 'x', start: 11, end: 16, class:'chartDowntime'},
+            {axis: 'x', start: 44, end: 57, class:'chartDowntime'},
+            {axis: 'x', start: 71, end: 79, class:'chartDowntime'},
+            {axis: 'x', start: 84, end: 93, class:'chartDowntime'}*/
+          ],
+          point: {
+            show: false
+          }
+      });
     }
   }
 
   this.CountByHour = function(){
-    // ... Do something ...
+    // Get the interval struct array and build the overview graph.
     var intervals = parent.Struct.Intervals([1,0,0,0]);
+
+    // Loop through the struct and generate 5 minute logfiles
+    // Send those logfiles to fill the activity graph.
+    var intervalLogfileArray = new Array();
     for (var i in intervals) {
-      var logfile = parent.Parser.Interval(parent.logfile, intervals[i]);
-        Purify(parent, logfile, function(results){
-          // Add this to view.
+      intervalLogfileArray.push(parent.Parser.Interval(parent.logfile, intervals[i]));
+    }
+
+    build_overview_graph(intervals, intervalLogfileArray);
+
+    function build_overview_graph(intStruct, logfileArray) {
+
+      var generatedColumnsArray = new Array('x');
+      var generatedInputArrays = new Array();
+
+      // Generate the input arrays -- this will create the array of count
+      // per input, per five minutes on the graph.
+      for (var i in parent.Results.Inputs) {
+        generatedInputArrays.push(new Array(parent.Results.Inputs[i]));
+      }
+
+      // Step through the Interval Structure for this graph.
+      // Label the X-axis.
+      // Get the count and timer for each tick.
+      for (var i in intStruct) {
+
+        // Add ticks to the graph on X-axis.
+        generatedColumnsArray.push(intStruct[i][0].getHours() + ":" + format_two_digits(intStruct[i][0].getMinutes()));
+        
+        Purify(parent, logfileArray[i], function(results){
           for (var index in results){
-            //
+            for (var id in generatedInputArrays){
+              if (generatedInputArrays[id][0] == index) {
+                generatedInputArrays[id].push(results[index].Counter);
+              }
+            }
           }
-        }); 
+        });
+
+      }
+
+      // Add to the generated columns array.
+      var totalColumnsArray = new Array();
+      totalColumnsArray.push(generatedColumnsArray);
+      for (var i in generatedInputArrays) {
+        totalColumnsArray.push(generatedInputArrays[i]);
+      }
+
+      // Add the graph
+      var chart = c3.generate({
+          bindto: '#chart',
+          data: {
+              x : 'x',
+              columns: totalColumnsArray,
+              groups: [
+                  ['download', 'loading']
+              ],
+              type: 'bar'
+          },
+          axis: {
+              x: {
+                  type: 'category'
+              }
+          }
+      });
+
     }
   }
 

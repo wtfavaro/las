@@ -4,8 +4,6 @@ function Purify(Core, logfile, fnValueCallback) {
 
   var Values = {};
 
-  console.log("Purifying");
-
   // Get a list of the inputs.
   var inputs = Core.Struct.Inputs(Core.logfile);
 
@@ -78,14 +76,12 @@ function Purify(Core, logfile, fnValueCallback) {
 
           // Manage a ROLLOVER.
           if (Indicators.Reset === false && Indicators.Rollover === true) {
-            console.log("A rollover happened." + " - " + Indicators.Counter.Last + " - " + Indicators.Counter.Current);
+            console.log("A rollover happened.");
             Indicators.Accumulative.Count = Indicators.Accumulative.Count + Indicators.Counter.Last + ((Indicators.Active.Start - 65535)*-1);
           }
 
           // Manage a RESET.
           if (Indicators.Reset === true) {
-            console.log("A reset happened.");
-            console.log(Row);
             Indicators.Accumulative.Count = Indicators.Accumulative.Count + Indicators.Counter.Last - Indicators.Active.Start;
           }
 
@@ -161,7 +157,6 @@ function Purify(Core, logfile, fnValueCallback) {
           } else if (self.Row.Current.Date === undefined && self.Row.Previous.Date !== undefined) {
             self.Time.High = self.Time.High + Core.Results.FileTimeSpan.End.getTime() - self.Row.Previous.Date.getTime();
           } else {
-            console.log(self.Row);
             console.log("Time that cannot be accounted for.");
           }
         }
