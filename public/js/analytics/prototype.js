@@ -19,6 +19,7 @@ function Prototype (parent) {
 
   function RunPrototypes(){
     clearInterval(coreIsFinishedLoading);
+    console.log("Core is finished loading.");
     for (var fnIndex in parent.Prototype) {
       parent.Prototype[fnIndex]();
     }

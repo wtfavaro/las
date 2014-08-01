@@ -37,6 +37,10 @@ body {
 
 </style>
 
+<div id="loadOverlay" style="width: 2000px; height: 2000px; max-width: 100%; max-height: 100%; background-color: #000; opacity: 0.8; position: fixed; top: 0; left: 0; z-index: 999;">
+
+</div>
+
 <div class="container">
   <span class="row col-xs-10">
     <h1 class="row col-xs-12" style="font-size: 3em; margin-bottom: 0px; padding: 0px;"><strong>CUTTING STATION 1</strong></h1>
@@ -198,7 +202,7 @@ body {
 </div>
 
 <script type="text/javascript">
-var chart = c3.generate({
+/*var chart = c3.generate({
     bindto: '#chart',
     data: {
         x : 'x',
@@ -218,9 +222,10 @@ var chart = c3.generate({
             type: 'category'
         }
     }
-});
+});*/
 
-var chart = c3.generate({
+
+/* var chart = c3.generate({
     bindto: '#chart-uptime',
     data: {
         x : 'x',
@@ -240,9 +245,9 @@ var chart = c3.generate({
             type: 'category' // this needed to load string x value
         }
     }
-});
+}); */
 
-var chart = c3.generate({
+/* var chart = c3.generate({
     bindto: '#chart-downtime',
     data: {
         x : 'x',
@@ -326,7 +331,7 @@ var chart = c3.generate({
     point: {
       show: false
     }
-});
+}); */
 
 var chart = c3.generate({
     bindto: '#chart-input-time',
@@ -362,6 +367,7 @@ httprequest('\\Log\\Loader', 'GetAllRows', data, function(resp){
   if(resp === 0 || resp === "0" || resp === "" ){
     alert("Cannot load this report. Try again.");
   } else {
+    console.log("File loaded...");
     var logfile = jQuery.parseJSON(resp);
     var Graph = {
       SDK: new Analytics(logfile)

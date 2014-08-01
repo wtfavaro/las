@@ -5,6 +5,8 @@ function Purify(Core, logfile, fnValueCallback) {
   var Values = {};
 
   // Get a list of the inputs.
+
+  /* Improvements */
   var inputs = Core.Struct.Inputs(Core.logfile);
 
   // Create an indicators object that will be used to

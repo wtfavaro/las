@@ -13,6 +13,7 @@ function Analytics(logfile){
 
   var self = this;
   this.logfile = logfile;
+  logfile = "";
 
   // Loading the essential instances.
   this.Iterator = new Iterator(self);

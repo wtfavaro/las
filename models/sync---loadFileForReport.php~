@@ -3,7 +3,6 @@
 namespace Log;
 class Loader {
   public static function GetAllRows($args){
-    echo "We did get here.";
     if (!isset($args["path"])) return false;
     $LogFile = new LogFile_LoadFileForReport($args["path"]);
     echo json_encode($LogFile->contents);
