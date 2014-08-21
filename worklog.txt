@@ -1,5 +1,0 @@
-01/21/14:
-
-[x] 09:00-10:00PM - Contact 1 plant by email/phone, asking for an opportunity to demo.
-[/] 10:00-5:00PM - Work on V0.3.
-[ ] 7:00-10:00PM - Start implimenting the new Cell Monitor setup userflow (using the provided Gateway/Remote).

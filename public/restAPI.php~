@@ -1,5 +1,0 @@
-<?php
-
-echo "Running a rest API query."
-
-?>
