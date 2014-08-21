@@ -11,7 +11,7 @@ public static function Set($auth)
 //
 
 setcookie(
-  "freepoint",
+  "londonappshoppe",
   $auth,
   time() + 3600
 );

@@ -1,8 +1,4 @@
 <?php require 'header.php'; ?>
-  <?php
 
-    Software::KeyMatch
-
-  ?>
 <?php require 'footer.php'; ?>
 
